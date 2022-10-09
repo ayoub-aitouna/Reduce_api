@@ -1,0 +1,15 @@
+{
+  "name": "recude_api",
+  "version": "1.0.0",
+  "description": "temporary Api for partners to submite reqiuest of joing to reduce platform ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "aaitouna",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "nodemailer": "^6.8.0"
+  }
+}

@@ -54,4 +54,61 @@ const UploadFile = (filepath) => {
 	});
 };
 
-module.exports = { UploadFile };
+const UploadBuffer = async (Buffer) => {
+	return new Promise((res, rej) => {
+		try {
+			const file = bucket.file("tester.pdf");
+
+			file.save(Buffer, (err) => {
+				if (!err) {
+					console.log("cool");
+				} else {
+					return rej({
+						message: `Uploaded the file successfully: ${filepath}, but public access is denied!`,
+						url: publicUrl,
+					});
+				}
+			});
+			const blobStream = blob.createWriteStream({
+				resumable: false,
+			});
+
+			blobStream.on("error", (err) => {
+				rej({ message: err.message });
+			});
+
+			blobStream.on("finish", async (data) => {
+				const publicUrl = format(
+					`https://storage.googleapis.com/${bucket.name}/${blob.name}`
+				);
+
+				try {
+					await bucket.file(filepath).makePublic();
+				} catch {
+					return rej({
+						message: `Uploaded the file successfully: ${filepath}, but public access is denied!`,
+						url: publicUrl,
+					});
+				}
+
+				res({
+					message: "Uploaded the file successfully: " + filepath,
+					url: publicUrl,
+				});
+			});
+		} catch (err) {
+			console.log(err);
+
+			if (err.code == "LIMIT_FILE_SIZE") {
+				rej({
+					message: "File size cannot be larger than 2MB!",
+				});
+			}
+
+			rej({
+				message: `Could not upload the file: ${filepath}. ${err}`,
+			});
+		}
+	});
+};
+module.exports = { UploadFile, UploadBuffer };

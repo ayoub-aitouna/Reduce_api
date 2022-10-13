@@ -103,8 +103,9 @@ const get_partners = (req, res) => {
 	const { email, ville, _password, _role, _name } = get_this_admin(id);
 
 	const Query = _role
-		? "select * from partner inner join villes on partner.ville = villes.id"
-		: `select * Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id  where admin_id = ${id} `;
+		? "select * from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id"
+		: `select * Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+			  where admin_id = ${id} `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	res.send(partners);

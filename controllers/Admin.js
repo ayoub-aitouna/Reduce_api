@@ -6,9 +6,21 @@ const { BadRequestError } = require("../errors/index.js");
 const { Encrypte } = require("../Utils/Crypto");
 const { SendMail_to_partner } = require("../Utils/Mailer");
 const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
+const UnauthenticatedError = require("../errors/unauthenticated.js");
 
+const get_this_admin = ({ id }) => {
+	const this_admin = SqlQuery(`select * from _Admin where id = ${id} `);
+	if (!this_admin.success)
+		throw BadRequestError(`couldn't retrive admin with this id ${id}`);
+	return this_admin.data.rows[0];
+};
 const add_admin = async (req, res) => {
-	const { email, ville, _password, _role, _name } = req.body;
+	const { id } = req.user;
+	const { email, ville, _password, _role, _name } = get_this_admin(id);
+	if (_role != "Admin")
+		throw UnauthenticatedError(
+			"you don't have permission to contenue on this request"
+		);
 	const added_admin = SqlQuery(`insert into _Admin(
     email  ,
 	_password ,
@@ -26,13 +38,32 @@ const add_admin = async (req, res) => {
 		'Active',
 		CURDATE()
 	)`);
-	if (!admin.success)
+	if (!added_admin.success)
 		return res.status(500).send({
 			err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
 		});
 
 	res.status(200).send({
 		msg: `an Admin ${_name} has been added with role ${_role} to Database `,
+	});
+};
+const remove_admins = (req, res) => {
+	const { id } = req.user;
+	const { email, ville, _password, _role, _name } = get_this_admin(id);
+	if (_role != "Admin")
+		throw UnauthenticatedError(
+			"you don't have permission to contenue on this request"
+		);
+	const suspand_admin = SqlQuery(
+		`update _Admin set account_status = 'Suspanded'`
+	);
+	if (!suspand_admin.success)
+		return res.status(500).send({
+			err: `Could not suspand admin An Admin ${_name}with role ${_role} to Database`,
+		});
+
+	res.status(200).send({
+		msg: `an Admin ${_name} has been suspand `,
 	});
 };
 
@@ -68,15 +99,36 @@ const Response_partner_form = async (req, res) => {
 };
 
 const get_partners = (req, res) => {
-	const { id: admin_id } = req.user;
-	const admin = SqlQuery(`select * from _Admin where id = ${admin_id}`);
-	if (!admin.success) throw new BadRequestError("Some thing went Wrong");
-	const { _role } = admin[0];
+	const { id } = req.user;
+	const { email, ville, _password, _role, _name } = get_this_admin(id);
+
 	const Query = _role
 		? "select * from partner"
-		: `select * Admins_partners inner join partner on partner.id = Admins_partners.id where admin_id = ${admin_id}`;
+		: `select * Admins_partners inner join partner on partner.id = Admins_partners.id where admin_id = ${id}`;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	res.send(partners);
 };
-module.exports = { add_admin, Response_partner_form, get_partners, get_admins };
+const get_admins = (req, res) => {
+	const { id } = req.user;
+	const { email, ville, _password, _role, _name } = get_this_admin(id);
+	if (_role != "Admin")
+		throw UnauthenticatedError(
+			"you don't have permission to contenue on this request"
+		);
+	const admins = SqlQuery(`update _Admin set account_status = 'Suspanded'`);
+	if (!admins.success)
+		return res.status(500).send({
+			err: `Could not get Admins in  this Datadabse`,
+		});
+
+	res.status(200).send(admins.data.rows);
+};
+
+module.exports = {
+	add_admin,
+	remove_admin,
+	Response_partner_form,
+	get_partners,
+	get_admins,
+};

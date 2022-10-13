@@ -4,7 +4,9 @@ require("dotenv").config();
 const Log = require("../log");
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte } = require("../Utils/Crypto");
-const { SendMail } = require("../Utils/Mailer");
+const { SendMail_to_partner } = require("../Utils/Mailer");
+const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
+
 const add_admin = async (req, res) => {
 	const { email, ville, _password, _role, _name } = req.body;
 	const added_admin = SqlQuery(`insert into _Admin(
@@ -37,10 +39,16 @@ const add_admin = async (req, res) => {
 const Response_partner_form = async (req, res) => {
 	const { partner_id, response, email } = req.body;
 	const { id: admin_id } = req.user;
+	const partner = SqlQuery("select * from partner");
+	if (!partner.success) throw new BadRequestError("some thing wrong");
+	const partner_data = partner.data.rows[0];
+	const { url } = await Generate_contract_Pdf(partner_data);
+
 	const res = SqlQuery(`
                         update partner
                     set
-                        _status = '${response}'
+                        _status = '${response}',
+						contract_Url = ${url}
                     where
                         id = ${partner_id};`);
 	if (!res.success) throw new BadRequestError("some thing wrong");
@@ -49,16 +57,14 @@ const Response_partner_form = async (req, res) => {
                     (admin_id, partner_id, created_date)
                     values
                     (${admin_id}, ${partner_id}, CURDATE());`);
+
 	if (!admin_partner.success) throw new BadRequestError("some thing wrong");
-	SendMail(
-		response,
-		email,
-		`our response is ${response} ${
-			response == "Approved"
-				? "download Contract Pdf" + (await generatePdf(partner_id))
-				: ""
-		}`
-	);
+	try {
+		const send_info = SendMail_to_partner(response, email, partner_data);
+		res.send(send_info);
+	} catch (err) {
+		throw BadRequestError(err);
+	}
 };
 
 const get_partners = (req, res) => {
@@ -73,5 +79,4 @@ const get_partners = (req, res) => {
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	res.send(partners);
 };
-const generatePdf = (id) => {};
-module.exports = { add_admin, Response_partner_form, get_partners };
+module.exports = { add_admin, Response_partner_form, get_partners, get_admins };

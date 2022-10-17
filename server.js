@@ -17,7 +17,6 @@ const Files = require("./routes/files");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
-const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 const authenticationMiddleware = require("./middleware/Auth/auth");
 
@@ -37,13 +36,13 @@ app.use(errorHandlerMiddleware);
 const PORT = process.env.PORT || 8000;
 
 const start = () => {
-	try {
-		server.listen(PORT, () => {
-			Log.info(`App Running on port => ${PORT}`);
-		});
-	} catch (error) {
-		Log.error(`App Stopped by an Error => ${error}`);
-	}
+  try {
+    server.listen(PORT, () => {
+      Log.info(`App Running on port => ${PORT}`);
+    });
+  } catch (error) {
+    Log.error(`App Stopped by an Error => ${error}`);
+  }
 };
 
 start();

@@ -17,6 +17,7 @@
 		"html-pdf-node": "^1.0.8",
 		"http-status-codes": "^2.2.0",
 		"jsonwebtoken": "^8.5.1",
+		"multer": "^1.4.5-lts.1",
 		"mysql": "^2.18.1",
 		"named-avatar-generator": "^0.0.1",
 		"nodemailer": "^6.8.0",

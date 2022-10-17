@@ -12,12 +12,12 @@ require("express-async-errors");
 const Auth = require("./routes/Auth");
 const Partners = require("./routes/Partners");
 const Admin = require("./routes/Admin");
-const Files = require("./routes/files");
+const Files = require("./routes/Files");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-const authenticationMiddleware = require("./middleware/Auth/auth");
+const { authenticationMiddleware } = require("./middleware/Auth/auth");
 
 app.use(express.json());
 app.use(express.static("./public"));

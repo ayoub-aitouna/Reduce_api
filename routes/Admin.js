@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const {
-	add_admin,
-	remove_admin,
-	get_admins,
-	Response_partner_form,
-	get_partners,
+  add_admin,
+  remove_admin,
+  get_admins,
+  Response_partner_form,
+  get_partners,
 } = require("../controllers/Admin.js");
 
 router.post("/add_admin", add_admin);

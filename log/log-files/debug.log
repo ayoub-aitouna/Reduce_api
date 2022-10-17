@@ -1,0 +1,3 @@
+18:45:31 [[32minfo[39m] App Running on port => 8000
+18:45:32 [[32minfo[39m] connected to Redis!!
+18:45:41 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT

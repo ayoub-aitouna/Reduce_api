@@ -1,6 +1,6 @@
 use defaultdb;
 
-create table partner(
+create table defaultdb.partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
     _password text,
@@ -18,25 +18,25 @@ create table partner(
     created_date date NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
     PRIMARY KEY (id),
-    UNIQUE (phone_number),
     FOREIGN KEY(ville) REFERENCES villes(id),
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
 
-create table villes(
-    int id NOT NULL AUTO_INCREMENT,
+create table defaultdb.villes(
+    id int NOT NULL AUTO_INCREMENT,
     ville_name text,
-    created_date date NOT NULL
+    created_date date NOT NULL,
+    PRIMARY KEY (id)
 );
 
-create table entrprise_activities(
-    int id NOT NULL AUTO_INCREMENT,
+create table defaultdb.entrprise_activities(
+    id int NOT NULL AUTO_INCREMENT,
     activity_name text,
     created_date date NOT NULL,
     PRIMARY KEY (id)
 );
 
-create table _Admin(
+create table defaultdb._Admin(
     id int NOT NULL AUTO_INCREMENT,
     email text NOT NULL,
     ville int,
@@ -49,12 +49,12 @@ create table _Admin(
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
-create table Admins_partners(
+create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(manager_id) REFERENCES _Admin(id),
+    FOREIGN KEY(admin_id) REFERENCES defaultdb._Admin(id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );

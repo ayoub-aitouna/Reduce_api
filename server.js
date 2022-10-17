@@ -10,9 +10,8 @@ require("express-async-errors");
 
 //  routers
 const Auth = require("./routes/Auth");
-const Partners = require("./routes/partners");
-const Managers = require("./routes/managers");
-const Admin = require("./routes/admin");
+const Partners = require("./routes/Partners");
+const Admin = require("./routes/Admin");
 const Files = require("./routes/files");
 
 // middleware
@@ -28,7 +27,6 @@ app.use("/api/v1/auth", Auth);
 app.use("/api/v1/partners", authenticationMiddleware, Partners);
 app.use("/api/v1/admin", authenticationMiddleware, Admin);
 app.use("/api/v1/files", authenticationMiddleware, Files);
-app.use("/api/v1/managers", authenticationMiddleware, Managers);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

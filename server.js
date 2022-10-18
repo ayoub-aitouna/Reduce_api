@@ -6,7 +6,7 @@ const http = require("http");
 /** Create HTTP server. */
 const server = http.createServer(app);
 
-require("express-async-errors");
+//require("express-async-errors");
 
 //  routers
 const Auth = require("./routes/Auth");

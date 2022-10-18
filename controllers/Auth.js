@@ -30,19 +30,30 @@ const does_partner_form_exits = async (req, res, next) => {
 
 const partner_login = async (req, res) => {
   const { email, password } = req.body;
-  const user = Query(
-    `select * from partner where email = ${email} and _password = ${await Encrypte(
-      password
-    )}`
-  );
-  if (user == undefined && user.length != 0)
-    return res.status(404).send({ err: "password or email is not correct" });
-  const accesToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET);
-  const RefreshToken = jwt.sign(user[0], process.env.REFRESH_TOKEN_SECRET);
-  res.status(200).send({
-    accesToken: accesToken,
-    RefreshToken: RefreshToken,
-  });
+  let HashedPass = "";
+  try {
+    HashedPass = await Encrypte(password);
+  } catch (err) {
+    console.log(err);
+  }
+  console.log("pass :: " + HashedPass);
+  try {
+    const user = Query(
+      `select * from partner where email = ${email} and _password = ${HashedPass}`
+    );
+    console.log(user);
+    if (user == undefined || user.length != 0)
+      return res.status(404).send({ err: "password or email is not correct" });
+    const accesToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET);
+    const RefreshToken = jwt.sign(user[0], process.env.REFRESH_TOKEN_SECRET);
+    res.status(200).send({
+      accesToken: accesToken,
+      RefreshToken: RefreshToken,
+    });
+  } catch (err) {
+    // console.log(err);
+    //throw new BadRequestError(err);
+  }
 };
 
 const Verify_email = async (req, res) => {

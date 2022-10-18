@@ -7,7 +7,7 @@ const { generateKeyAndstoreOtp } = require("../Utils/OTP.js");
 const { GenrateAvaratByName } = require("../Utils/Avatar");
 
 const { BadRequestError } = require("../errors/index.js");
-const { Encrypte } = require("../Utils/Crypto");
+const { Encrypte, compare } = require("../Utils/Crypto");
 
 /**
  * @description check_if_partner_has_submited_form
@@ -18,7 +18,7 @@ const does_partner_form_exits = async (req, res, next) => {
     throw new BadRequestError("Please provide email");
   }
   const partner = Query(`select * from partner where email = ${email}`);
-  if (partner == undefined || partner.length != 0)
+  if (partner != undefined && partner.length != 0)
     return res.json({
       err: {
         already: false,
@@ -38,11 +38,11 @@ const partner_login = async (req, res) => {
   }
   console.log("pass :: " + HashedPass);
   try {
-    const user = Query(
-      `select * from partner where email = ${email} and _password = ${HashedPass}`
-    );
-    console.log(user);
-    if (user == undefined || user.length != 0)
+    if (
+      user == undefined ||
+      user.length != 0 ||
+      !compare(password, user[0]._password)
+    )
       return res.status(404).send({ err: "password or email is not correct" });
     const accesToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET);
     const RefreshToken = jwt.sign(user[0], process.env.REFRESH_TOKEN_SECRET);
@@ -107,7 +107,6 @@ const partner_Submit_form = async (req, res) => {
 		'${offer}')`);
 
     if (submit.success) return res.status(200).send();
-
     return res.status(500).json({ err: "Could not submit the form" });
   } catch (err) {
     throw new BadRequestError(err);
@@ -117,12 +116,12 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
   const { email, password } = req.body;
-  const admin = Query(
-    `select * from _Admin where email = ${email} and _password = ${await Encrypte(
-      password
-    )}`
-  );
-  if (admin.length == 0)
+  const admin = Query(`select * from _Admin where email = ${email}`);
+  if (
+    admin == undefined ||
+    admin.length != 0 ||
+    !compare(password, admin[0]._password)
+  )
     return res.status(404).send({ err: "password or email is not correct" });
   const accesToken = jwt.sign(admin[0], process.env.ACCESS_TOKEN_SECRET);
   const RefreshToken = jwt.sign(admin[0], process.env.REFRESH_TOKEN_SECRET);

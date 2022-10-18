@@ -6,3 +6,5 @@
 13:38:35 [[31merror[39m] read ECONNRESET
 14:10:25 [[31merror[39m] read ECONNRESET
 16:23:08 [[31merror[39m] read ECONNRESET
+17:11:26 [[31merror[39m] Error while Generating Avaate by Name :  , err => option name is required
+17:14:39 [[31merror[39m] Error while Generating Avaate by Name : LLC , err => ReferenceError: UploadBuffer is not defined

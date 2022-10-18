@@ -126,3 +126,41 @@
 16:51:28 [[32minfo[39m] App Running on port => 5000
 16:51:28 [[32minfo[39m] SQL DB Connected
 16:51:29 [[32minfo[39m] connected to Redis!!
+17:01:25 [[32minfo[39m] App Running on port => 5000
+17:01:25 [[32minfo[39m] SQL DB Connected
+17:01:26 [[32minfo[39m] connected to Redis!!
+17:01:53 [[32minfo[39m] App Running on port => 5000
+17:01:53 [[32minfo[39m] SQL DB Connected
+17:01:54 [[32minfo[39m] connected to Redis!!
+17:02:19 [[32minfo[39m] App Running on port => 5000
+17:02:20 [[32minfo[39m] SQL DB Connected
+17:02:20 [[32minfo[39m] connected to Redis!!
+17:07:05 [[32minfo[39m] App Running on port => 5000
+17:07:05 [[32minfo[39m] SQL DB Connected
+17:07:05 [[32minfo[39m] connected to Redis!!
+17:10:35 [[32minfo[39m] App Running on port => 5000
+17:10:35 [[32minfo[39m] SQL DB Connected
+17:10:35 [[32minfo[39m] connected to Redis!!
+17:11:24 [[32minfo[39m] App Running on port => 5000
+17:11:24 [[32minfo[39m] SQL DB Connected
+17:11:25 [[32minfo[39m] connected to Redis!!
+17:11:26 [[31merror[39m] Error while Generating Avaate by Name :  , err => option name is required
+17:12:49 [[32minfo[39m] App Running on port => 5000
+17:12:49 [[32minfo[39m] SQL DB Connected
+17:12:50 [[32minfo[39m] connected to Redis!!
+17:14:34 [[32minfo[39m] App Running on port => 5000
+17:14:34 [[32minfo[39m] SQL DB Connected
+17:14:35 [[32minfo[39m] connected to Redis!!
+17:14:39 [[31merror[39m] Error while Generating Avaate by Name : LLC , err => ReferenceError: UploadBuffer is not defined
+17:14:57 [[32minfo[39m] App Running on port => 5000
+17:14:57 [[32minfo[39m] SQL DB Connected
+17:14:58 [[32minfo[39m] connected to Redis!!
+17:15:38 [[32minfo[39m] App Running on port => 5000
+17:15:38 [[32minfo[39m] SQL DB Connected
+17:15:38 [[32minfo[39m] connected to Redis!!
+17:16:11 [[32minfo[39m] App Running on port => 5000
+17:16:11 [[32minfo[39m] SQL DB Connected
+17:16:11 [[32minfo[39m] connected to Redis!!
+17:18:08 [[32minfo[39m] App Running on port => 5000
+17:18:08 [[32minfo[39m] SQL DB Connected
+17:18:09 [[32minfo[39m] connected to Redis!!

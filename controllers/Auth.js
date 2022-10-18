@@ -18,7 +18,7 @@ const does_partner_form_exits = async (req, res, next) => {
     throw new BadRequestError("Please provide email");
   }
   const partner = Query(`select * from partner where email = ${email}`);
-  if (partner.length != 0)
+  if (partner == undefined || partner.length != 0)
     return res.json({
       err: {
         already: false,
@@ -35,7 +35,7 @@ const partner_login = async (req, res) => {
       password
     )}`
   );
-  if (user != undefined || user.length == 0)
+  if (user == undefined && user.length != 0)
     return res.status(404).send({ err: "password or email is not correct" });
   const accesToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET);
   const RefreshToken = jwt.sign(user[0], process.env.REFRESH_TOKEN_SECRET);

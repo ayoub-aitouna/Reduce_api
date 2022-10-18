@@ -55,3 +55,29 @@
 14:55:45 [[32minfo[39m] App Running on port => 8000
 14:55:45 [[32minfo[39m] SQL DB Connected
 14:55:46 [[32minfo[39m] connected to Redis!!
+15:12:34 [[32minfo[39m] App Running on port => 5000
+15:12:34 [[32minfo[39m] SQL DB Connected
+15:12:34 [[32minfo[39m] connected to Redis!!
+15:13:02 [[32minfo[39m] App Running on port => 5000
+15:13:02 [[32minfo[39m] SQL DB Connected
+15:13:02 [[32minfo[39m] connected to Redis!!
+15:15:38 [[32minfo[39m] App Running on port => 5000
+15:15:38 [[32minfo[39m] SQL DB Connected
+15:15:38 [[32minfo[39m] connected to Redis!!
+15:19:30 [[32minfo[39m] App Running on port => 5000
+15:19:30 [[32minfo[39m] SQL DB Connected
+15:19:31 [[32minfo[39m] connected to Redis!!
+15:20:43 [[32minfo[39m] App Running on port => 5000
+15:20:43 [[32minfo[39m] SQL DB Connected
+15:20:43 [[32minfo[39m] connected to Redis!!
+15:21:06 [[32minfo[39m] App Running on port => 5000
+15:21:06 [[32minfo[39m] SQL DB Connected
+15:21:06 [[32minfo[39m] connected to Redis!!
+15:22:53 [[32minfo[39m] App Running on port => 5000
+15:22:53 [[32minfo[39m] SQL DB Connected
+15:22:53 [[32minfo[39m] connected to Redis!!
+15:23:30 [[32minfo[39m] App Running on port => 5000
+15:23:30 [[32minfo[39m] SQL DB Connected
+15:23:30 [[32minfo[39m] connected to Redis!!
+16:23:08 [[31merror[39m] read ECONNRESET
+16:23:09 [[32minfo[39m] connected to Redis!!

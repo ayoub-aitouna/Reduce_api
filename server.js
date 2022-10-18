@@ -5,7 +5,7 @@ const { client } = require("./database/index");
 const http = require("http");
 /** Create HTTP server. */
 const server = http.createServer(app);
-
+const { Encrypte } = require("./Utils/Crypto");
 //require("express-async-errors");
 
 //  routers
@@ -37,7 +37,7 @@ app.use(errorHandlerMiddleware);
 
 const PORT = process.env.PORT || 5000;
 
-const start = () => {
+const start = async () => {
   try {
     server.listen(PORT, () => {
       Log.info(`App Running on port => ${PORT}`);

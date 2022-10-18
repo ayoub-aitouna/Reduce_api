@@ -119,13 +119,17 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
   const { email, password } = req.body;
-  const admin = Query(`select * from _Admin where email = ${email}`);
-  if (
-    admin == undefined ||
-    admin.length != 0 ||
-    !compare(password, admin[0]._password)
-  )
-    return res.status(404).send({ err: "password or email is not correct" });
+  const admin = Query(`select * from _Admin where email = '${email}'`);
+  console.log(password);
+  console.log(admin[0]._password);
+  console.log();
+  if (admin == undefined || admin.length == 0)
+    return res.status(404).send({ err: "email is not correct" });
+  const is_Authed = await compare(password, admin[0]._password);
+
+  if (!is_Authed)
+    return res.status(404).send({ err: "password is not correct" });
+
   const accesToken = jwt.sign(admin[0], process.env.ACCESS_TOKEN_SECRET);
   const RefreshToken = jwt.sign(admin[0], process.env.REFRESH_TOKEN_SECRET);
   const { _role, account_status } = admin[0];

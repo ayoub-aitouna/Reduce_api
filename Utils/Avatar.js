@@ -1,6 +1,6 @@
 const AvatarGenerator = require("named-avatar-generator");
 const Log = require("../log/index");
-const { UploadFile } = require("../Utils/Files");
+const { UploadFile, UploadBuffer } = require("../Utils/Files");
 
 /**
  *
@@ -9,20 +9,20 @@ const { UploadFile } = require("../Utils/Files");
  * @returns   imag path
  */
 async function GenrateAvaratByName(name) {
-	return new Promise(async (resolve, reject) => {
-		const path = `/img/avatar-${name}-${new Date().getTime()}.jpg`;
-		AvatarGenerator.generate({ name: name, size: 64 })
-			.then((avatar) => {
-				AvatarGenerator.writeAvatar(avatar, `./public${path}`);
-				const { url } = UploadFile(path);
-				resolve(url);
-			})
-			.catch((err) => {
-				Log.error(
-					`Error while Generating Avaate by Name : ${name} , err => ${err}`
-				);
-				reject(err);
-			});
-	});
+  return new Promise(async (resolve, reject) => {
+    const path = `/img/avatar-${name}-${new Date().getTime()}.jpg`;
+    AvatarGenerator.generate({ name: name, size: 64 })
+      .then((avatar) => {
+        AvatarGenerator.writeAvatar(avatar, `./public${path}`);
+        //const { url } = UploadBuffer(avatar);
+        resolve(path);
+      })
+      .catch((err) => {
+        Log.error(
+          `Error while Generating Avaate by Name : ${name} , err => ${err}`
+        );
+        reject(err);
+      });
+  });
 }
 module.exports = { GenrateAvaratByName };

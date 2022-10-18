@@ -9,19 +9,20 @@ const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
 const UnauthenticatedError = require("../errors/unauthenticated.js");
 
 const get_this_admin = ({ id }) => {
-	const this_admin = SqlQuery(`select * from _Admin where id = ${id} `);
-	if (!this_admin.success)
-		throw BadRequestError(`couldn't retrive admin with this id ${id}`);
-	return this_admin.data.rows[0];
+  const this_admin = SqlQuery(`select * from _Admin where id = ${id} `);
+  if (!this_admin.success)
+    throw BadRequestError(`couldn't retrive admin with this id ${id}`);
+  return this_admin.data.rows[0];
 };
 const add_admin = async (req, res) => {
-	const { id } = req.user;
-	const { email, ville, _password, _role, _name } = get_this_admin(id);
-	if (_role != "Admin")
-		throw UnauthenticatedError(
-			"you don't have permission to contenue on this request"
-		);
-	const added_admin = SqlQuery(`insert into _Admin(
+  const { id } = req.user;
+  const { _role: this_role } = get_this_admin(id);
+  const { email, ville, _password, _role, _name } = req.body;
+  if (this_role != "Admin")
+    throw UnauthenticatedError(
+      "you don't have permission to contenue on this request"
+    );
+  const added_admin = SqlQuery(`insert into _Admin(
     email  ,
 	_password ,
 	_name,
@@ -38,100 +39,107 @@ const add_admin = async (req, res) => {
 		'Active',
 		CURDATE()
 	)`);
-	if (!added_admin.success)
-		return res.status(500).send({
-			err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
-		});
+  if (!added_admin.success)
+    return res.status(500).send({
+      err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
+    });
 
-	res.status(200).send({
-		msg: `an Admin ${_name} has been added with role ${_role} to Database `,
-	});
+  res.status(200).send({
+    msg: `an Admin ${_name} has been added with role ${_role} to Database `,
+  });
 };
-const remove_admins = (req, res) => {
-	const { id } = req.user;
-	const { email, ville, _password, _role, _name } = get_this_admin(id);
-	if (_role != "Admin")
-		throw UnauthenticatedError(
-			"you don't have permission to contenue on this request"
-		);
-	const suspand_admin = SqlQuery(
-		`update _Admin set account_status = 'Suspanded'`
-	);
-	if (!suspand_admin.success)
-		return res.status(500).send({
-			err: `Could not suspand admin An Admin ${_name}with role ${_role} to Database`,
-		});
+const remove_admin = (req, res) => {
+  const { id } = req.user;
+  const { _role: this_role } = get_this_admin(id);
+  const { id: manager_id, _role, _name } = req.body;
+  if (this_role != "Admin")
+    throw UnauthenticatedError(
+      "you don't have permission to contenue on this request"
+    );
+  const suspand_admin = SqlQuery(
+    `update _Admin set account_status = 'Suspanded' where id = ${manager_id}`
+  );
+  if (!suspand_admin.success)
+    return res.status(500).send({
+      err: `Could not suspand admin An Admin ${_name}with role ${_role} to Database`,
+    });
 
-	res.status(200).send({
-		msg: `an Admin ${_name} has been suspand `,
-	});
+  res.status(200).send({
+    msg: `an Admin ${_name} has been suspand `,
+  });
 };
 
 const Response_partner_form = async (req, res) => {
-	const { partner_id, response, email } = req.body;
-	const { id: admin_id } = req.user;
-	const partner = SqlQuery("select * from partner");
-	if (!partner.success) throw new BadRequestError("some thing wrong");
-	const partner_data = partner.data.rows[0];
-	const { url } = await Generate_contract_Pdf(partner_data);
+  const { partner_id, response, email } = req.body;
+  const { id: admin_id } = req.user;
+  const partner = SqlQuery("select * from partner");
+  if (!partner.success) throw new BadRequestError("some thing wrong");
+  const partner_data = partner.data.rows[0];
+  const { url } = await Generate_contract_Pdf(partner_data);
 
-	const res = SqlQuery(`
+  const result = SqlQuery(`
                         update partner
                     set
                         _status = '${response}',
 						contract_Url = ${url}
                     where
                         id = ${partner_id};`);
-	if (!res.success) throw new BadRequestError("some thing wrong");
-	const admin_partner = SqlQuery(`
+  if (!result.success) throw new BadRequestError("some thing wrong");
+  const admin_partner = SqlQuery(`
                     insert into Admins_partners
                     (admin_id, partner_id, created_date)
                     values
                     (${admin_id}, ${partner_id}, CURDATE());`);
 
-	if (!admin_partner.success) throw new BadRequestError("some thing wrong");
-	try {
-		const send_info = SendMail_to_partner(response, email, partner_data);
-		res.send(send_info);
-	} catch (err) {
-		throw BadRequestError(err);
-	}
+  if (!admin_partner.success) throw new BadRequestError("some thing wrong");
+  try {
+    const send_info = SendMail_to_partner(response, email, partner_data);
+    result.send(send_info);
+  } catch (err) {
+    throw BadRequestError(err);
+  }
 };
 
 const get_partners = (req, res) => {
-	const { id } = req.user;
-	const { email, ville, _password, _role, _name } = get_this_admin(id);
+  const { id } = req.user;
+  const { _role } = get_this_admin(id);
 
-	const Query = _role
-		? "select * from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id"
-		: `select * Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+  const Query = _role
+    ? "select * from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id"
+    : `select * Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
 			  where admin_id = ${id} `;
-	const partners = SqlQuery(Query);
-	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
-	res.send(partners);
+  const partners = SqlQuery(Query);
+  if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+  res.send(partners);
 };
 const get_admins = (req, res) => {
-	const { id } = req.user;
-	const { email, ville, _password, _role, _name } = get_this_admin(id);
-	if (_role != "Admin")
-		throw UnauthenticatedError(
-			"you don't have permission to contenue on this request"
-		);
-	const admins = SqlQuery(
-		`select * from _Admin  inner join villes on _Admin.ville = villes.id where id = ${id}`
-	);
-	if (!admins.success)
-		return res.status(500).send({
-			err: `Could not get Admins in  this Datadabse`,
-		});
+  const { id } = req.user;
+  const { _role } = get_this_admin(id);
+  const { ville, account_status } = req.body;
+  if (_role != "Admin")
+    throw UnauthenticatedError(
+      "you don't have permission to contenue on this request"
+    );
+  let Sql_Query_Filter = "";
+  Sql_Query_Filter += ville != -1 ? `ville == '${ville}'` : "";
+  Sql_Query_Filter +=
+    account_status != "" ? `account_status == '${account_status}' ` : "";
+  let SQL_QUERY =
+    "select * from _Admin  inner join villes on _Admin.ville = villes.id";
+  SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
+  const admins = SqlQuery(SQL_QUERY);
+  if (!admins.success)
+    return res.status(500).send({
+      err: `Could not get Admins in  this Datadabse`,
+    });
 
-	res.status(200).send(admins.data.rows);
+  res.status(200).send(admins.data.rows);
 };
 
 module.exports = {
-	add_admin,
-	remove_admin,
-	Response_partner_form,
-	get_partners,
-	get_admins,
+  add_admin,
+  remove_admin,
+  Response_partner_form,
+  get_partners,
+  get_admins,
 };

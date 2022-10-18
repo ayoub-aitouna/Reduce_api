@@ -1,35 +1,24 @@
 // Requiring module
 const bcrypt = require("bcryptjs");
 
-const Encrypte = (password) => {
-	return new Promise((rej, res) => {
-		// Encryption of the string password
-		bcrypt.genSalt(10, function (err, Salt) {
-			// The bcrypt is used for encrypting password.
-			bcrypt.hash(password, Salt, function (err, hash) {
-				if (err) {
-					return rej(err);
-				}
-				res(hash);
-			});
-		});
-	});
+const Encrypte = async (password) => {
+  return new Promise(async (res, rej) => {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      let hash_password = await bcrypt.hash(password, salt);
+      res(hash_password);
+    } catch (err) {
+      rej(err);
+    }
+  });
 };
-const compare = (hashedPassword) => {
-	bcrypt.compare(password, hashedPassword, async function (err, isMatch) {
-		// Comparing the original password to
-		// encrypted password
-		if (isMatch) {
-			console.log("Encrypted password is: ", password);
-			console.log("Decrypted password is: ", hashedPassword);
-		}
-
-		if (!isMatch) {
-			// If password doesn't match the following
-			// message will be sent
-			console.log(hashedPassword + " is not encryption of " + password);
-		}
-	});
+const compare = (password, hashedPassword) => {
+  return new Promise(async (res, rej) => {
+    bcrypt.compare(password, hashedPassword, async function (err, isMatch) {
+      if (err) rej(err);
+      res(isMatch);
+    });
+  });
 };
 
 module.exports = { Encrypte, compare };

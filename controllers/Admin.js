@@ -16,8 +16,9 @@ const get_this_admin = ({ id }) => {
 };
 const add_admin = async (req, res) => {
   const { id } = req.user;
-  const { email, ville, _password, _role, _name } = get_this_admin(id);
-  if (_role != "Admin")
+  const { _role: this_role } = get_this_admin(id);
+  const { email, ville, _password, _role, _name } = req.body;
+  if (this_role != "Admin")
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
@@ -49,13 +50,14 @@ const add_admin = async (req, res) => {
 };
 const remove_admin = (req, res) => {
   const { id } = req.user;
-  const { email, ville, _password, _role, _name } = get_this_admin(id);
-  if (_role != "Admin")
+  const { _role: this_role } = get_this_admin(id);
+  const { id: manager_id, _role, _name } = req.body;
+  if (this_role != "Admin")
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
   const suspand_admin = SqlQuery(
-    `update _Admin set account_status = 'Suspanded'`
+    `update _Admin set account_status = 'Suspanded' where id = ${manager_id}`
   );
   if (!suspand_admin.success)
     return res.status(500).send({
@@ -100,7 +102,7 @@ const Response_partner_form = async (req, res) => {
 
 const get_partners = (req, res) => {
   const { id } = req.user;
-  const { email, ville, _password, _role, _name } = get_this_admin(id);
+  const { _role } = get_this_admin(id);
 
   const Query = _role
     ? "select * from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id"
@@ -112,14 +114,20 @@ const get_partners = (req, res) => {
 };
 const get_admins = (req, res) => {
   const { id } = req.user;
-  const { email, ville, _password, _role, _name } = get_this_admin(id);
+  const { _role } = get_this_admin(id);
+  const { ville, account_status } = req.body;
   if (_role != "Admin")
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
-  const admins = SqlQuery(
-    `select * from _Admin  inner join villes on _Admin.ville = villes.id where id = ${id}`
-  );
+  let Sql_Query_Filter = "";
+  Sql_Query_Filter += ville != -1 ? `ville == '${ville}'` : "";
+  Sql_Query_Filter +=
+    account_status != "" ? `account_status == '${account_status}' ` : "";
+  let SQL_QUERY =
+    "select * from _Admin  inner join villes on _Admin.ville = villes.id";
+  SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
+  const admins = SqlQuery(SQL_QUERY);
   if (!admins.success)
     return res.status(500).send({
       err: `Could not get Admins in  this Datadabse`,

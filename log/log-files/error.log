@@ -2,3 +2,6 @@
 19:11:35 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT
 19:27:07 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT
 19:27:46 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT
+13:13:41 [[31merror[39m] read ECONNRESET
+13:38:35 [[31merror[39m] read ECONNRESET
+14:10:25 [[31merror[39m] read ECONNRESET

@@ -12,5 +12,5 @@ router.post("/add_admin", add_admin);
 router.post("./Remove_admin", remove_admin);
 router.get("/", get_admins);
 router.get("/get_partners", get_partners);
-router.get("/Response_partner_form", Response_partner_form);
+router.post("/Response_partner_form", Response_partner_form);
 module.exports = router;

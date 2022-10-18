@@ -1,19 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const {
-	does_partner_form_exits,
-	partner_login,
-	add_admin,
-	admin_login,
-	partner_Submit_form,
-	ResendOTP,
-	Verify_email,
+  does_partner_form_exits,
+  partner_login,
+  admin_login,
+  partner_Submit_form,
+  ResendOTP,
+  Verify_email,
 } = require("../controllers/Auth");
 
 //partner
-router.post("/does_partner_form_exits", does_partner_form_exits);
 router.post("/partner", partner_login);
-router.post("/partner_Submit_form", partner_Submit_form);
+router.post(
+  "/partner_Submit_form",
+  does_partner_form_exits,
+  partner_Submit_form
+);
 
 //all
 router.post("/Verify_email", Verify_email);

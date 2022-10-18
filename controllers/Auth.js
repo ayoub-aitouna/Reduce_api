@@ -107,7 +107,10 @@ const partner_Submit_form = async (req, res) => {
 		'${offer}')`);
 
     if (submit.success) return res.status(200).send();
-    return res.status(500).json({ err: "Could not submit the form" });
+    console.log(submit);
+    return res
+      .status(500)
+      .json({ err: `Could not submit the form ${submit.data.err.sqlMessage}` });
   } catch (err) {
     throw new BadRequestError(err);
   }

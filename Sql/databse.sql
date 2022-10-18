@@ -58,3 +58,4 @@ create table defaultdb.Admins_partners(
     FOREIGN KEY(admin_id) REFERENCES defaultdb._Admin(id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
+

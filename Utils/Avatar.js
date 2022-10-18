@@ -1,6 +1,6 @@
 const AvatarGenerator = require("named-avatar-generator");
 const Log = require("../log/index");
-const { UploadFile,UploadBuffer } = require("../Utils/Files");
+const { UploadFile, UploadBuffer } = require("../Utils/Files");
 
 /**
  *
@@ -14,8 +14,8 @@ async function GenrateAvaratByName(name) {
     AvatarGenerator.generate({ name: name, size: 64 })
       .then((avatar) => {
         AvatarGenerator.writeAvatar(avatar, `./public${path}`);
-        const { url } = UploadBuffer(avatar);
-        resolve(url);
+        //const { url } = UploadBuffer(avatar);
+        resolve(path);
       })
       .catch((err) => {
         Log.error(

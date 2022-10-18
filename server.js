@@ -13,6 +13,7 @@ const Auth = require("./routes/Auth");
 const Partners = require("./routes/Partners");
 const Admin = require("./routes/Admin");
 const Files = require("./routes/Files");
+const Ville = require("./routes/Villes");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -27,6 +28,8 @@ app.use("/api/v1/auth", Auth);
 app.use("/api/v1/partners", authenticationMiddleware, Partners);
 app.use("/api/v1/admin", authenticationMiddleware, Admin);
 app.use("/api/v1/files", authenticationMiddleware, Files);
+app.use("/api/v1/Ville", Ville);
+app.use("/api/v1/Ville", Ville);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -8,10 +8,10 @@ const { SendMail_to_partner } = require("../Utils/Mailer");
 const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
 const UnauthenticatedError = require("../errors/unauthenticated.js");
 
-const get_this_admin = ({ id }) => {
+const get_this_admin = (id) => {
   const this_admin = SqlQuery(`select * from _Admin where id = ${id} `);
   if (!this_admin.success)
-    throw BadRequestError(`couldn't retrive admin with this id ${id}`);
+    throw new BadRequestError(`couldn't retrive admin with this id ${id}`);
   return this_admin.data.rows[0];
 };
 const add_admin = async (req, res) => {
@@ -48,6 +48,7 @@ const add_admin = async (req, res) => {
     msg: `an Admin ${_name} has been added with role ${_role} to Database `,
   });
 };
+
 const remove_admin = (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
@@ -70,7 +71,7 @@ const remove_admin = (req, res) => {
 };
 
 const Response_partner_form = async (req, res) => {
-  const { partner_id, response, email } = req.body;
+  const { partner_id, response } = req.body;
   const { id: admin_id } = req.user;
   const partner = SqlQuery("select * from partner");
   if (!partner.success) throw new BadRequestError("some thing wrong");
@@ -93,10 +94,14 @@ const Response_partner_form = async (req, res) => {
 
   if (!admin_partner.success) throw new BadRequestError("some thing wrong");
   try {
-    const send_info = SendMail_to_partner(response, email, partner_data);
+    const send_info = SendMail_to_partner(
+      response,
+      partner.email,
+      partner_data
+    );
     result.send(send_info);
   } catch (err) {
-    throw BadRequestError(err);
+    throw new BadRequestError(err);
   }
 };
 
@@ -110,8 +115,9 @@ const get_partners = (req, res) => {
 			  where admin_id = ${id} `;
   const partners = SqlQuery(Query);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");
-  res.send(partners);
+  res.send(partners.data.rows);
 };
+
 const get_admins = (req, res) => {
   const { id } = req.user;
   const { _role } = get_this_admin(id);

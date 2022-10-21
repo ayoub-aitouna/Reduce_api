@@ -99,12 +99,31 @@ const add_done = async (req, res) => {
   });
 };
 
+//done edite
+const edite_done = async (req, res) => {
+  const { id, partner_name, partner_status } = req.body;
+  const add_done = SqlQuery(
+    `update task_done set partner_name = '${partner_name}', partner_status =   '${partner_status}' 
+    where id = ${id}`
+  );
+  if (!add_done.success)
+    return res.status(500).json({
+      err: add_done.data.err,
+    });
+  res.status(200).send({
+    msg: `OK`,
+  });
+};
+
 const done = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role, ville: admin_ville } = get_this_admin(id);
-  let filter = this_role != "Admin" ? `and ville == ${admin_ville}` : "";
+  let filter = this_role != "Admin" ? `task_done.ville == ${admin_ville}` : "";
 
-  const done_tasks = SqlQuery(`select * from task_done ${filter} `);
+  const done_tasks = SqlQuery(
+    `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id
+     inner join villes  task_done.ville = villes.id ${filter}`
+  );
   if (!done_tasks.success)
     return res.status(500).json({
       err: done_tasks.data.err,
@@ -149,4 +168,5 @@ module.exports = {
   done,
   add_done,
   search,
+  edite_done,
 };

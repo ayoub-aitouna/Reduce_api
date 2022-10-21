@@ -44,6 +44,12 @@ create table defaultdb.task_announcement(
     created_date date NOT NULL,
     PRIMARY KEY (id)
 );
+insert into defaultdb.task_announcement(
+    partner_name ,
+    task_status , 
+    adrress ,
+    created_date
+)values ('','Pending')
 
 create table defaultdb.task_done(
     id int NOT NULL AUTO_INCREMENT,

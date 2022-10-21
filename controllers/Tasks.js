@@ -98,26 +98,48 @@ const add_done = async (req, res) => {
     msg: `OK`,
   });
 };
+
 const done = async (req, res) => {
-  const entrprise_activities = SqlQuery(`select * from task_done `);
-  console.log(entrprise_activities);
-  if (!entrprise_activities.success)
+  const { id } = req.user;
+  const { _role: this_role, ville: admin_ville } = get_this_admin(id);
+  let filter = this_role != "Admin" ? `and ville == ${admin_ville}` : "";
+
+  const done_tasks = SqlQuery(`select * from task_done ${filter} `);
+  if (!done_tasks.success)
     return res.status(500).json({
-      err: entrprise_activities.data.err,
+      err: done_tasks.data.err,
     });
-  res.status(200).json(entrprise_activities.data.rows);
+  res.status(200).json(done_tasks.data.rows);
 };
 
 //search
 const search = async (req, res) => {
-  const name = req.params.name;
-  const entrprise_activities = SqlQuery(`select * from entrprise_activities`);
-  console.log(entrprise_activities);
-  if (!entrprise_activities.success)
+  const { id } = req.user;
+  const { _role: this_role, ville: admin_ville } = get_this_admin(id);
+  const name = req.params.partner_name;
+
+  // search on anounsments
+  let base_filter = `partner_name == ${name}`;
+  let filter = this_role != "Admin" ? ` ville == ${admin_ville}` : "";
+  const task_announcement = SqlQuery(
+    `select * from task_announcement where task_status == 'Pending' and ${base_filter} and ${filter}`
+  );
+  if (!task_announcement.success)
     return res.status(500).json({
-      err: entrprise_activities.data.err,
+      err: task_announcement.data.err,
     });
-  res.status(200).json(entrprise_activities.data.rows);
+
+  //search on done tasks
+  const done_tasks = SqlQuery(
+    `select * from task_done where ${base_filter} and  ${filter}`
+  );
+  if (!done_tasks.success)
+    return res.status(500).json({
+      err: done_tasks.data.err,
+    });
+  const result = task_announcement.data.rows.concat(done_tasks.data.rows);
+
+  res.status(200).json(result);
 };
 
 module.exports = {

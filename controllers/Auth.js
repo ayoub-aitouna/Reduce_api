@@ -118,6 +118,7 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
   const { email, password } = req.body;
+  console.log("wslat");
   const admin = Query(`select * from _Admin where email = '${email}'`);
   console.log(password);
   console.log(admin[0]._password);

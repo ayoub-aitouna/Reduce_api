@@ -7,13 +7,8 @@ const { Encrypte } = require("../Utils/Crypto");
 const { SendMail_to_partner } = require("../Utils/Mailer");
 const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
 const UnauthenticatedError = require("../errors/unauthenticated.js");
+const { get_this_admin } = require("../Utils/Utils.js");
 
-const get_this_admin = (id) => {
-  const this_admin = SqlQuery(`select * from _Admin where id = ${id} `);
-  if (!this_admin.success)
-    throw new BadRequestError(`couldn't retrive admin with this id ${id}`);
-  return this_admin.data.rows[0];
-};
 const add_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);

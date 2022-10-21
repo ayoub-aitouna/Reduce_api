@@ -7,15 +7,21 @@ const { Encrypte } = require("../Utils/Crypto");
 const { SendMail_to_partner } = require("../Utils/Mailer");
 const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
 const UnauthenticatedError = require("../errors/unauthenticated.js");
+const { get_this_admin } = require("../Utils/Utils.js");
 
 const add_anounsment = async (req, res) => {
-  const { partner_name, adrress } = req.body;
+  const { partner_name, adrress, ville } = req.body;
+  const { id } = req.user;
+  const { _role: this_role } = get_this_admin(id);
+  if (this_role != "Admin")
+    throw new UnauthenticatedError("you dont have permission");
   const added_task_announcement = SqlQuery(`insert into task_announcement(
     partner_name ,
-    task_status , 
+    task_status ,
+    ville, 
     adrress ,
     created_date
-)values ('${partner_name}','Pending','${adrress}',CURDATE());
+)values ('${partner_name}','Pending','${ville}','${adrress}',CURDATE());
 `);
   if (!added_task_announcement.success)
     return res.status(500).json({
@@ -26,11 +32,15 @@ const add_anounsment = async (req, res) => {
     msg: `OK`,
   });
 };
+
 const anounsments = async (req, res) => {
+  const { id } = req.user;
+  const { _role: this_role, ville: admin_ville } = get_this_admin(id);
+
+  let filter = this_role != "Admin" ? `and ville == ${admin_ville}` : "";
   const task_announcement = SqlQuery(
-    `select * from task_announcement where task_status == 'Pending'`
+    `select * from task_announcement where task_status == 'Pending' ${filter}`
   );
-  console.log(task_announcement);
   if (!task_announcement.success)
     return res.status(500).json({
       err: task_announcement.data.err,

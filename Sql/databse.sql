@@ -74,6 +74,8 @@ create table defaultdb._Admin(
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
+-- abcdef.123456@@
+insert into  defaultdb._Admin(email,ville,_name,_password,_role,account_status, created_date)values('reducte.cloud@gmail.com',1,'SUPER_ADMIN','$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG','Admin','Active',CURDATE());
 create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,

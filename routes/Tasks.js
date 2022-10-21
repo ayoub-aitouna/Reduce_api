@@ -13,8 +13,8 @@ Router.post("/add_announcement", add_anounsment);
 Router.post("/add_done", add_done);
 Router.get("/anounsments", anounsments);
 Router.get("/done", done);
-Router.get("/set_task_done", set_task_done);
-Router.get("/edite_done", edite_done);
+Router.post("/set_task_done", set_task_done);
+Router.post("/edit_done", edite_done);
 Router.get("/search/:name", search);
 
 module.exports = Router;

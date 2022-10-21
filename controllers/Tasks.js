@@ -37,9 +37,11 @@ const anounsments = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role, ville: admin_ville } = get_this_admin(id);
 
-  let filter = this_role != "Admin" ? `and ville == ${admin_ville}` : "";
+  let filter = this_role != "Admin" ? `ville == ${admin_ville}` : "";
   const task_announcement = SqlQuery(
-    `select * from task_announcement where task_status == 'Pending' ${filter}`
+    `select * from task_announcement where task_status == 'Pending'
+     inner join _Admin on task_done.manager_id = _Admin.id
+     inner join villes  task_done.ville = villes.id  where  ${filter}`
   );
   if (!task_announcement.success)
     return res.status(500).json({
@@ -122,7 +124,7 @@ const done = async (req, res) => {
 
   const done_tasks = SqlQuery(
     `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id
-     inner join villes  task_done.ville = villes.id ${filter}`
+     inner join villes  task_done.ville = villes.id where ${filter}`
   );
   if (!done_tasks.success)
     return res.status(500).json({
@@ -141,7 +143,8 @@ const search = async (req, res) => {
   let base_filter = `partner_name == ${name}`;
   let filter = this_role != "Admin" ? ` ville == ${admin_ville}` : "";
   const task_announcement = SqlQuery(
-    `select * from task_announcement where task_status == 'Pending' and ${base_filter} and ${filter}`
+    `select * from task_announcement  inner join _Admin on task_done.manager_id = _Admin.id
+     inner join villes  task_done.ville = villes.id  where task_status == 'Pending' and ${base_filter} and ${filter}`
   );
   if (!task_announcement.success)
     return res.status(500).json({
@@ -150,7 +153,8 @@ const search = async (req, res) => {
 
   //search on done tasks
   const done_tasks = SqlQuery(
-    `select * from task_done where ${base_filter} and  ${filter}`
+    `select * from task_done  inner join _Admin on task_done.manager_id = _Admin.id
+     inner join villes  task_done.ville = villes.id  where ${base_filter} and  ${filter}`
   );
   if (!done_tasks.success)
     return res.status(500).json({

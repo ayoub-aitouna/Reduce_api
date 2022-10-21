@@ -48,11 +48,13 @@ create table defaultdb.task_announcement(
 create table defaultdb.task_done(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
-    partner_status ENUM('not_intrested','intrested','thinking'), 
+    partner_status ENUM('not_intrested','intrested','thinking'),
+    manager_id int,
     created_date date NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY(manager_id) REFERENCES _Admin(id)
 );
-insert into 
+
 
 create table defaultdb._Admin(
     id int NOT NULL AUTO_INCREMENT,

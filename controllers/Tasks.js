@@ -39,39 +39,57 @@ const anounsments = async (req, res) => {
 };
 
 const set_task_done = async (req, res) => {
-  const { id } = req.body;
+  const { id: taskid, partner_name, partner_status } = req.body;
+  const { id: manager_id } = req.user;
+
   const set_task_done = SqlQuery(
-    `update set_task_done set task_status == 'Pending' where id = ${id}`
+    `update set_task_done set task_status == 'Pending' where id = ${taskid}`
   );
-  console.log(set_task_done);
   if (!set_task_done.success)
     return res.status(500).json({
       err: set_task_done.data.err,
     });
-  res.status(200).json(set_task_done.data.rows);
+  const add_done = SqlQuery(
+    `insert into task_done (partner_name ,
+                            partner_status,
+                            manager_id ,
+                            created_date)
+                    values('${partner_name}',
+                            '${partner_status}',
+                            ${manager_id},
+                            CURDATE())`
+  );
+  if (!add_done.success)
+    return res.status(500).json({
+      err: add_done.data.err,
+    });
+  res.status(200).send("ok");
 };
 
 //done
 const add_done = async (req, res) => {
-  const { Activity } = req.body;
-  const added_Activity = SqlQuery(`insert into entrprise_activities(
-    activity_name,
-    created_date
-	) values (
-		'${Activity}',
-		CURDATE()
-	)`);
-  if (!added_Activity.success)
+  const { partner_name, partner_status } = req.body;
+  const { id: manager_id } = req.user;
+  const add_done = SqlQuery(
+    `insert into task_done (partner_name ,
+                            partner_status,
+                            manager_id ,
+                            created_date)
+                    values('${partner_name}',
+                            '${partner_status}',
+                            ${manager_id},
+                            CURDATE())`
+  );
+  if (!add_done.success)
     return res.status(500).json({
-      err: added_Activity.data.err,
+      err: add_done.data.err,
     });
-
   res.status(200).send({
     msg: `OK`,
   });
 };
 const done = async (req, res) => {
-  const entrprise_activities = SqlQuery(`select * from entrprise_activities`);
+  const entrprise_activities = SqlQuery(`select * from task_done `);
   console.log(entrprise_activities);
   if (!entrprise_activities.success)
     return res.status(500).json({

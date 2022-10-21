@@ -9,7 +9,7 @@ const {
 } = require("../controllers/Admin.js");
 
 router.post("/add_admin", add_admin);
-router.post("./Remove_admin", remove_admin);
+router.post(" s/Remove_admin", remove_admin);
 router.get("/", get_admins);
 router.get("/get_partners", get_partners);
 router.post("/Response_partner_form", Response_partner_form);

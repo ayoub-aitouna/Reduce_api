@@ -36,6 +36,23 @@ create table defaultdb.entrprise_activities(
     PRIMARY KEY (id)
 );
 
+create table defaultdb.task_announcement(
+    id int NOT NULL AUTO_INCREMENT,
+    partner_name text,
+    task_status ENUM('Done','Pending'), 
+    adrress text,
+    created_date date NOT NULL,
+    PRIMARY KEY (id)
+);
+
+create table defaultdb.task_done(
+    id int NOT NULL AUTO_INCREMENT,
+    partner_name text,
+    partner_status ENUM('not_intrested','intrested','thinking'), 
+    created_date date NOT NULL,
+    PRIMARY KEY (id)
+);
+
 create table defaultdb._Admin(
     id int NOT NULL AUTO_INCREMENT,
     email text NOT NULL,

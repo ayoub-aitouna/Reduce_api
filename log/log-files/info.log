@@ -258,3 +258,7 @@
 20:51:43 [[32minfo[39m] connected to Redis!!
 22:01:23 [[31merror[39m] read ECONNRESET
 22:01:24 [[32minfo[39m] connected to Redis!!
+19:24:27 [[31merror[39m] read ECONNRESET
+19:24:27 [[32minfo[39m] connected to Redis!!
+08:32:53 [[31merror[39m] read ECONNRESET
+08:32:54 [[32minfo[39m] connected to Redis!!

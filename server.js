@@ -15,6 +15,7 @@ const Admin = require("./routes/Admin");
 const Files = require("./routes/Files");
 const Ville = require("./routes/Villes");
 const Activities = require("./routes/Activities");
+const Tasks = require("./routes/Tasks");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -28,6 +29,7 @@ client.connect();
 app.use("/api/v1/auth", Auth);
 app.use("/api/v1/partners", authenticationMiddleware, Partners);
 app.use("/api/v1/admin", authenticationMiddleware, Admin);
+app.use("/api/v1/Tasks", authenticationMiddleware, Tasks);
 app.use("/api/v1/files", authenticationMiddleware, Files);
 app.use("/api/v1/Ville", Ville);
 app.use("/api/v1/Activities", Activities);

@@ -9,7 +9,7 @@ const {
   edite_done,
 } = require("../controllers/Tasks");
 
-Router.post("/add_anounsment", add_anounsment);
+Router.post("/add_announcement", add_anounsment);
 Router.post("/add_done", add_done);
 Router.get("/anounsments", anounsments);
 Router.get("/done", done);

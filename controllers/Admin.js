@@ -47,7 +47,7 @@ const add_admin = async (req, res) => {
 const remove_admin = (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
-  const { id: manager_id, _role, _name } = req.body;
+  const { id: manager_id } = req.body;
   if (this_role != "Admin")
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
@@ -57,11 +57,11 @@ const remove_admin = (req, res) => {
   );
   if (!suspand_admin.success)
     return res.status(500).send({
-      err: `Could not suspand admin An Admin ${_name}with role ${_role} to Database`,
+      err: `Could not suspand admin An Admin ${manager_id} `,
     });
 
   res.status(200).send({
-    msg: `an Admin ${_name} has been suspand `,
+    msg: `an Admin ${manager_id} has been suspand `,
   });
 };
 

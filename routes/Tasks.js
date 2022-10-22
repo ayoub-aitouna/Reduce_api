@@ -11,7 +11,7 @@ const {
 
 Router.post("/add_announcement", add_anounsment);
 Router.post("/add_done", add_done);
-Router.get("/anounsments", anounsments);
+Router.get("/announcement", anounsments);
 Router.get("/done", done);
 Router.post("/set_task_done", set_task_done);
 Router.post("/edit_done", edite_done);

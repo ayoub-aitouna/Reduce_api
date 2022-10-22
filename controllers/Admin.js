@@ -47,7 +47,7 @@ const add_admin = async (req, res) => {
 const remove_admin = (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
-  const { id: manager_id, _role, _name } = req.body;
+  const { id: manager_id } = req.body;
   if (this_role != "Admin")
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
@@ -57,11 +57,11 @@ const remove_admin = (req, res) => {
   );
   if (!suspand_admin.success)
     return res.status(500).send({
-      err: `Could not suspand admin An Admin ${_name}with role ${_role} to Database`,
+      err: `Could not suspand admin An Admin ${manager_id} `,
     });
 
   res.status(200).send({
-    msg: `an Admin ${_name} has been suspand `,
+    msg: `an Admin ${manager_id} has been suspand `,
   });
 };
 
@@ -115,6 +115,8 @@ const get_partners = (req, res) => {
 
 const get_admins = (req, res) => {
   const { id } = req.user;
+  console.log("get" + id);
+
   const { _role } = get_this_admin(id);
   const { ville, account_status } = req.body;
   if (_role != "Admin")
@@ -127,7 +129,7 @@ const get_admins = (req, res) => {
     account_status != "" ? `account_status == '${account_status}' ` : "";
   let SQL_QUERY =
     "select * from _Admin  inner join villes on _Admin.ville = villes.id";
-  SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
+  // SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
   const admins = SqlQuery(SQL_QUERY);
   if (!admins.success)
     return res.status(500).send({

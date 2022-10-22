@@ -60,7 +60,6 @@ create table defaultdb.task_done(
 
 );
 
-
 create table defaultdb._Admin(
     id int NOT NULL AUTO_INCREMENT,
     email text NOT NULL,
@@ -75,8 +74,10 @@ create table defaultdb._Admin(
 );
 
 -- abcdef.123456@@
-insert into  defaultdb._Admin(email,ville,_name,_password,_role,account_status, created_date)values('reducte.cloud@gmail.com',1,'SUPER_ADMIN','$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG','Admin','Active',CURDATE());
-create table defaultdb.Admins_partners(
+insert into  defaultdb._Admin(email,ville,_name,_password,_role,account_status, created_date)
+values('reducte.cloud@gmail.com',1,'SUPER_ADMIN','$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG','Admin','Active',CURDATE());
+
+ßcreate table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,

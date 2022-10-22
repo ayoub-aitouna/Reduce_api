@@ -31,32 +31,40 @@ const add_anounsment = async (req, res) => {
 
 const anounsments = async (req, res) => {
   const { id } = req.user;
+  console.log("anounsments");
   const { _role: this_role, ville: admin_ville } = get_this_admin(id);
 
-  let filter = this_role != "Admin" ? `ville == ${admin_ville}` : "";
+  let filter = this_role != "Admin" ? `ville = ${admin_ville} and` : "";
   const task_announcement = SqlQuery(
-    `select * from task_announcement where task_status == 'Pending'
-     inner join _Admin on task_done.manager_id = _Admin.id
-     inner join villes  task_done.ville = villes.id  where  ${filter}`
+    `select * from task_announcement
+    inner join villes on  task_announcement.ville = villes.id
+       where ${filter}  task_status = 'Pending'
+     `
   );
-  if (!task_announcement.success)
+  console.log(task_announcement);
+  if (!task_announcement.success) {
+    console.log(err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
+  }
+  console.log(task_announcement.data.rows);
   res.status(200).json(task_announcement.data.rows);
 };
 
 const set_task_done = async (req, res) => {
   const { id: taskid, partner_name, partner_status } = req.body;
   const { id: manager_id } = req.user;
-
+  console.log(taskid);
   const set_task_done = SqlQuery(
-    `update set_task_done set task_status == 'Pending' where id = ${taskid}`
+    `update task_announcement set task_status = 'Done' where id = ${taskid}`
   );
-  if (!set_task_done.success)
+  if (!set_task_done.success) {
+    console.log(set_task_done);
     return res.status(500).json({
       err: set_task_done.data.err,
     });
+  }
   const add_done = SqlQuery(
     `insert into task_done (partner_name ,
                             partner_status,
@@ -101,7 +109,8 @@ const add_done = async (req, res) => {
 const edite_done = async (req, res) => {
   const { id, partner_name, partner_status } = req.body;
   const add_done = SqlQuery(
-    `update task_done set partner_name = '${partner_name}', partner_status =   '${partner_status}' 
+    `update task_done set partner_name = '${partner_name}',
+     partner_status =   '${partner_status}' 
     where id = ${id}`
   );
   if (!add_done.success)

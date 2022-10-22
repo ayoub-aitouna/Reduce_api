@@ -114,7 +114,9 @@ const get_partners = (req, res) => {
 };
 
 const get_admins = (req, res) => {
+  console.log("get" + id);
   const { id } = req.user;
+
   const { _role } = get_this_admin(id);
   const { ville, account_status } = req.body;
   if (_role != "Admin")

@@ -13,10 +13,14 @@ const add_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
   const { email, ville, _password, _role, _name } = req.body;
-  if (this_role != "Admin")
+  console.trace({ email, ville, _password, _role, _name });
+
+  if (this_role != "Admin") {
+    console.log("no permi");
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
+  }
   const added_admin = SqlQuery(`insert into _Admin(
     email  ,
 	_password ,
@@ -34,11 +38,14 @@ const add_admin = async (req, res) => {
 		'Active',
 		CURDATE()
 	)`);
-  if (!added_admin.success)
+  if (!added_admin.success) {
+    console.log("error");
+    console.log(added_admin);
     return res.status(500).send({
       err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
     });
-
+  }
+  console.log("reaached");
   res.status(200).send({
     msg: `an Admin ${_name} has been added with role ${_role} to Database `,
   });

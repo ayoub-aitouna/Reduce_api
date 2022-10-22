@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const { Encrypte } = require("./Utils/Crypto");
 var cors = require("cors");
 
-require("express-async-errors");
+//require("express-async-errors");
 
 //  routers
 const Auth = require("./routes/Auth");

@@ -60,7 +60,6 @@ create table defaultdb.task_done(
 
 );
 
-
 create table defaultdb._Admin(
     id int NOT NULL AUTO_INCREMENT,
     email text NOT NULL,

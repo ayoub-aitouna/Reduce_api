@@ -55,9 +55,9 @@ const anounsments = async (req, res) => {
 const set_task_done = async (req, res) => {
   const { id: taskid, partner_name, partner_status } = req.body;
   const { id: manager_id } = req.user;
-
+  console.log(taskid);
   const set_task_done = SqlQuery(
-    `update set_task_done set task_status == 'Pending' where id = ${taskid}`
+    `update task_announcement set task_status = 'Done' where id = ${taskid}`
   );
   if (!set_task_done.success) {
     console.log(set_task_done);
@@ -109,7 +109,8 @@ const add_done = async (req, res) => {
 const edite_done = async (req, res) => {
   const { id, partner_name, partner_status } = req.body;
   const add_done = SqlQuery(
-    `update task_done set partner_name = '${partner_name}', partner_status =   '${partner_status}' 
+    `update task_done set partner_name = '${partner_name}',
+     partner_status =   '${partner_status}' 
     where id = ${id}`
   );
   if (!add_done.success)

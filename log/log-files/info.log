@@ -446,3 +446,7 @@
 15:08:21 [[32minfo[39m] App Running on port => 5000
 15:08:21 [[32minfo[39m] SQL DB Connected
 15:08:22 [[32minfo[39m] connected to Redis!!
+15:29:12 [[31merror[39m] read ECONNRESET
+15:29:13 [[32minfo[39m] connected to Redis!!
+16:23:33 [[31merror[39m] read ECONNRESET
+16:23:34 [[32minfo[39m] connected to Redis!!

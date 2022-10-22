@@ -35,7 +35,8 @@ const partner_login = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  console.log("pass :: " + HashedPass);
+  let user = SqlQuery(`select * from partner where email = %{email}`);
+  if (!user.success) throw new BadRequestError("user not found");
   try {
     if (
       user == undefined ||
@@ -50,8 +51,8 @@ const partner_login = async (req, res) => {
       RefreshToken: RefreshToken,
     });
   } catch (err) {
-    // console.log(err);
-    //throw new BadRequestError(err);
+    console.log(err);
+    throw new BadRequestError(err);
   }
 };
 
@@ -118,11 +119,8 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
   const { email, password } = req.body;
-  console.log("wslat");
+  console.table([{ email, password }]);
   const admin = Query(`select * from _Admin where email = '${email}'`);
-  console.log(password);
-  console.log(admin[0]._password);
-  console.log();
   if (admin == undefined || admin.length == 0)
     return res.status(404).send({ err: "email is not correct" });
   const is_Authed = await compare(password, admin[0]._password);

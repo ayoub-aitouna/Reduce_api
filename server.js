@@ -6,6 +6,8 @@ const http = require("http");
 /** Create HTTP server. */
 const server = http.createServer(app);
 const { Encrypte } = require("./Utils/Crypto");
+var cors = require("cors");
+
 //require("express-async-errors");
 
 //  routers
@@ -23,6 +25,7 @@ const errorHandlerMiddleware = require("./middleware/error-handler");
 const { authenticationMiddleware } = require("./middleware/Auth/auth");
 
 app.use(express.json());
+app.use(cors());
 app.use(express.static("./public"));
 client.connect();
 

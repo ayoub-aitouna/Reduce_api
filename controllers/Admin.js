@@ -114,8 +114,8 @@ const get_partners = (req, res) => {
 };
 
 const get_admins = (req, res) => {
-  console.log("get" + id);
   const { id } = req.user;
+  console.log("get" + id);
 
   const { _role } = get_this_admin(id);
   const { ville, account_status } = req.body;
@@ -129,7 +129,7 @@ const get_admins = (req, res) => {
     account_status != "" ? `account_status == '${account_status}' ` : "";
   let SQL_QUERY =
     "select * from _Admin  inner join villes on _Admin.ville = villes.id";
-  SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
+  // SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
   const admins = SqlQuery(SQL_QUERY);
   if (!admins.success)
     return res.status(500).send({

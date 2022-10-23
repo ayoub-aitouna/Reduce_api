@@ -84,18 +84,18 @@ const partner_Submit_form = async (req, res) => {
   } = req.body;
 
   try {
-    const submit = SqlQuery(`insert into partner(email,
-		_password,
-		avatar_Url,
-		nome_entreprise,
-		identificateur_entreprise,
-		representant_entreprise,
-		role_dans_entriprise,
-    numero_telephone,
-		numero_telephone_fix,
-		ville,
-		activity_entrprise,
-		offer) values(
+      const submit = SqlQuery(`insert into partner(email,
+      _password,
+      avatar_Url,
+      nome_entreprise,
+      identificateur_entreprise,
+      representant_entreprise,
+      role_dans_entriprise,
+      numero_telephone,
+      numero_telephone_fix,
+      ville,
+      activity_entrprise,
+      offer) values(
 		'${email}',
 		'${await Encrypte(password)}',
 		'${await GenrateAvaratByName(nome_entreprise)}',

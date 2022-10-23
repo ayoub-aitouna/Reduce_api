@@ -45,7 +45,6 @@ const add_admin = async (req, res) => {
       err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
     });
   }
-  console.log("reaached");
   res.status(200).send({
     msg: `an Admin ${_name} has been added with role ${_role} to Database `,
   });

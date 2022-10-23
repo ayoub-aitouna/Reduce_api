@@ -3,7 +3,7 @@ require("dotenv");
 const Log = require("../log");
 const { EmailTemplate } = require("./Templates.js");
 
-const SendMail_to_partner = ({ subject, to, PartnerData }) => {
+const SendMail_to_partner = ({ subject, to, PartnerData, text }) => {
   return new Promise((res, rej) => {
     var transporter = nodemailer.createTransport({
       service: process.env.MAILER_SERVICE,

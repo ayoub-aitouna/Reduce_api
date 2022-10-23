@@ -15,6 +15,7 @@ create table defaultdb.partner(
     activity_entrprise int,
     offer text,
     contract_Url text,
+    adrress text,
     created_date date NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
     PRIMARY KEY (id),

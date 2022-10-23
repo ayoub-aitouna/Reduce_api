@@ -35,7 +35,7 @@ const partner_login = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  let user = SqlQuery(`select * from partner where email = %{email}`);
+  let user = SqlQuery(`select * from partner where email = ${email}`);
   if (!user.success) throw new BadRequestError("user not found");
   try {
     if (
@@ -79,6 +79,7 @@ const partner_Submit_form = async (req, res) => {
     numero_telephone,
     numero_telephone_fix,
     ville,
+    adrress,
     activity_entrprise,
     offer,
   } = req.body;
@@ -96,6 +97,7 @@ const partner_Submit_form = async (req, res) => {
       ville,
       activity_entrprise,
       offer,
+      adrress,
       _status) values(
 		'${email}',
 		'${await Encrypte(password)}',
@@ -109,6 +111,7 @@ const partner_Submit_form = async (req, res) => {
 		'${ville}',
 		'${activity_entrprise}',
 		'${offer}',
+    '${adrress}',
     'Pending')`);
 
     if (submit.success) return res.status(200).send();

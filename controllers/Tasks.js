@@ -168,30 +168,41 @@ const done = async (req, res) => {
 const search = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role, ville: admin_ville } = get_this_admin(id);
-  const name = req.params.partner_name;
-
+  const name = req.query.partner_name;
+  console.trace({ msg: "The Name", name });
   // search on anounsments
-  let base_filter = `partner_name == ${name}`;
-  let filter = this_role != "Admin" ? ` ville == ${admin_ville}` : "";
+  let base_filter = `partner_name LIKE '%${name}%'`;
+  let filter = this_role != "Admin" ? `and ville == ${admin_ville}` : "";
   const task_announcement = SqlQuery(
-    `select * from task_announcement  inner join _Admin on task_done.manager_id = _Admin.id
-     inner join villes  task_done.ville = villes.id  where task_status == 'Pending' and ${base_filter} and ${filter}`
+    `select * from task_announcement
+    inner join villes on  task_announcement.ville = villes.id
+       where task_status = 'Pending' ${filter} and ${base_filter}`
   );
-  if (!task_announcement.success)
+  if (!task_announcement.success) {
+    console.log("\n\n\n\ntask_announcement Error");
+    console.trace(task_announcement.data.err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
-
+  }
   //search on done tasks
   const done_tasks = SqlQuery(
-    `select * from task_done  inner join _Admin on task_done.manager_id = _Admin.id
-     inner join villes  task_done.ville = villes.id  where ${base_filter} and  ${filter}`
+    `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id where ${base_filter} ${filter}`
   );
-  if (!done_tasks.success)
+  if (!done_tasks.success) {
+    console.log("\n\n\n\nDone Error");
+    console.trace(done_tasks.data.err);
     return res.status(500).json({
       err: done_tasks.data.err,
     });
+  }
+  console.table(done_tasks.data.rows);
+  console.table(task_announcement.data.rows);
+
   const result = task_announcement.data.rows.concat(done_tasks.data.rows);
+
+  console.log("\n\n\n\n ok");
+  console.table(result);
 
   res.status(200).json(result);
 };

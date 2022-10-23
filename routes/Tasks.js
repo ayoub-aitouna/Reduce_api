@@ -15,6 +15,6 @@ Router.get("/announcement", anounsments);
 Router.get("/done", done);
 Router.post("/set_task_done", set_task_done);
 Router.post("/edit_done", edite_done);
-Router.get("/search/:name", search);
+Router.get("/search", search);
 
 module.exports = Router;

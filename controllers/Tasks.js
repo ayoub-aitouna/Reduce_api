@@ -36,8 +36,15 @@ const anounsments = async (req, res) => {
 
   let filter = this_role != "Admin" ? `ville = ${admin_ville} and` : "";
   const task_announcement = SqlQuery(
-    `select * from task_announcement
-    inner join villes on  task_announcement.ville = villes.id
+    `select  
+      task_announcement.id,
+      partner_name,
+      task_status,
+      ville,
+      adrress,
+      ville_name
+    from task_announcement
+      inner join villes on  task_announcement.ville = villes.id
        where ${filter}  task_status = 'Pending'
      `
   );
@@ -55,7 +62,8 @@ const anounsments = async (req, res) => {
 const set_task_done = async (req, res) => {
   const { id: taskid, partner_name, partner_status } = req.body;
   const { id: manager_id } = req.user;
-  console.log(taskid);
+  const { ville } = get_this_admin(manager_id);
+  console.trace({ taskid, partner_name, partner_status });
   const set_task_done = SqlQuery(
     `update task_announcement set task_status = 'Done' where id = ${taskid}`
   );
@@ -69,16 +77,21 @@ const set_task_done = async (req, res) => {
     `insert into task_done (partner_name ,
                             partner_status,
                             manager_id ,
+                            ville,
                             created_date)
                     values('${partner_name}',
                             '${partner_status}',
                             ${manager_id},
+                            ${ville},
                             CURDATE())`
   );
-  if (!add_done.success)
+  if (!add_done.success) {
+    console.trace(add_done.data.err);
     return res.status(500).json({
       err: add_done.data.err,
     });
+  }
+
   res.status(200).send("ok");
 };
 

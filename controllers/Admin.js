@@ -75,7 +75,7 @@ const Response_partner_form = async (req, res) => {
   const { partner_id, response } = req.body;
   console.trace({ partner_id, response });
   const { id: admin_id } = req.user;
-  const partner = SqlQuery("select * from partner");
+  const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
   // const { url } = await Generate_contract_Pdf(partner_data);
@@ -96,14 +96,19 @@ const Response_partner_form = async (req, res) => {
                     (${admin_id}, ${partner_id}, CURDATE());`);
   if (!admin_partner.success)
     throw new BadRequestError(admin_partner.data.err.sqlMessage);
+  console.log(partner_data);
+  const { email } = partner_data;
+  const text = `you have been ${response}`;
   try {
     const send_info = SendMail_to_partner(
-      response,
-      partner.email,
-      partner_data,
-      `you have been ${response}`
+      {
+        response,
+        email,
+        text,
+      },
+      partner_data
     );
-    result.send(send_info);
+    res.send(send_info);
   } catch (err) {
     throw new BadRequestError(err);
   }

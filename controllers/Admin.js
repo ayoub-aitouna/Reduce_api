@@ -13,10 +13,14 @@ const add_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
   const { email, ville, _password, _role, _name } = req.body;
-  if (this_role != "Admin")
+  console.trace({ email, ville, _password, _role, _name });
+
+  if (this_role != "Admin") {
+    console.log("no permi");
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
+  }
   const added_admin = SqlQuery(`insert into _Admin(
     email  ,
 	_password ,
@@ -34,11 +38,13 @@ const add_admin = async (req, res) => {
 		'Active',
 		CURDATE()
 	)`);
-  if (!added_admin.success)
+  if (!added_admin.success) {
+    console.log("error");
+    console.log(added_admin);
     return res.status(500).send({
       err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
     });
-
+  }
   res.status(200).send({
     msg: `an Admin ${_name} has been added with role ${_role} to Database `,
   });
@@ -67,34 +73,42 @@ const remove_admin = (req, res) => {
 
 const Response_partner_form = async (req, res) => {
   const { partner_id, response } = req.body;
+  console.trace({ partner_id, response });
   const { id: admin_id } = req.user;
-  const partner = SqlQuery("select * from partner");
-  if (!partner.success) throw new BadRequestError("some thing wrong");
+  const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
+  if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
-  const { url } = await Generate_contract_Pdf(partner_data);
-
+  // const { url } = await Generate_contract_Pdf(partner_data);
+  const url = "";
   const result = SqlQuery(`
                         update partner
                     set
                         _status = '${response}',
-						contract_Url = ${url}
+						contract_Url = '${url}'
                     where
                         id = ${partner_id};`);
-  if (!result.success) throw new BadRequestError("some thing wrong");
+  console.trace(result.data.err);
+  if (!result.success) throw new BadRequestError(result.data.err.sqlMessage);
   const admin_partner = SqlQuery(`
                     insert into Admins_partners
                     (admin_id, partner_id, created_date)
                     values
                     (${admin_id}, ${partner_id}, CURDATE());`);
-
-  if (!admin_partner.success) throw new BadRequestError("some thing wrong");
+  if (!admin_partner.success)
+    throw new BadRequestError(admin_partner.data.err.sqlMessage);
+  console.log(partner_data);
+  const { email } = partner_data;
+  const text = `you have been ${response}`;
   try {
-    const send_info = SendMail_to_partner(
-      response,
-      partner.email,
-      partner_data
-    );
-    result.send(send_info);
+    // const send_info = SendMail_to_partner(
+    //   {
+    //     response,
+    //     email,
+    //     text,
+    //   },
+    //   partner_data
+    // );
+    res.send(send_info);
   } catch (err) {
     throw new BadRequestError(err);
   }
@@ -105,8 +119,38 @@ const get_partners = (req, res) => {
   const { _role } = get_this_admin(id);
 
   const Query = _role
-    ? "select * from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id"
-    : `select * Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+    ? `select   partner.id,
+        avatar_Url,
+        email,
+        nome_entreprise,
+        identificateur_entreprise,
+        representant_entreprise,
+        role_dans_entriprise,
+        numero_telephone,
+        numero_telephone_fix,
+        ville,
+        activity_entrprise,
+        offer,
+        _status,
+        ville_name,
+        activity_name
+     from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id`
+    : `select   partner.id,
+          avatar_Url,
+            email,
+          nome_entreprise,
+          identificateur_entreprise,
+          representant_entreprise,
+          role_dans_entriprise,
+          numero_telephone,
+          numero_telephone_fix,
+          ville,
+          activity_entrprise,
+          offer,
+          _status,
+          ville_name,
+          activity_name
+     Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
 			  where admin_id = ${id} `;
   const partners = SqlQuery(Query);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");

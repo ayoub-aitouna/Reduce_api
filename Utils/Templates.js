@@ -1,17 +1,17 @@
 const Pdf_contract_template = (partner_data) => {
-	const {
-		email,
-		nome_entreprise,
-		identificateur_entreprise,
-		representant_entreprise,
-		role_dans_entriprise,
-		numero_telephone_fix,
-		ville,
-		activity_entrprise,
-		offer,
-	} = partner_data;
-	return {
-		content: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  const {
+    email,
+    nome_entreprise,
+    identificateur_entreprise,
+    representant_entreprise,
+    role_dans_entriprise,
+    numero_telephone_fix,
+    ville,
+    activity_entrprise,
+    offer,
+  } = partner_data;
+  return {
+    content: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -989,11 +989,11 @@ const Pdf_contract_template = (partner_data) => {
   </body>
 </html>
 `,
-	};
+  };
 };
 
 const EmailTemplate = (PartnerData) => {
-	return `<h1>Email I sent${PartnerData.email}</h1>`;
+  return `<h1>Email I sent${PartnerData.email}</h1>`;
 };
 
 module.exports = { Pdf_contract_template, EmailTemplate };

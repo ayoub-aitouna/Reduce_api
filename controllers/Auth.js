@@ -35,7 +35,7 @@ const partner_login = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  let user = SqlQuery(`select * from partner where email = %{email}`);
+  let user = SqlQuery(`select * from partner where email = ${email}`);
   if (!user.success) throw new BadRequestError("user not found");
   try {
     if (
@@ -76,24 +76,29 @@ const partner_Submit_form = async (req, res) => {
     identificateur_entreprise,
     representant_entreprise,
     role_dans_entriprise,
+    numero_telephone,
     numero_telephone_fix,
     ville,
+    adrress,
     activity_entrprise,
     offer,
   } = req.body;
 
   try {
     const submit = SqlQuery(`insert into partner(email,
-		_password,
-		avatar_Url,
-		nome_entreprise,
-		identificateur_entreprise,
-		representant_entreprise,
-		role_dans_entriprise,
-		numero_telephone_fix,
-		ville,
-		activity_entrprise,
-		offer) values(
+      _password,
+      avatar_Url,
+      nome_entreprise,
+      identificateur_entreprise,
+      representant_entreprise,
+      role_dans_entriprise,
+      numero_telephone,
+      numero_telephone_fix,
+      ville,
+      activity_entrprise,
+      offer,
+      adrress,
+      _status) values(
 		'${email}',
 		'${await Encrypte(password)}',
 		'${await GenrateAvaratByName(nome_entreprise)}',
@@ -101,10 +106,13 @@ const partner_Submit_form = async (req, res) => {
 		'${identificateur_entreprise}',
 		'${representant_entreprise}',
 		'${role_dans_entriprise}',
+		'${numero_telephone}',
 		'${numero_telephone_fix}',
 		'${ville}',
 		'${activity_entrprise}',
-		'${offer}')`);
+		'${offer}',
+    '${adrress}',
+    'Pending')`);
 
     if (submit.success) return res.status(200).send();
     console.log(submit);

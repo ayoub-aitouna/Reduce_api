@@ -105,7 +105,7 @@ const Response_partner_form = async (req, res) => {
         to: email,
         text: text,
       },
-      PartnerData
+      partner_data
     );
     res.send(send_info);
   } catch (err) {

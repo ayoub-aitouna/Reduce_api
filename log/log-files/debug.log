@@ -892,3 +892,9 @@
 13:16:44 [[32minfo[39m] SQL DB Connected
 13:16:44 [[32minfo[39m] connected to Redis!!
 13:16:54 [[32minfo[39m] Email sent: 250 mxJzosasGVHbz mail accepted for delivery
+13:57:25 [[32minfo[39m] App Running on port => 5000
+13:57:25 [[32minfo[39m] SQL DB Connected
+13:57:26 [[32minfo[39m] connected to Redis!!
+13:57:54 [[32minfo[39m] App Running on port => 5000
+13:57:54 [[32minfo[39m] SQL DB Connected
+13:57:54 [[32minfo[39m] connected to Redis!!

@@ -8,7 +8,7 @@ const Generate_contract_Pdf = async (partner_data) => {
       pdf.create(content, {}).toFile(path, (err) => {
         if (err) {
           console.log(err);
-          rej(err);
+          rej({ msg: err });
         } else {
           console.log("OK");
           res(__dirname + path);

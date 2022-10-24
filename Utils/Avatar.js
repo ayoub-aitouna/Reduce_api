@@ -12,10 +12,11 @@ async function GenrateAvaratByName(name) {
   return new Promise(async (resolve, reject) => {
     const path = `/img/avatar-${name}-${new Date().getTime()}.jpg`;
     AvatarGenerator.generate({ name: name, size: 64 })
-      .then((avatar) => {
+      .then(async (avatar) => {
         AvatarGenerator.writeAvatar(avatar, `./public${path}`);
-        //  const { url } = UploadBuffer(avatar);
-        resolve(__dirname + path);
+        const { url, message } = await UploadFile(path);
+        console.trace({ url, message });
+        resolve(url);
       })
       .catch((err) => {
         Log.error(

@@ -102,11 +102,11 @@ const Response_partner_form = async (req, res) => {
   try {
     const send_info = SendMail_to_partner(
       {
-        response,
-        email,
-        text,
+        subject: "reduct have responded on your request",
+        to: email,
+        text: text,
       },
-      partner_data
+      PartnerData
     );
     res.send(send_info);
   } catch (err) {

@@ -4,7 +4,7 @@ require("dotenv").config();
 const Log = require("../log");
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte } = require("../Utils/Crypto");
-const { SendMail_to_partner } = require("../Utils/Mailer");
+const { SendMail_to_partner, sendEmail } = require("../Utils/Mailer");
 const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
 const UnauthenticatedError = require("../errors/unauthenticated.js");
 const { get_this_admin } = require("../Utils/Utils.js");
@@ -79,7 +79,8 @@ const Response_partner_form = async (req, res) => {
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
-  const url = await Generate_contract_Pdf(partner_data);
+  // const url = await Generate_contract_Pdf(partner_data);
+  const url = "";
   const result = SqlQuery(`
                         update partner
                     set
@@ -95,8 +96,8 @@ const Response_partner_form = async (req, res) => {
                     (${admin_id}, ${partner_id}, CURDATE());`);
   if (!admin_partner.success)
     throw new BadRequestError(admin_partner.data.err.sqlMessage);
-  console.log(partner_data);
-  const { email } = partner_data;
+  const email = partner_data.email;
+  console.log(email);
   const text = `you have been ${response}`;
   try {
     const send_info = SendMail_to_partner(

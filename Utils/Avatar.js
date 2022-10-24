@@ -13,10 +13,18 @@ async function GenrateAvaratByName(name) {
     const path = `/img/avatar-${name}-${new Date().getTime()}.jpg`;
     AvatarGenerator.generate({ name: name, size: 64 })
       .then(async (avatar) => {
-        AvatarGenerator.writeAvatar(avatar, `./public${path}`);
-        const { url, message } = await UploadFile(path);
-        console.trace({ url, message });
-        resolve(url);
+        AvatarGenerator.writeAvatar(avatar, `./public${path}`)
+          .then(async () => {
+            const { url, message } = await UploadFile(path);
+            console.trace({ url, message });
+            resolve(url);
+          })
+          .catch((err) => {
+            Log.error(
+              `Error while Generating Avaate by Name : ${name} , err => ${err}`
+            );
+            reject(err);
+          });
       })
       .catch((err) => {
         Log.error(

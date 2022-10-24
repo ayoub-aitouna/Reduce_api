@@ -7,7 +7,7 @@ const { GenrateAvaratByName } = require("../Utils/Avatar");
 
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
-
+const { sendEmail } = require("../Utils/Mailer");
 /**
  * @description check_if_partner_has_submited_form
  */
@@ -68,8 +68,22 @@ const partner_login = async (req, res) => {
   }
 };
 
+const sendVeriifyOtp = async (req, res) => {
+  const { email } = req.body;
+  const Key = await generateKeyAndstoreOtp(email);
+  try {
+    await sendEmail({
+      subject: `reducte email verification `,
+      to: email,
+      text: `code verefication for your account is ${Key}`,
+    });
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+  }
+};
+
 const Verify_email = async (req, res) => {
-  console.log(VerifyNumber);
   const { email, key } = req.body;
   try {
     const value = await client.get(email);
@@ -96,6 +110,7 @@ const partner_Submit_form = async (req, res) => {
     offer,
   } = req.body;
   try {
+    const url = await GenrateAvaratByName(nome_entreprise);
     const submit = SqlQuery(`insert into partner(email,
       _password,
       avatar_Url,
@@ -112,7 +127,7 @@ const partner_Submit_form = async (req, res) => {
       _status) values(
 		'${email}',
 		'${await Encrypte(password)}',
-		'${await GenrateAvaratByName(nome_entreprise)}',
+		'${url}',
 		'${nome_entreprise}',
 		'${identificateur_entreprise}',
 		'${representant_entreprise}',
@@ -126,7 +141,6 @@ const partner_Submit_form = async (req, res) => {
     'Pending')`);
 
     if (submit.success) return res.status(200).send();
-    console.log(submit);
     return res
       .status(500)
       .json({ err: `Could not submit the form ${submit.data.err.sqlMessage}` });
@@ -160,15 +174,18 @@ const admin_login = async (req, res) => {
 
 const ResendOTP = async (req, res) => {
   const { email } = req.body;
-
   const Key = await client.get(email);
   if (Key == null || Key == undefined)
     Key = await generateKeyAndstoreOtp(email);
-
   try {
-    await sendEmail(Key, email);
+    await sendEmail({
+      subject: `reducte email verification `,
+      to: email,
+      text: `code verefication for your account is ${Key}`,
+    });
     res.sendStatus(200);
   } catch (err) {
+    console.trace(err);
     res.sendStatus(500);
   }
 };
@@ -180,4 +197,5 @@ module.exports = {
   partner_Submit_form,
   ResendOTP,
   Verify_email,
+  sendVeriifyOtp,
 };

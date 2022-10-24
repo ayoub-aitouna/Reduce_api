@@ -87,7 +87,6 @@ const Response_partner_form = async (req, res) => {
 						contract_Url = '${url}'
                     where
                         id = ${partner_id};`);
-  console.trace(result.data.err);
   if (!result.success) throw new BadRequestError(result.data.err.sqlMessage);
   const admin_partner = SqlQuery(`
                     insert into Admins_partners

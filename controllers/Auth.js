@@ -35,17 +35,29 @@ const partner_login = async (req, res) => {
   } catch (err) {
     console.log(err);
   }
-  let user = SqlQuery(`select * from partner where email = ${email}`);
+  let user = SqlQuery(`select * from partner where email = '${email}'`);
+  console.trace({
+    password: password,
+    email: email,
+    compair: await compare(password, user.data.rows[0]._password),
+  });
   if (!user.success) throw new BadRequestError("user not found");
   try {
     if (
-      user == undefined ||
-      user.length != 0 ||
-      !compare(password, user[0]._password)
-    )
+      user.data.rows[0] == undefined ||
+      user.data.rows.length == 0 ||
+      !(await compare(password, user.data.rows[0]._password))
+    ) {
       return res.status(404).send({ err: "password or email is not correct" });
-    const accesToken = jwt.sign(user[0], process.env.ACCESS_TOKEN_SECRET);
-    const RefreshToken = jwt.sign(user[0], process.env.REFRESH_TOKEN_SECRET);
+    }
+    const accesToken = jwt.sign(
+      user.data.rows[0],
+      process.env.ACCESS_TOKEN_SECRET
+    );
+    const RefreshToken = jwt.sign(
+      user.data.rows[0],
+      process.env.REFRESH_TOKEN_SECRET
+    );
     res.status(200).send({
       accesToken: accesToken,
       RefreshToken: RefreshToken,
@@ -83,7 +95,6 @@ const partner_Submit_form = async (req, res) => {
     activity_entrprise,
     offer,
   } = req.body;
-
   try {
     const submit = SqlQuery(`insert into partner(email,
       _password,

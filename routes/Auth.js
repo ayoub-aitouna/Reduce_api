@@ -6,6 +6,7 @@ const {
   admin_login,
   partner_Submit_form,
   ResendOTP,
+  sendVeriifyOtp,
   Verify_email,
 } = require("../controllers/Auth");
 
@@ -18,6 +19,7 @@ router.post(
 );
 
 //all
+router.post("/sendVeriifyOtp", sendVeriifyOtp);
 router.post("/Verify_email", Verify_email);
 router.post("/ResendOTP", ResendOTP);
 

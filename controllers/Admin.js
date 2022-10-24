@@ -72,14 +72,14 @@ const remove_admin = (req, res) => {
 };
 
 const Response_partner_form = async (req, res) => {
+  //pulled sdsd
   const { partner_id, response } = req.body;
   console.trace({ partner_id, response });
   const { id: admin_id } = req.user;
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
-  // const { url } = await Generate_contract_Pdf(partner_data);
-  const url = "";
+  const { url } = await Generate_contract_Pdf(partner_data);
   const result = SqlQuery(`
                         update partner
                     set

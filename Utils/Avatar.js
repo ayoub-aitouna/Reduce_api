@@ -10,11 +10,14 @@ const { UploadFile, UploadBuffer } = require("../Utils/Files");
  */
 async function GenrateAvaratByName(name) {
   return new Promise(async (resolve, reject) => {
-    const path = `/img/avatar-${name}-${new Date().getTime()}.jpg`;
+    const path =
+      __dirname +
+      "/public/" +
+      `/img/avatar-${name}-${new Date().getTime()}.jpg`;
     AvatarGenerator.generate({ name: name, size: 64 })
       .then((avatar) => {
         AvatarGenerator.writeAvatar(avatar, `./public${path}`);
-        //const { url } = UploadBuffer(avatar);
+        //  const { url } = UploadBuffer(avatar);
         resolve(path);
       })
       .catch((err) => {

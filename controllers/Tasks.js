@@ -6,7 +6,7 @@ const UnauthenticatedError = require("../errors/unauthenticated.js");
 const { get_this_admin } = require("../Utils/Utils.js");
 
 const add_anounsment = async (req, res) => {
-  const { partner_name, adrress, ville } = req.body;
+  const { partner_name, partner_address, ville } = req.body;
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
   if (this_role != "Admin")
@@ -17,7 +17,7 @@ const add_anounsment = async (req, res) => {
       ville, 
       adrress ,
       created_date
-  )values ('${partner_name}','Pending','${ville}','${adrress}',CURDATE());
+  )values ('${partner_name}','Pending','${ville}','${partner_address}',CURDATE());
   `);
   if (!added_task_announcement.success)
     return res.status(500).json({
@@ -156,7 +156,7 @@ const done = async (req, res) => {
   });
   let filter =
     this_role != "Admin"
-      ? ` where task_done.manager_id = ${admin_id} and ville = ${admin_ville}`
+      ? ` where task_done.manager_id = ${admin_id} and villes.id = ${admin_ville}`
       : "";
   console.log(
     `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id ${filter}`

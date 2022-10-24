@@ -155,7 +155,7 @@ const partner_Submit_form = async (req, res) => {
 const admin_login = async (req, res) => {
   const { email, password } = req.body;
   console.table([{ email, password }]);
-  const admin = Query(`select * from _Admin where email = '${email}'`);
+  const admin = Query(`select * from _Admin where email = '${email.toLowerCase()}'`);
   if (admin == undefined || admin.length == 0)
     return res.status(404).send({ err: "email is not correct" });
   const is_Authed = await compare(password, admin[0]._password);

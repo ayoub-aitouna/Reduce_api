@@ -79,7 +79,7 @@ const Response_partner_form = async (req, res) => {
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
-  const { url } = await Generate_contract_Pdf(partner_data);
+  const url = await Generate_contract_Pdf(partner_data);
   const result = SqlQuery(`
                         update partner
                     set
@@ -87,7 +87,6 @@ const Response_partner_form = async (req, res) => {
 						contract_Url = '${url}'
                     where
                         id = ${partner_id};`);
-  console.trace(result.data.err);
   if (!result.success) throw new BadRequestError(result.data.err.sqlMessage);
   const admin_partner = SqlQuery(`
                     insert into Admins_partners
@@ -102,11 +101,11 @@ const Response_partner_form = async (req, res) => {
   try {
     const send_info = SendMail_to_partner(
       {
-        response,
-        email,
-        text,
+        subject: "reduct have responded on your request",
+        to: email,
+        text: text,
       },
-      partner_data
+      PartnerData
     );
     res.send(send_info);
   } catch (err) {

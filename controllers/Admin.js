@@ -72,7 +72,7 @@ const remove_admin = (req, res) => {
 };
 
 const Response_partner_form = async (req, res) => {
-  //pulled
+  //pulled sdsd
   const { partner_id, response } = req.body;
   console.trace({ partner_id, response });
   const { id: admin_id } = req.user;

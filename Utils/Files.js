@@ -39,8 +39,6 @@ const UploadFile = (filepath) => {
 
       blobStream.end(filepath.buffer);
     } catch (err) {
-      console.log(err);
-
       if (err.code == "LIMIT_FILE_SIZE") {
         rej({
           message: "File size cannot be larger than 2MB!",
@@ -57,7 +55,7 @@ const UploadFile = (filepath) => {
 const UploadBuffer = async (Buffer) => {
   return new Promise((res, rej) => {
     try {
-      const file = bucket.file("tester.pdf");
+      const file = bucket.file("tester.jpg");
 
       file.save(Buffer, (err) => {
         if (!err) {

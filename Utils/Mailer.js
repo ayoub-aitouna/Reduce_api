@@ -2,8 +2,8 @@ var nodemailer = require("nodemailer");
 require("dotenv");
 const Log = require("../log");
 const { EmailTemplate } = require("./Templates.js");
-const test = () => {};
 const SendMail_to_partner = ({ subject, to, text }, PartnerData) => {
+  console.trace({ subject, to, text });
   return new Promise((res, rej) => {
     var transporter = nodemailer.createTransport({
       host: process.env.MAILER_HOST,

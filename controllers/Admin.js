@@ -100,14 +100,14 @@ const Response_partner_form = async (req, res) => {
   const { email } = partner_data;
   const text = `you have been ${response}`;
   try {
-    // const send_info = SendMail_to_partner(
-    //   {
-    //     response,
-    //     email,
-    //     text,
-    //   },
-    //   partner_data
-    // );
+    const send_info = SendMail_to_partner(
+      {
+        response,
+        email,
+        text,
+      },
+      partner_data
+    );
     res.send(send_info);
   } catch (err) {
     throw new BadRequestError(err);

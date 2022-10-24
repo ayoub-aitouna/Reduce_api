@@ -16,7 +16,7 @@ const SendMail_to_partner = ({ subject, to, text }, PartnerData) => {
     });
 
     var mailOptions = {
-      from: process.env.MAILER_EMAIL,
+      from: process.env.MAILER_USER,
       to: to,
       subject: subject,
       text: text,

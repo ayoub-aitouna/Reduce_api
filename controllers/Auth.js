@@ -110,8 +110,9 @@ const partner_Submit_form = async (req, res) => {
     offer,
   } = req.body;
   try {
-    const url = await GenrateAvaratByName(nome_entreprise);
-    console.log(url);
+    // const url = await GenrateAvaratByName(nome_entreprise);
+    const url = "";
+    // console.log(url);
     const submit = SqlQuery(`insert into partner(email,
       _password,
       avatar_Url,

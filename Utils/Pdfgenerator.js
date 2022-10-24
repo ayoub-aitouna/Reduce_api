@@ -3,14 +3,15 @@ const { Pdf_contract_template } = require("./Templates.js");
 const Generate_contract_Pdf = async (partner_data) => {
   const { content } = Pdf_contract_template(partner_data);
   return new Promise((res, rej) => {
+    const path = `./public/pdf/contracr_${partner_data.id}_Result.pdf`;
     try {
-      pdf.create(content, {}).toFile("Result.pdf", (err) => {
+      pdf.create(content, {}).toFile(path, (err) => {
         if (err) {
           console.log(err);
           rej(err);
         } else {
           console.log("OK");
-          res("Result.pdf");
+          res(__dirname + path);
         }
       });
     } catch (err) {

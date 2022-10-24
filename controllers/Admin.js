@@ -79,7 +79,7 @@ const Response_partner_form = async (req, res) => {
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
-  const { url } = await Generate_contract_Pdf(partner_data);
+  const url = await Generate_contract_Pdf(partner_data);
   const result = SqlQuery(`
                         update partner
                     set

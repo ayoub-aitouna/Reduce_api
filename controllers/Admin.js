@@ -156,6 +156,8 @@ const get_partners = (req, res) => {
   res.send(partners.data.rows);
 };
 
+const update_partner = async (req, res) => {};
+
 const get_admins = (req, res) => {
   const { id } = req.user;
   console.log("get" + id);
@@ -182,10 +184,13 @@ const get_admins = (req, res) => {
   res.status(200).send(admins.data.rows);
 };
 
+const get_modify = async (req, res) => {};
+
 module.exports = {
   add_admin,
   remove_admin,
   Response_partner_form,
   get_partners,
   get_admins,
+  update_partner,
 };

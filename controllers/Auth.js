@@ -8,6 +8,7 @@ const { GenrateAvaratByName } = require("../Utils/Avatar");
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
 const { sendEmail } = require("../Utils/Mailer");
+const { OTP_EMAIL } = require("../Utils/Templates");
 /**
  * @description check_if_partner_has_submited_form
  */
@@ -178,7 +179,8 @@ const admin_login = async (req, res) => {
 
 const ResendOTP = async (req, res) => {
   const { email } = req.body;
-  const Key = await client.get(email);
+  let Key = "";
+  key = await client.get(email);
   if (Key == null || Key == undefined)
     Key = await generateKeyAndstoreOtp(email);
   try {
@@ -186,6 +188,7 @@ const ResendOTP = async (req, res) => {
       subject: `reducte email verification `,
       to: email,
       text: `code verefication for your account is ${Key}`,
+      html: OTP_EMAIL(key),
     });
     res.sendStatus(200);
   } catch (err) {

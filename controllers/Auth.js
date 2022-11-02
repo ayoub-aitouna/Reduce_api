@@ -168,6 +168,7 @@ const admin_login = async (req, res) => {
   const { _role, account_status } = admin[0];
   res.status(200).send({
     role: _role,
+    _name: _name,
     account_status: account_status,
     accesToken: accesToken,
     RefreshToken: RefreshToken,

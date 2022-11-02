@@ -179,15 +179,15 @@ const admin_login = async (req, res) => {
 
 const ResendOTP = async (req, res) => {
   const { email } = req.body;
-  let Key = "";
+  let key = "";
   key = await client.get(email);
-  if (Key == null || Key == undefined)
-    Key = await generateKeyAndstoreOtp(email);
+  if (key == null || key == undefined)
+    key = await generateKeyAndstoreOtp(email);
   try {
     await sendEmail({
       subject: `reducte email verification `,
       to: email,
-      text: `code verefication for your account is ${Key}`,
+      text: `code verefication for your account is ${key}`,
       html: OTP_EMAIL(key),
     });
     res.sendStatus(200);

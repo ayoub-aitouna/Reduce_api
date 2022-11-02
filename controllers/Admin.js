@@ -115,10 +115,10 @@ const Response_partner_form = async (req, res) => {
 
 const get_partners = (req, res) => {
   const { id } = req.user;
-  const { _role } = get_this_admin(id);
+  const { _role, ville } = get_this_admin(id);
 
-  const Query = _role
-    ? `select   partner.id,
+  const Filter = _role != "Admin" ? `where ville = ${ville}` : "";
+  const Query = `select   partner.id,
         avatar_Url,
         email,
         nome_entreprise,
@@ -133,25 +133,11 @@ const get_partners = (req, res) => {
         _status,
         ville_name,
         activity_name
-     from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id`
-    : `select   partner.id,
-          avatar_Url,
-            email,
-          nome_entreprise,
-          identificateur_entreprise,
-          representant_entreprise,
-          role_dans_entriprise,
-          numero_telephone,
-          numero_telephone_fix,
-          ville,
-          activity_entrprise,
-          offer,
-          _status,
-          ville_name,
-          activity_name
-     Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
-			  where admin_id = ${id} `;
+       from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+       ${Filter}
+       ORDER BY id DESC `;
   const partners = SqlQuery(Query);
+  console.trace(partners);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");
   res.send(partners.data.rows);
 };
@@ -160,8 +146,6 @@ const update_partner = async (req, res) => {};
 
 const get_admins = (req, res) => {
   const { id } = req.user;
-  console.log("get" + id);
-
   const { _role } = get_this_admin(id);
   const { ville, account_status } = req.body;
   if (_role != "Admin")

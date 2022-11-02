@@ -9,11 +9,7 @@ async function generateKeyAndstoreOtp(Email) {
   // generate randome 6 degit key
   let key = Math.floor(Math.random() * 90000) + 100000;
   // store in redis cash
-  client.set(Email, key, {
-    EX: 60 * 60 * 10,
-    NX: true,
-  });
-  // await client.set(, );
+  await client.set(Email, key);
   //return the stored key
   return key;
 }

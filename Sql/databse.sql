@@ -79,6 +79,7 @@ create table defaultdb.modify_history(
     partner_id int,
     admin_id int,
     created_date date NOT NULL,
+    PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES villes(id),
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );

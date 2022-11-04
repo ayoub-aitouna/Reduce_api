@@ -46,6 +46,7 @@ const anounsments = async (req, res) => {
     from task_announcement
       inner join villes on  task_announcement.ville = villes.id
        where ${filter}  task_status = 'Pending'
+       ORDER BY id DESC 
      `
   );
   console.log(task_announcement);
@@ -165,7 +166,8 @@ const done = async (req, res) => {
     `select task_done.id,task_done.partner_name  , task_done.partner_status, _Admin._name, villes.ville_name
         from  task_done
         inner join  _Admin on  task_done.manager_id =  _Admin.id
-        inner join  villes on  task_done.ville =  villes.id ${filter}`
+        inner join  villes on  task_done.ville =  villes.id ${filter}
+        ORDER BY id DESC `
   );
   if (!done_tasks.success) {
     console.trace(done_tasks.data.err);
@@ -189,7 +191,8 @@ const search = async (req, res) => {
   const task_announcement = SqlQuery(
     `select * from task_announcement
     inner join villes on  task_announcement.ville = villes.id
-       where task_status = 'Pending' ${filter} and ${base_filter}`
+       where task_status = 'Pending' ${filter} and ${base_filter}
+       ORDER BY id DESC `
   );
   if (!task_announcement.success) {
     console.log("\n\n\n\ntask_announcement Error");
@@ -200,7 +203,7 @@ const search = async (req, res) => {
   }
   //search on done tasks
   const done_tasks = SqlQuery(
-    `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id where ${base_filter} ${filter}`
+    `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id where ${base_filter} ${filter} ORDER BY id DESC `
   );
   if (!done_tasks.success) {
     console.log("\n\n\n\nDone Error");

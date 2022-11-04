@@ -1232,3 +1232,34 @@
 22:08:53 [[32minfo[39m] App Running on port => 5000
 22:08:53 [[32minfo[39m] SQL DB Connected
 22:08:53 [[32minfo[39m] connected to Redis!!
+00:12:08 [[31merror[39m] read ECONNRESET
+00:12:09 [[32minfo[39m] connected to Redis!!
+00:23:15 [[31merror[39m] read ECONNRESET
+00:23:16 [[32minfo[39m] connected to Redis!!
+03:31:32 [[31merror[39m] read ECONNRESET
+03:31:34 [[32minfo[39m] connected to Redis!!
+03:42:38 [[31merror[39m] read ECONNRESET
+03:42:38 [[32minfo[39m] connected to Redis!!
+18:26:40 [[31merror[39m] read ECONNRESET
+18:26:42 [[32minfo[39m] connected to Redis!!
+21:24:25 [[31merror[39m] read ECONNRESET
+21:24:27 [[32minfo[39m] connected to Redis!!
+22:00:58 [[31merror[39m] read ECONNRESET
+22:00:59 [[32minfo[39m] connected to Redis!!
+22:32:34 [[31merror[39m] read ECONNRESET
+22:32:35 [[32minfo[39m] connected to Redis!!
+00:22:46 [[31merror[39m] read ECONNRESET
+00:22:47 [[32minfo[39m] connected to Redis!!
+00:28:42 [[31merror[39m] read ECONNRESET
+00:28:59 [[32minfo[39m] connected to Redis!!
+00:35:45 [[31merror[39m] read ECONNRESET
+00:35:46 [[32minfo[39m] connected to Redis!!
+00:42:24 [[31merror[39m] read ECONNRESET
+00:42:24 [[32minfo[39m] connected to Redis!!
+00:49:11 [[31merror[39m] read ECONNRESET
+00:49:11 [[32minfo[39m] connected to Redis!!
+00:56:26 [[31merror[39m] read ECONNRESET
+00:56:27 [[32minfo[39m] connected to Redis!!
+01:02:51 [[32minfo[39m] App Running on port => 5000
+01:02:51 [[32minfo[39m] SQL DB Connected
+01:02:52 [[32minfo[39m] connected to Redis!!

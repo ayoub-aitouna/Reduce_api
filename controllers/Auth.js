@@ -8,6 +8,7 @@ const { GenrateAvaratByName } = require("../Utils/Avatar");
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
 const { sendEmail } = require("../Utils/Mailer");
+const { OTP_EMAIL } = require("../Utils/Templates");
 /**
  * @description check_if_partner_has_submited_form
  */
@@ -36,11 +37,6 @@ const partner_login = async (req, res) => {
     console.log(err);
   }
   let user = SqlQuery(`select * from partner where email = '${email}'`);
-  console.trace({
-    password: password,
-    email: email,
-    compair: await compare(password, user.data.rows[0]._password),
-  });
   if (!user.success) throw new BadRequestError("user not found");
   try {
     if (
@@ -112,7 +108,6 @@ const partner_Submit_form = async (req, res) => {
   try {
     // const url = await GenrateAvaratByName(nome_entreprise);
     const url = "";
-    // console.log(url);
     const submit = SqlQuery(`insert into partner(email,
       _password,
       avatar_Url,
@@ -155,19 +150,21 @@ const partner_Submit_form = async (req, res) => {
 const admin_login = async (req, res) => {
   const { email, password } = req.body;
   console.table([{ email, password }]);
-  const admin = Query(`select * from _Admin where email = '${email.toLowerCase()}'`);
+  const admin = Query(
+    `select * from _Admin where email = '${email.toLowerCase()}'`
+  );
   if (admin == undefined || admin.length == 0)
     return res.status(404).send({ err: "email is not correct" });
   const is_Authed = await compare(password, admin[0]._password);
-
   if (!is_Authed)
     return res.status(404).send({ err: "password is not correct" });
 
   const accesToken = jwt.sign(admin[0], process.env.ACCESS_TOKEN_SECRET);
   const RefreshToken = jwt.sign(admin[0], process.env.REFRESH_TOKEN_SECRET);
-  const { _role, account_status } = admin[0];
+  const { _role, account_status, _name } = admin[0];
   res.status(200).send({
     role: _role,
+    _name: _name,
     account_status: account_status,
     accesToken: accesToken,
     RefreshToken: RefreshToken,
@@ -176,14 +173,16 @@ const admin_login = async (req, res) => {
 
 const ResendOTP = async (req, res) => {
   const { email } = req.body;
-  const Key = await client.get(email);
-  if (Key == null || Key == undefined)
-    Key = await generateKeyAndstoreOtp(email);
+  let key = "";
+  key = await client.get(email);
+  if (key == null || key == undefined)
+    key = await generateKeyAndstoreOtp(email);
   try {
     await sendEmail({
       subject: `reducte email verification `,
       to: email,
-      text: `code verefication for your account is ${Key}`,
+      text: `code verefication for your account is ${key}`,
+      html: OTP_EMAIL(key),
     });
     res.sendStatus(200);
   } catch (err) {

@@ -28,7 +28,6 @@ const AddVille = async (req, res) => {
 };
 const Villes = async (req, res) => {
   const villes = SqlQuery(`select * from villes`);
-  console.log(villes);
   if (!villes.success)
     return res.status(500).json({
       err: villes.data.err,

@@ -13,7 +13,6 @@ const Generate_contract_Pdf = async (partner_data) => {
           rej({ msg: err });
         } else {
           const { url, message } = await UploadFile(path);
-          console.trace({ url, message });
           res(url);
         }
       });

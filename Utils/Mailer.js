@@ -3,7 +3,6 @@ require("dotenv");
 const Log = require("../log");
 const { EmailTemplate } = require("./Templates.js");
 const SendMail_to_partner = ({ subject, to, text }, PartnerData) => {
-  console.trace({ subject, to, text });
   return new Promise((res, rej) => {
     var transporter = nodemailer.createTransport({
       host: process.env.MAILER_HOST,
@@ -33,7 +32,7 @@ const SendMail_to_partner = ({ subject, to, text }, PartnerData) => {
     });
   });
 };
-const sendEmail = ({ subject, to, text }) => {
+const sendEmail = ({ subject, to, text, html }) => {
   return new Promise((res, rej) => {
     var transporter = nodemailer.createTransport({
       host: process.env.MAILER_HOST,
@@ -50,6 +49,7 @@ const sendEmail = ({ subject, to, text }) => {
       to: to,
       subject: subject,
       text: text,
+      html: html,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

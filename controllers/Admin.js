@@ -13,10 +13,8 @@ const add_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
   const { email, ville, _password, _role, _name } = req.body;
-  console.trace({ email, ville, _password, _role, _name });
 
   if (this_role != "Admin") {
-    console.log("no permi");
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
@@ -39,8 +37,6 @@ const add_admin = async (req, res) => {
 		CURDATE()
 	)`);
   if (!added_admin.success) {
-    console.log("error");
-    console.log(added_admin);
     return res.status(500).send({
       err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
     });
@@ -74,7 +70,6 @@ const remove_admin = (req, res) => {
 const Response_partner_form = async (req, res) => {
   //pulled sdsd
   const { partner_id, response } = req.body;
-  console.trace({ partner_id, response });
   const { id: admin_id } = req.user;
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
@@ -96,7 +91,6 @@ const Response_partner_form = async (req, res) => {
   if (!admin_partner.success)
     throw new BadRequestError(admin_partner.data.err.sqlMessage);
   const email = partner_data.email;
-  console.log(email);
   const text = `you have been ${response}`;
   try {
     const send_info = SendMail_to_partner(
@@ -115,10 +109,10 @@ const Response_partner_form = async (req, res) => {
 
 const get_partners = (req, res) => {
   const { id } = req.user;
-  const { _role } = get_this_admin(id);
+  const { _role, ville } = get_this_admin(id);
 
-  const Query = _role
-    ? `select   partner.id,
+  const Filter = _role != "Admin" ? `where ville = ${ville}` : "";
+  const Query = `select   partner.id,
         avatar_Url,
         email,
         nome_entreprise,
@@ -133,35 +127,60 @@ const get_partners = (req, res) => {
         _status,
         ville_name,
         activity_name
-     from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id`
-    : `select   partner.id,
-          avatar_Url,
-            email,
-          nome_entreprise,
-          identificateur_entreprise,
-          representant_entreprise,
-          role_dans_entriprise,
-          numero_telephone,
-          numero_telephone_fix,
-          ville,
-          activity_entrprise,
-          offer,
-          _status,
-          ville_name,
-          activity_name
-     Admins_partners inner join partner on partner.id = Admins_partners.id  inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
-			  where admin_id = ${id} `;
+       from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+       ${Filter}
+       ORDER BY id DESC `;
   const partners = SqlQuery(Query);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");
   res.send(partners.data.rows);
 };
 
-const update_partner = async (req, res) => {};
+const update_partner = async (req, res) => {
+  const { id: admin_id } = req.user;
+  const {
+    id,
+    email,
+    nome_entreprise,
+    identificateur_entreprise,
+    representant_entreprise,
+    role_dans_entriprise,
+    numero_telephone,
+    numero_telephone_fix,
+    ville,
+    adrress,
+    activity_entrprise,
+    offer,
+  } = req.body;
+  try {
+    const submit = SqlQuery(`update partner set email = '${email}',
+      nome_entreprise = 	'${nome_entreprise}',
+      identificateur_entreprise = 	'${identificateur_entreprise}',
+      representant_entreprise = '${representant_entreprise}',
+      role_dans_entriprise = 	'${role_dans_entriprise}',
+      numero_telephone = 		'${numero_telephone}',
+      numero_telephone_fix = 	'${numero_telephone_fix}',
+      ville = 	'${ville}',
+      activity_entrprise = 	'${activity_entrprise}',
+      offer = 	'${offer}',
+      adrress =  '${adrress}'`);
+
+    if (!submit.success)
+      return res.status(500).json({
+        err: `Could not submit the form ${submit.data.err.sqlMessage}`,
+      });
+    const add_history = `insert into defaultdb.modify_history(partner_id, admin_id, created_date) values(${id}, ${admin_id}, CURDATE());`;
+    if (!add_history.success)
+      return res.status(500).json({
+        err: `Could not submit the form ${add_history.data.err.sqlMessage}`,
+      });
+    return res.sendStatus(200);
+  } catch (err) {
+    throw new BadRequestError(err);
+  }
+};
 
 const get_admins = (req, res) => {
   const { id } = req.user;
-  console.log("get" + id);
-
   const { _role } = get_this_admin(id);
   const { ville, account_status } = req.body;
   if (_role != "Admin")
@@ -184,7 +203,21 @@ const get_admins = (req, res) => {
   res.status(200).send(admins.data.rows);
 };
 
-const get_modify = async (req, res) => {};
+const get_modify_history = async (req, res) => {
+  const { id } = req.user;
+  const { _role, ville } = get_this_admin(id);
+
+  const Filter = _role != "Admin" ? `where partner.ville = ${ville}` : "";
+  const Query = `select  _Admin._name , partner.nome_entreprise, modify_history.created_date
+                  from modify_history
+                  inner join  partner on  modify_history.partner_id =  partner.id
+                  inner join _Admin on modify_history.admin_id =  _Admin.id
+                  ${Filter}
+                  ORDER BY modify_history.id DESC `;
+  const History = SqlQuery(Query);
+  if (!History.success) throw new BadRequestError("Some thing went Wrong");
+  res.send(History.data.rows);
+};
 
 module.exports = {
   add_admin,
@@ -193,4 +226,5 @@ module.exports = {
   get_partners,
   get_admins,
   update_partner,
+  get_modify_history,
 };

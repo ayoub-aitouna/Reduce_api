@@ -56,7 +56,7 @@ create table defaultdb.task_done(
     ville int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(manager_id) REFERENCES _Admin(id),
+    FOREIGN KEY(manager_id) REFERENCES partner(id),
     FOREIGN KEY(ville) REFERENCES villes(id)
 
 );
@@ -72,6 +72,15 @@ create table defaultdb._Admin(
     created_date date NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id)
+);
+
+create table defaultdb.modify_history(
+    id int NOT NULL AUTO_INCREMENT,
+    partner_id int,
+    admin_id int,
+    created_date date NOT NULL,
+    FOREIGN KEY(partner_id) REFERENCES villes(id),
+    FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
 -- abcdef.123456@@

@@ -142,7 +142,49 @@ const get_partners = (req, res) => {
   res.send(partners.data.rows);
 };
 
-const update_partner = async (req, res) => {};
+const update_partner = async (req, res) => {
+  const { id: admin_id } = req.user;
+  const {
+    id,
+    email,
+    nome_entreprise,
+    identificateur_entreprise,
+    representant_entreprise,
+    role_dans_entriprise,
+    numero_telephone,
+    numero_telephone_fix,
+    ville,
+    adrress,
+    activity_entrprise,
+    offer,
+  } = req.body;
+  try {
+    const submit = SqlQuery(`update partner set email = '${email}',
+      nome_entreprise = 	'${nome_entreprise}',
+      identificateur_entreprise = 	'${identificateur_entreprise}',
+      representant_entreprise = '${representant_entreprise}',
+      role_dans_entriprise = 	'${role_dans_entriprise}',
+      numero_telephone = 		'${numero_telephone}',
+      numero_telephone_fix = 	'${numero_telephone_fix}',
+      ville = 	'${ville}',
+      activity_entrprise = 	'${activity_entrprise}',
+      offer = 	'${offer}',
+      adrress =  '${adrress}'`);
+
+    if (!submit.success)
+      return res.status(500).json({
+        err: `Could not submit the form ${submit.data.err.sqlMessage}`,
+      });
+    const add_history = `insert into defaultdb.modify_history(partner_id, admin_id, created_date) values(${id}, ${admin_id}, CURDATE());`;
+    if (!add_history.success)
+      return res.status(500).json({
+        err: `Could not submit the form ${add_history.data.err.sqlMessage}`,
+      });
+    return res.sendStatus(200);
+  } catch (err) {
+    throw new BadRequestError(err);
+  }
+};
 
 const get_admins = (req, res) => {
   const { id } = req.user;
@@ -168,7 +210,22 @@ const get_admins = (req, res) => {
   res.status(200).send(admins.data.rows);
 };
 
-const get_modify = async (req, res) => {};
+const get_modify_history = async (req, res) => {
+  const { id } = req.user;
+  const { _role, ville } = get_this_admin(id);
+
+  const Filter = _role != "Admin" ? `where partner.ville = ${ville}` : "";
+  const Query = `select  _Admin._name , partner.nome_entreprise, modify_history.created_date
+                  from modify_history
+                  inner join  partner on  modify_history.partner_id =  partner.id
+                  inner join _Admin on modify_history.admin_id =  _Admin.id;
+                  ${Filter}
+                  ORDER BY id DESC `;
+  const History = SqlQuery(Query);
+  console.trace(History);
+  if (!History.success) throw new BadRequestError("Some thing went Wrong");
+  res.send(History.data.rows);
+};
 
 module.exports = {
   add_admin,
@@ -177,4 +234,5 @@ module.exports = {
   get_partners,
   get_admins,
   update_partner,
+  get_modify_history,
 };

@@ -30,6 +30,7 @@ create table defaultdb.villes(
     PRIMARY KEY (id)
 );
 
+
 create table defaultdb.entrprise_activities(
     id int NOT NULL AUTO_INCREMENT,
     activity_name text,
@@ -83,6 +84,7 @@ create table defaultdb.modify_history(
     FOREIGN KEY(partner_id) REFERENCES villes(id),
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
+
 
 -- abcdef.123456@@
 insert into  defaultdb._Admin(email,ville,_name,_password,_role,account_status, created_date)

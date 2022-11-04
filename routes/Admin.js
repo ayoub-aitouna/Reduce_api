@@ -14,5 +14,5 @@ router.post("/Remove_admin", remove_admin);
 router.get("/", get_admins);
 router.get("/get_partners", get_partners);
 router.post("/Response_partner_form", Response_partner_form);
-router.post("/get_modify_history", get_modify_history);
+router.get("/get_modify_history", get_modify_history);
 module.exports = router;

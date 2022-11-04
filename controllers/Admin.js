@@ -13,10 +13,8 @@ const add_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
   const { email, ville, _password, _role, _name } = req.body;
-  console.trace({ email, ville, _password, _role, _name });
 
   if (this_role != "Admin") {
-    console.log("no permi");
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
@@ -39,8 +37,6 @@ const add_admin = async (req, res) => {
 		CURDATE()
 	)`);
   if (!added_admin.success) {
-    console.log("error");
-    console.log(added_admin);
     return res.status(500).send({
       err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
     });
@@ -74,7 +70,6 @@ const remove_admin = (req, res) => {
 const Response_partner_form = async (req, res) => {
   //pulled sdsd
   const { partner_id, response } = req.body;
-  console.trace({ partner_id, response });
   const { id: admin_id } = req.user;
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
@@ -96,7 +91,6 @@ const Response_partner_form = async (req, res) => {
   if (!admin_partner.success)
     throw new BadRequestError(admin_partner.data.err.sqlMessage);
   const email = partner_data.email;
-  console.log(email);
   const text = `you have been ${response}`;
   try {
     const send_info = SendMail_to_partner(
@@ -137,7 +131,6 @@ const get_partners = (req, res) => {
        ${Filter}
        ORDER BY id DESC `;
   const partners = SqlQuery(Query);
-  console.trace(partners);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");
   res.send(partners.data.rows);
 };
@@ -218,11 +211,10 @@ const get_modify_history = async (req, res) => {
   const Query = `select  _Admin._name , partner.nome_entreprise, modify_history.created_date
                   from modify_history
                   inner join  partner on  modify_history.partner_id =  partner.id
-                  inner join _Admin on modify_history.admin_id =  _Admin.id;
+                  inner join _Admin on modify_history.admin_id =  _Admin.id
                   ${Filter}
-                  ORDER BY id DESC `;
+                  ORDER BY modify_history.id DESC `;
   const History = SqlQuery(Query);
-  console.trace(History);
   if (!History.success) throw new BadRequestError("Some thing went Wrong");
   res.send(History.data.rows);
 };

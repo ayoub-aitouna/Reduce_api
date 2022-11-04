@@ -28,7 +28,6 @@ const AddActivity = async (req, res) => {
 };
 const Activities = async (req, res) => {
   const entrprise_activities = SqlQuery(`select * from entrprise_activities`);
-  console.log(entrprise_activities);
   if (!entrprise_activities.success)
     return res.status(500).json({
       err: entrprise_activities.data.err,

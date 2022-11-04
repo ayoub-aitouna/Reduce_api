@@ -16,7 +16,6 @@ async function GenrateAvaratByName(name) {
         AvatarGenerator.writeAvatar(avatar, `./public${path}`)
           .then(async () => {
             const { url, message } = await UploadFile(path);
-            console.trace({ url, message });
             resolve(url);
           })
           .catch((err) => {

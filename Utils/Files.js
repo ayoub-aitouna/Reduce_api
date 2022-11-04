@@ -59,7 +59,6 @@ const UploadBuffer = async (Buffer) => {
 
       file.save(Buffer, (err) => {
         if (!err) {
-          console.log("cool");
         } else {
           return rej({
             message: `Error ${err}`,

@@ -37,11 +37,6 @@ const partner_login = async (req, res) => {
     console.log(err);
   }
   let user = SqlQuery(`select * from partner where email = '${email}'`);
-  console.trace({
-    password: password,
-    email: email,
-    compair: await compare(password, user.data.rows[0]._password),
-  });
   if (!user.success) throw new BadRequestError("user not found");
   try {
     if (
@@ -113,7 +108,6 @@ const partner_Submit_form = async (req, res) => {
   try {
     // const url = await GenrateAvaratByName(nome_entreprise);
     const url = "";
-    // console.log(url);
     const submit = SqlQuery(`insert into partner(email,
       _password,
       avatar_Url,

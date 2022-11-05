@@ -30,7 +30,6 @@ create table defaultdb.villes(
     PRIMARY KEY (id)
 );
 
-
 create table defaultdb.entrprise_activities(
     id int NOT NULL AUTO_INCREMENT,
     activity_name text,
@@ -81,16 +80,16 @@ create table defaultdb.modify_history(
     admin_id int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(partner_id) REFERENCES villes(id),
+    FOREIGN KEY(partner_id) REFERENCES partner(id),
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
-
+select * from defaultdb.modify_history;
 -- abcdef.123456@@
 insert into  defaultdb._Admin(email,ville,_name,_password,_role,account_status, created_date)
 values('reducte.cloud@gmail.com',1,'SUPER_ADMIN','$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG','Admin','Active',CURDATE());
 
-ßcreate table defaultdb.Admins_partners(
+create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,
@@ -99,4 +98,3 @@ values('reducte.cloud@gmail.com',1,'SUPER_ADMIN','$2a$10$nPh0FRYpxalCb5UT9/Zim.C
     FOREIGN KEY(admin_id) REFERENCES defaultdb._Admin(id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
-

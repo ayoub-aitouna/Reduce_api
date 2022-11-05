@@ -137,6 +137,8 @@ const get_partners = (req, res) => {
 
 const update_partner = async (req, res) => {
   const { id: admin_id } = req.user;
+  console.log("Called" + admin_id);
+
   const {
     id,
     email,
@@ -162,13 +164,16 @@ const update_partner = async (req, res) => {
       ville = 	'${ville}',
       activity_entrprise = 	'${activity_entrprise}',
       offer = 	'${offer}',
-      adrress =  '${adrress}'`);
+      adrress =  '${adrress}' where partner.id = ${id}`);
 
     if (!submit.success)
       return res.status(500).json({
         err: `Could not submit the form ${submit.data.err.sqlMessage}`,
       });
-    const add_history = `insert into defaultdb.modify_history(partner_id, admin_id, created_date) values(${id}, ${admin_id}, CURDATE());`;
+    const add_history_Qeury = `insert into modify_history(partner_id, admin_id, created_date)
+                              values(${id}, ${admin_id}, CURDATE());`;
+    const add_history = SqlQuery(add_history_Qeury);
+    console.trace(add_history);
     if (!add_history.success)
       return res.status(500).json({
         err: `Could not submit the form ${add_history.data.err.sqlMessage}`,
@@ -182,17 +187,13 @@ const update_partner = async (req, res) => {
 const get_admins = (req, res) => {
   const { id } = req.user;
   const { _role } = get_this_admin(id);
-  const { ville, account_status } = req.body;
   if (_role != "Admin")
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
-  let Sql_Query_Filter = "";
-  Sql_Query_Filter += ville != -1 ? `ville == '${ville}'` : "";
-  Sql_Query_Filter +=
-    account_status != "" ? `account_status == '${account_status}' ` : "";
+
   let SQL_QUERY =
-    "select * from _Admin  inner join villes on _Admin.ville = villes.id";
+    "select * from _Admin  inner join villes on _Admin.ville = villes.id   ORDER BY _Admin.id DESC ";
   // SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
   const admins = SqlQuery(SQL_QUERY);
   if (!admins.success)
@@ -208,6 +209,7 @@ const get_modify_history = async (req, res) => {
   const { _role, ville } = get_this_admin(id);
 
   const Filter = _role != "Admin" ? `where partner.ville = ${ville}` : "";
+
   const Query = `select  _Admin._name , partner.nome_entreprise, modify_history.created_date
                   from modify_history
                   inner join  partner on  modify_history.partner_id =  partner.id

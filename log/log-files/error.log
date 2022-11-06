@@ -147,3 +147,4 @@
 04:51:34 [[31merror[39m] read ECONNRESET
 05:02:31 [[31merror[39m] read ECONNRESET
 05:26:46 [[31merror[39m] read ECONNRESET
+05:59:19 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT

@@ -23,6 +23,20 @@ create table defaultdb.partner(
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
 
+UPDATE
+    defaultdb.partner
+set
+    email = "aitounaayoub05@gmail.com"
+WHERE
+    id = 34;
+
+SELECT
+    *
+FROM
+    defaultdb.partner
+WHERE
+    id = 34;
+
 create table defaultdb.villes(
     id int NOT NULL AUTO_INCREMENT,
     ville_name text,
@@ -40,7 +54,7 @@ create table defaultdb.entrprise_activities(
 create table defaultdb.task_announcement(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
-    task_status ENUM('Done','Pending'),
+    task_status ENUM('Done', 'Pending'),
     ville int,
     adrress text,
     created_date date NOT NULL,
@@ -51,14 +65,13 @@ create table defaultdb.task_announcement(
 create table defaultdb.task_done(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
-    partner_status ENUM('not_intrested','intrested','thinking'),
+    partner_status ENUM('not_intrested', 'intrested', 'thinking'),
     manager_id int,
     ville int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(manager_id) REFERENCES partner(id),
     FOREIGN KEY(ville) REFERENCES villes(id)
-
 );
 
 create table defaultdb._Admin(
@@ -84,10 +97,32 @@ create table defaultdb.modify_history(
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
-select * from defaultdb.modify_history;
+select
+    *
+from
+    defaultdb.modify_history;
+
 -- abcdef.123456@@
-insert into  defaultdb._Admin(email,ville,_name,_password,_role,account_status, created_date)
-values('reducte.cloud@gmail.com',1,'SUPER_ADMIN','$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG','Admin','Active',CURDATE());
+insert into
+    defaultdb._Admin(
+        email,
+        ville,
+        _name,
+        _password,
+        _role,
+        account_status,
+        created_date
+    )
+values
+    (
+        'reducte.cloud@gmail.com',
+        1,
+        'SUPER_ADMIN',
+        '$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG',
+        'Admin',
+        'Active',
+        CURDATE()
+    );
 
 create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,

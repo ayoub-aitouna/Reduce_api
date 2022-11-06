@@ -107,4 +107,31 @@ const UploadBuffer = async (Buffer) => {
     }
   });
 };
-module.exports = { UploadFile, UploadBuffer };
+
+
+const UPLOAD=(path)=>{
+  return new Promise((res,rej)=>{
+    var destFilename = "./PDF";
+    var bucketName = bucket.name;
+    var srcFilename = `${path}`;
+
+      const options = {
+        destination: destFilename,
+      };
+    storage.bucket(bucketName).upload(srcFilename, {},async (err, file) => {
+            if(!err){
+            try {
+              await bucket.file(srcFilename).makePublic();
+              res(`https://storage.googleapis.com/${bucket.name}/${srcFilename}`);
+            } catch(error) {
+             rej(error);
+           }
+          }else
+            rej(err);
+        });
+
+  })
+      
+}
+
+module.exports = { UploadFile, UploadBuffer,UPLOAD };

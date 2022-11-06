@@ -1,5 +1,5 @@
 const pdf = require("html-pdf");
-const { UploadFile, UploadBuffer } = require("../Utils/Files");
+const { UploadFile, UploadBuffer,UPLOAD } = require("../Utils/Files");
 
 const { Pdf_contract_template } = require("./Templates.js");
 const Generate_contract_Pdf = async (partner_data) => {
@@ -12,7 +12,8 @@ const Generate_contract_Pdf = async (partner_data) => {
           console.log(err);
           rej({ msg: err });
         } else {
-          const { url, message } = await UploadFile(path);
+          const  url = await UPLOAD(`${path}`);
+          console.log(url);
           res(url);
         }
       });

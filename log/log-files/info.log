@@ -1397,3 +1397,68 @@
 00:28:21 [[32minfo[39m] App Running on port => 5000
 00:28:21 [[32minfo[39m] SQL DB Connected
 00:28:21 [[32minfo[39m] connected to Redis!!
+05:29:56 [[32minfo[39m] App Running on port => 5000
+05:29:56 [[32minfo[39m] SQL DB Connected
+05:29:56 [[32minfo[39m] connected to Redis!!
+05:31:37 [[32minfo[39m] Email sent: 250 rXJnoACXpYC8H mail accepted for delivery
+05:34:42 [[32minfo[39m] App Running on port => 5000
+05:34:42 [[32minfo[39m] SQL DB Connected
+05:34:42 [[32minfo[39m] connected to Redis!!
+05:35:41 [[32minfo[39m] App Running on port => 5000
+05:35:41 [[32minfo[39m] SQL DB Connected
+05:35:41 [[32minfo[39m] connected to Redis!!
+05:35:50 [[32minfo[39m] Email sent: 250 rXNsoRRF5Z043 mail accepted for delivery
+05:36:31 [[32minfo[39m] App Running on port => 5000
+05:36:32 [[32minfo[39m] SQL DB Connected
+05:36:32 [[32minfo[39m] connected to Redis!!
+05:36:41 [[32minfo[39m] Email sent: 250 rXOhopAw3OmEN mail accepted for delivery
+05:39:37 [[32minfo[39m] App Running on port => 5000
+05:39:37 [[32minfo[39m] SQL DB Connected
+05:39:37 [[32minfo[39m] connected to Redis!!
+05:40:34 [[32minfo[39m] App Running on port => 5000
+05:40:34 [[32minfo[39m] SQL DB Connected
+05:40:34 [[32minfo[39m] connected to Redis!!
+05:46:21 [[32minfo[39m] App Running on port => 5000
+05:46:22 [[32minfo[39m] SQL DB Connected
+05:46:23 [[32minfo[39m] connected to Redis!!
+05:48:32 [[32minfo[39m] App Running on port => 5000
+05:48:32 [[32minfo[39m] SQL DB Connected
+05:48:32 [[32minfo[39m] connected to Redis!!
+05:49:17 [[32minfo[39m] App Running on port => 5000
+05:49:17 [[32minfo[39m] SQL DB Connected
+05:49:17 [[32minfo[39m] connected to Redis!!
+05:49:25 [[32minfo[39m] App Running on port => 5000
+05:49:25 [[32minfo[39m] SQL DB Connected
+05:49:26 [[32minfo[39m] connected to Redis!!
+05:50:15 [[32minfo[39m] App Running on port => 5000
+05:50:15 [[32minfo[39m] SQL DB Connected
+05:50:15 [[32minfo[39m] connected to Redis!!
+05:50:50 [[32minfo[39m] App Running on port => 5000
+05:50:50 [[32minfo[39m] SQL DB Connected
+05:50:50 [[32minfo[39m] connected to Redis!!
+05:51:16 [[32minfo[39m] App Running on port => 5000
+05:51:17 [[32minfo[39m] SQL DB Connected
+05:51:17 [[32minfo[39m] connected to Redis!!
+05:51:25 [[32minfo[39m] Email sent: 250 rXcxoOCAwu2xC mail accepted for delivery
+05:56:03 [[32minfo[39m] Email sent: 250 rXhRo6bzYulVL mail accepted for delivery
+05:58:27 [[32minfo[39m] Email sent: 250 rXjZo6rEsyVlE mail accepted for delivery
+05:59:10 [[32minfo[39m] App Running on port => 5000
+05:59:11 [[32minfo[39m] connected to Redis!!
+05:59:19 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT
+05:59:29 [[32minfo[39m] App Running on port => 5000
+05:59:30 [[32minfo[39m] connected to Redis!!
+05:59:30 [[32minfo[39m] SQL DB Connected
+06:01:02 [[32minfo[39m] App Running on port => 5000
+06:01:03 [[32minfo[39m] connected to Redis!!
+06:01:04 [[32minfo[39m] SQL DB Connected
+06:02:15 [[32minfo[39m] Email sent: 250 rXnOoAKGdTl9L mail accepted for delivery
+06:10:51 [[32minfo[39m] App Running on port => 5000
+06:10:52 [[32minfo[39m] connected to Redis!!
+06:10:53 [[32minfo[39m] SQL DB Connected
+06:12:04 [[32minfo[39m] App Running on port => 5000
+06:12:06 [[32minfo[39m] connected to Redis!!
+06:12:10 [[32minfo[39m] SQL DB Connected
+06:12:49 [[32minfo[39m] App Running on port => 5000
+06:12:51 [[32minfo[39m] connected to Redis!!
+06:12:51 [[32minfo[39m] SQL DB Connected
+06:14:11 [[32minfo[39m] Email sent: 250 rXyloNtx9ciQ3 mail accepted for delivery

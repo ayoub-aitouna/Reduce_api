@@ -646,7 +646,7 @@ const Pdf_contract_template = (partner_data) => {
                 text-align: left;
               "
             >
-              <a href="mailto:youssef@koop.ma" class="s4">youssef@koop.ma</a>
+              <a href="mailto:${partner_data.email}" class="s4">${partner_data.email}</a>
             </p>
           </td>
           <td
@@ -724,7 +724,7 @@ const Pdf_contract_template = (partner_data) => {
                 text-align: left;
               "
             >
-              Av dakhla massira 1c. N527 Marrakech
+              ${partner_data.adrress}
             </p>
           </td>
           <td
@@ -801,7 +801,7 @@ const Pdf_contract_template = (partner_data) => {
                 text-align: left;
               "
             >
-              MARRAKECH
+              ${partner_data.ville}
             </p>
           </td>
           <td
@@ -878,7 +878,7 @@ const Pdf_contract_template = (partner_data) => {
                 text-align: left;
               "
             >
-              -10%
+             ${partner_data.offer}
             </p>
           </td>
           <td

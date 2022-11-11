@@ -71,7 +71,8 @@ const sendVeriifyOtp = async (req, res) => {
     await sendEmail({
       subject: `reducte email verification `,
       to: email,
-      text: `code verefication for your account is ${Key}`,
+      text: ``,
+      html: OTP_EMAIL(Key),
     });
     res.sendStatus(200);
   } catch (err) {
@@ -181,7 +182,7 @@ const ResendOTP = async (req, res) => {
     await sendEmail({
       subject: `reducte email verification `,
       to: email,
-      text: `code verefication for your account is ${key}`,
+      text: ``,
       html: OTP_EMAIL(key),
     });
     res.sendStatus(200);

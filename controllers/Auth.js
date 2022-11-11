@@ -69,7 +69,7 @@ const sendVeriifyOtp = async (req, res) => {
   const Key = await generateKeyAndstoreOtp(email);
   try {
     await sendEmail({
-      subject: `reducte email verification `,
+      subject: `Le code de vérification`,
       to: email,
       text: ``,
       html: OTP_EMAIL(Key),
@@ -180,7 +180,7 @@ const ResendOTP = async (req, res) => {
     key = await generateKeyAndstoreOtp(email);
   try {
     await sendEmail({
-      subject: `reducte email verification `,
+      subject: `Le code de vérification`,
       to: email,
       text: ``,
       html: OTP_EMAIL(key),

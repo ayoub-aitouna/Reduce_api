@@ -83,17 +83,9 @@ const set_task_done = async (req, res) => {
     partner_full_name: full_name,
     phone_number,
     note,
+    adrress,
     data_of_visite: visite_date,
   } = req.body;
-  console.trace({
-    id: taskid,
-    partner_name,
-    partner_status,
-    full_name,
-    phone_number,
-    note,
-    visite_date,
-  });
   const { id: manager_id } = req.user;
   const { ville } = get_this_admin(manager_id);
   const add_done = SqlQuery(
@@ -104,6 +96,7 @@ const set_task_done = async (req, res) => {
                             partner_status,
                             manager_id ,
                             ville,
+                            adrress,
                             data_of_visite,
                             created_date)
                     values('${partner_name}',
@@ -113,6 +106,7 @@ const set_task_done = async (req, res) => {
                             '${partner_status}',
                              ${manager_id},
                              ${ville},
+                            '${adrress}',
                             '${visite_date}',
                              CURDATE())`
   );
@@ -148,6 +142,7 @@ const add_done = async (req, res) => {
   } = req.body;
   const { id: manager_id } = req.user;
   const { _role: this_role, ville } = get_this_admin(manager_id);
+
   const add_done = SqlQuery(
     `insert into task_done (partner_name ,
                             partner_full_name,
@@ -156,8 +151,8 @@ const add_done = async (req, res) => {
                             partner_status,
                             manager_id ,
                             ville,
-                            adrress,
                             data_of_visite,
+                            adrress,
                             created_date)
                     values('${partner_name}',
                             '${full_name}',
@@ -166,8 +161,8 @@ const add_done = async (req, res) => {
                             '${partner_status}',
                              ${manager_id},
                              ${ville},
-                             ${adrress},
-                            '${visite_date}'
+                             '${visite_date}',
+                            '${adrress}',
                              CURDATE())`
   );
   if (!add_done.success) {
@@ -184,7 +179,7 @@ const add_done = async (req, res) => {
 //done edite
 const edite_done = async (req, res) => {
   const {
-    id: taskid,
+    id,
     partner_name,
     partner_status,
     partner_full_name: full_name,
@@ -200,7 +195,7 @@ const edite_done = async (req, res) => {
      phone_number = '${phone_number}' ,
      partner_full_name = '${full_name}',
      adrress = '${adrress}',
-     data_of_visite = '${visite_date}',
+     data_of_visite = '${visite_date}'
      where id = ${id}`
   );
   if (!add_done.success) {
@@ -228,16 +223,16 @@ const done = async (req, res) => {
       ? ` where task_done.manager_id = ${admin_id} and villes.id = ${admin_ville}`
       : "";
   const done_tasks = SqlQuery(
-    `select task_done.id,task_done.partner_name,
-       task_done.partner_status, task_done.partner_full_name, 
+    `select task_done.id,task_done.partner_name, task_done.ville,
+       task_done.partner_status, task_done.partner_full_name,
        task_done.phone_number,task_done.note, task_done.adrress,
-       task_done.data_of_visite, _Admin._name, villes.ville_name
-        from  task_done
-        inner join  _Admin on  task_done.manager_id =  _Admin.id
-        inner join  villes on  task_done.ville =  villes.id ${filter}
-        ORDER BY task_done.id DESC `
+       task_done.data_of_visite, _Admin._name, villes.ville_name,
+       task_done.adrress
+       from  task_done
+       inner join  _Admin on  task_done.manager_id =  _Admin.id
+       inner join  villes on  task_done.ville =  villes.id ${filter}
+       ORDER BY task_done.id DESC `
   );
-  console.trace(done_tasks.data.rows);
   if (!done_tasks.success) {
     console.trace(done_tasks.data.err);
     return res.status(500).json({
@@ -259,16 +254,19 @@ const search = async (req, res) => {
     `select * from task_announcement
     inner join villes on  task_announcement.ville = villes.id
        where task_status = 'Pending' ${filter} and ${base_filter}
-       ORDER BY id DESC `
+       ORDER BY task_announcement.id DESC `
   );
   if (!task_announcement.success) {
+    console.log(task_announcement.data.err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
   }
   //search on done tasks
   const done_tasks = SqlQuery(
-    `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id where ${base_filter} ${filter} ORDER BY id DESC `
+    `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id 
+     inner join villes on  task_done.ville = villes.id
+      where ${base_filter} ${filter} ORDER BY task_done.id DESC `
   );
   if (!done_tasks.success) {
     console.log(done_tasks.data.err);
@@ -277,7 +275,7 @@ const search = async (req, res) => {
     });
   }
   const result = task_announcement.data.rows.concat(done_tasks.data.rows);
-
+  console.trace(result);
   res.status(200).json(result);
 };
 

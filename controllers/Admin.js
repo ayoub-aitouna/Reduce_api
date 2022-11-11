@@ -138,8 +138,6 @@ const get_partners = (req, res) => {
 
 const update_partner = async (req, res) => {
   const { id: admin_id } = req.user;
-  console.log("Called" + admin_id);
-
   const {
     id,
     email,

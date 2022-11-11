@@ -54,9 +54,13 @@ create table defaultdb.entrprise_activities(
 create table defaultdb.task_announcement(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
+    partner_full_name text,
+    phone_number text,
+    note text,
     task_status ENUM('Done', 'Pending'),
     ville int,
     adrress text,
+    data_of_visite date NOT NULL,
     created_date date NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id)
@@ -65,6 +69,9 @@ create table defaultdb.task_announcement(
 create table defaultdb.task_done(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
+    partner_full_name text,
+    phone_number text,
+    note text,
     partner_status ENUM('not_intrested', 'intrested', 'thinking'),
     manager_id int,
     ville int,
@@ -122,7 +129,7 @@ values
         'Admin',
         'Active',
         CURDATE()
-    );
+);
 
 create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,

@@ -6,18 +6,32 @@ const UnauthenticatedError = require("../errors/unauthenticated.js");
 const { get_this_admin } = require("../Utils/Utils.js");
 
 const add_anounsment = async (req, res) => {
-  const { partner_name, partner_address, ville } = req.body;
+  const {
+    partner_name,
+    partner_address,
+    ville,
+    full_name,
+    phone_number,
+    note,
+    visite_date,
+  } = req.body;
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
   if (this_role != "Admin")
     throw new UnauthenticatedError("you dont have permission");
   const added_task_announcement = SqlQuery(`insert into task_announcement(
       partner_name ,
+      partner_full_name ,
+      phone_number ,
+      note ,
       task_status ,
       ville, 
       adrress ,
+      data_of_visite ,
       created_date
-  )values ('${partner_name}','Pending','${ville}','${partner_address}',CURDATE());
+  )values ('${partner_name}','${full_name}',
+            '${phone_number}','${note}','Pending','${ville}','${partner_address}'
+              ,'${visite_date}',CURDATE());
   `);
   if (!added_task_announcement.success)
     return res.status(500).json({
@@ -35,21 +49,25 @@ const anounsments = async (req, res) => {
 
   let filter = this_role != "Admin" ? `ville = ${admin_ville} and` : "";
   const task_announcement = SqlQuery(
-    `select  
-      task_announcement.id,
-      partner_name,
+    `select
+    task_announcement.id,
+     partner_name,
+      partner_full_name,
+      phone_number,
+      note,
       task_status,
-      ville,
+      ville, 
       adrress,
+      data_of_visite,
       ville_name
     from task_announcement
       inner join villes on  task_announcement.ville = villes.id
        where ${filter}  task_status = 'Pending'
-       ORDER BY id DESC 
+       ORDER BY task_announcement.id DESC 
      `
   );
   if (!task_announcement.success) {
-    console.log(err);
+    console.log(task_announcement.data.err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
@@ -58,9 +76,53 @@ const anounsments = async (req, res) => {
 };
 
 const set_task_done = async (req, res) => {
-  const { id: taskid, partner_name, partner_status } = req.body;
+  const {
+    id: taskid,
+    partner_name,
+    partner_status,
+    partner_full_name: full_name,
+    phone_number,
+    note,
+    data_of_visite: visite_date,
+  } = req.body;
+  console.trace({
+    id: taskid,
+    partner_name,
+    partner_status,
+    full_name,
+    phone_number,
+    note,
+    visite_date,
+  });
   const { id: manager_id } = req.user;
   const { ville } = get_this_admin(manager_id);
+  const add_done = SqlQuery(
+    `insert into task_done (partner_name ,
+                            partner_full_name,
+                            phone_number,
+                            note,
+                            partner_status,
+                            manager_id ,
+                            ville,
+                            data_of_visite,
+                            created_date)
+                    values('${partner_name}',
+                            '${full_name}',
+                            '${phone_number}',
+                            '${note}',
+                            '${partner_status}',
+                             ${manager_id},
+                             ${ville},
+                            '${visite_date}',
+                             CURDATE())`
+  );
+  if (!add_done.success) {
+    console.trace(add_done.data.err);
+    return res.status(500).json({
+      err: add_done.data.err,
+    });
+  }
+
   const set_task_done = SqlQuery(
     `update task_announcement set task_status = 'Done' where id = ${taskid}`
   );
@@ -69,44 +131,47 @@ const set_task_done = async (req, res) => {
       err: set_task_done.data.err,
     });
   }
-  const add_done = SqlQuery(
-    `insert into task_done (partner_name ,
-                            partner_status,
-                            manager_id ,
-                            ville,
-                            created_date)
-                    values('${partner_name}',
-                            '${partner_status}',
-                            ${manager_id},
-                            ${ville},
-                            CURDATE())`
-  );
-  if (!add_done.success) {
-    return res.status(500).json({
-      err: add_done.data.err,
-    });
-  }
 
   res.status(200).send("ok");
 };
 
 //done
 const add_done = async (req, res) => {
-  const { partner_name, partner_status } = req.body;
+  const {
+    partner_name,
+    partner_status,
+    full_name,
+    phone_number,
+    note,
+    adrress,
+    visite_date,
+  } = req.body;
   const { id: manager_id } = req.user;
   const { _role: this_role, ville } = get_this_admin(manager_id);
   const add_done = SqlQuery(
     `insert into task_done (partner_name ,
+                            partner_full_name,
+                            phone_number,
+                            note,
                             partner_status,
-                            manager_id ,ville,
+                            manager_id ,
+                            ville,
+                            adrress,
+                            data_of_visite,
                             created_date)
                     values('${partner_name}',
+                            '${full_name}',
+                            '${phone_number}',
+                            '${note}',
                             '${partner_status}',
-                            ${manager_id},
-                            ${ville},
-                            CURDATE())`
+                             ${manager_id},
+                             ${ville},
+                             ${adrress},
+                            '${visite_date}'
+                             CURDATE())`
   );
   if (!add_done.success) {
+    console.trace(add_done.data.err);
     return res.status(500).json({
       err: add_done.data.err,
     });
@@ -118,16 +183,33 @@ const add_done = async (req, res) => {
 
 //done edite
 const edite_done = async (req, res) => {
-  const { id, partner_name, partner_status } = req.body;
+  const {
+    id: taskid,
+    partner_name,
+    partner_status,
+    partner_full_name: full_name,
+    phone_number,
+    note,
+    adrress,
+    data_of_visite: visite_date,
+  } = req.body;
   const add_done = SqlQuery(
     `update task_done set partner_name = '${partner_name}',
-     partner_status =   '${partner_status}' 
-    where id = ${id}`
+     partner_status =   '${partner_status}',
+     note = '${note}',
+     phone_number = '${phone_number}' ,
+     partner_full_name = '${full_name}',
+     adrress = '${adrress}',
+     data_of_visite = '${visite_date}',
+     where id = ${id}`
   );
-  if (!add_done.success)
+  if (!add_done.success) {
+    console.trace(add_done.data.err);
+
     return res.status(500).json({
       err: add_done.data.err,
     });
+  }
   res.status(200).send({
     msg: `OK`,
   });
@@ -146,13 +228,18 @@ const done = async (req, res) => {
       ? ` where task_done.manager_id = ${admin_id} and villes.id = ${admin_ville}`
       : "";
   const done_tasks = SqlQuery(
-    `select task_done.id,task_done.partner_name  , task_done.partner_status, _Admin._name, villes.ville_name
+    `select task_done.id,task_done.partner_name,
+       task_done.partner_status, task_done.partner_full_name, 
+       task_done.phone_number,task_done.note, task_done.adrress,
+       task_done.data_of_visite, _Admin._name, villes.ville_name
         from  task_done
         inner join  _Admin on  task_done.manager_id =  _Admin.id
         inner join  villes on  task_done.ville =  villes.id ${filter}
-        ORDER BY id DESC `
+        ORDER BY task_done.id DESC `
   );
+  console.trace(done_tasks.data.rows);
   if (!done_tasks.success) {
+    console.trace(done_tasks.data.err);
     return res.status(500).json({
       err: done_tasks.data.err,
     });
@@ -184,6 +271,7 @@ const search = async (req, res) => {
     `select * from task_done inner join _Admin on task_done.manager_id = _Admin.id where ${base_filter} ${filter} ORDER BY id DESC `
   );
   if (!done_tasks.success) {
+    console.log(done_tasks.data.err);
     return res.status(500).json({
       err: done_tasks.data.err,
     });

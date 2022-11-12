@@ -8,6 +8,7 @@ const {
   get_partners,
   update_partner,
   get_modify_history,
+  update_admin,
 } = require("../controllers/Admin.js");
 
 router.post("/add_admin", add_admin);
@@ -17,4 +18,5 @@ router.get("/get_partners", get_partners);
 router.post("/update_partner", update_partner);
 router.post("/Response_partner_form", Response_partner_form);
 router.get("/get_modify_history", get_modify_history);
+router.post("/update_admin", update_admin);
 module.exports = router;

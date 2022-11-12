@@ -274,7 +274,15 @@ const get_modify_history = async (req, res) => {
 const update_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
-  const { email, ville, _password, _role, _name, account_status } = req.body;
+  const {
+    id: admin_id,
+    email,
+    ville,
+    _password,
+    _role,
+    _name,
+    account_status,
+  } = req.body;
 
   if (this_role != "Admin") {
     throw UnauthenticatedError(
@@ -282,12 +290,13 @@ const update_admin = async (req, res) => {
     );
   }
   const update_admin = SqlQuery(`update  _Admin
-    set email  ='${email}',,
+    set email  ='${email}',
 	  _password = '${await Encrypte(_password)}',
 	  _name = 	'${_name}',
     ville = 	'${ville}',
     _role = '${_role}',
-    account_status =${account_status}`);
+    account_status =${account_status} 
+    where _Admin.id = ${admin_id}`);
 
   if (!update_admin.success) {
     return res.status(500).send({

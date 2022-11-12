@@ -87,7 +87,31 @@ const Verify_email = async (req, res) => {
     res.send({ Verified: value != null && value != undefined && value == key });
   } catch (err) {
     console.log(err);
-    throw new BadRequestError("Something Went Wrong");
+    throw new BadRequestError(err);
+  }
+};
+
+const reset_pass = async (req, res) => {
+  const { email, key, _password } = req.body;
+  console.log({ email, key, _password });
+  try {
+    const value = await client.get(email);
+    if (!(value != null && value != undefined && value == key))
+      return res.sendStatus(403);
+
+    const update_admin = SqlQuery(`update  _Admin
+	  set _password = '${await Encrypte(_password)}'
+    where email = '${email}'`);
+
+    if (!update_admin.success) {
+      console.log(update_admin.data.err.sqlMessage);
+      return res.status(500).send({
+        err: update_admin.data.err.sqlMessage,
+      });
+    }
+    res.status(200).send("ok!");
+  } catch (err) {
+    throw new BadRequestError(err);
   }
 };
 
@@ -200,4 +224,5 @@ module.exports = {
   ResendOTP,
   Verify_email,
   sendVeriifyOtp,
+  reset_pass,
 };

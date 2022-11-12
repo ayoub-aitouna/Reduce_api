@@ -69,9 +69,10 @@ const sendVeriifyOtp = async (req, res) => {
   const Key = await generateKeyAndstoreOtp(email);
   try {
     await sendEmail({
-      subject: `reducte email verification `,
+      subject: `Le code de vérification`,
       to: email,
-      text: `code verefication for your account is ${Key}`,
+      text: ``,
+      html: OTP_EMAIL(Key),
     });
     res.sendStatus(200);
   } catch (err) {
@@ -179,9 +180,9 @@ const ResendOTP = async (req, res) => {
     key = await generateKeyAndstoreOtp(email);
   try {
     await sendEmail({
-      subject: `reducte email verification `,
+      subject: `Le code de vérification`,
       to: email,
-      text: `code verefication for your account is ${key}`,
+      text: ``,
       html: OTP_EMAIL(key),
     });
     res.sendStatus(200);

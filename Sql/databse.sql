@@ -16,26 +16,13 @@ create table defaultdb.partner(
     offer text,
     contract_Url text,
     adrress text,
+    note text,
     created_date date NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id),
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
-
-UPDATE
-    defaultdb.partner
-set
-    email = "aitounaayoub05@gmail.com"
-WHERE
-    id = 34;
-
-SELECT
-    *
-FROM
-    defaultdb.partner
-WHERE
-    id = 34;
 
 create table defaultdb.villes(
     id int NOT NULL AUTO_INCREMENT,
@@ -54,9 +41,13 @@ create table defaultdb.entrprise_activities(
 create table defaultdb.task_announcement(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
+    partner_full_name text,
+    phone_number text,
+    note text,
     task_status ENUM('Done', 'Pending'),
     ville int,
     adrress text,
+    data_of_visite date NOT NULL,
     created_date date NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id)
@@ -65,12 +56,15 @@ create table defaultdb.task_announcement(
 create table defaultdb.task_done(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
+    partner_full_name text,
+    phone_number text,
+    note text,
     partner_status ENUM('not_intrested', 'intrested', 'thinking'),
     manager_id int,
     ville int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(manager_id) REFERENCES partner(id),
+    FOREIGN KEY(manager_id) REFERENCES _Admin(id),
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
@@ -100,7 +94,7 @@ create table defaultdb.modify_history(
 select
     *
 from
-    defaultdb.modify_history;
+    defaultdb.partner;
 
 -- abcdef.123456@@
 insert into
@@ -122,7 +116,8 @@ values
         'Admin',
         'Active',
         CURDATE()
-    );
+);
+select * FROM defaultdb.partner;
 
 create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,

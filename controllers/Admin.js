@@ -128,6 +128,7 @@ const get_partners = (req, res) => {
         _status,
         note,
         adrress,
+        partner.created_date,
         ville_name,
         activity_name
        from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
@@ -152,7 +153,7 @@ const update_partner = async (req, res) => {
     numero_telephone_fix,
     ville,
     adrress,
-    partner_status,
+    _status: partner_status,
     activity_entrprise,
     offer,
     note,
@@ -270,6 +271,34 @@ const get_modify_history = async (req, res) => {
   res.send(History.data.rows);
 };
 
+const update_admin = async (req, res) => {
+  const { id } = req.user;
+  const { _role: this_role } = get_this_admin(id);
+  const { email, ville, _password, _role, _name, account_status } = req.body;
+
+  if (this_role != "Admin") {
+    throw UnauthenticatedError(
+      "you don't have permission to contenue on this request"
+    );
+  }
+  const update_admin = SqlQuery(`update  _Admin
+    set email  ='${email}',,
+	  _password = '${await Encrypte(_password)}',
+	  _name = 	'${_name}',
+    ville = 	'${ville}',
+    _role = '${_role}',
+    account_status =${account_status}`);
+
+  if (!update_admin.success) {
+    return res.status(500).send({
+      err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
+    });
+  }
+  res.status(200).send({
+    msg: `an Admin ${_name} has been added with role ${_role} to Database `,
+  });
+};
+
 module.exports = {
   add_admin,
   remove_admin,
@@ -278,4 +307,5 @@ module.exports = {
   get_admins,
   update_partner,
   get_modify_history,
+  update_admin,
 };

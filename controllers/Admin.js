@@ -242,9 +242,18 @@ const get_admins = (req, res) => {
       "you don't have permission to contenue on this request"
     );
 
-  let SQL_QUERY =
-    "select * from _Admin  inner join villes on _Admin.ville = villes.id   ORDER BY _Admin.id DESC ";
-  // SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
+  let SQL_QUERY = `select 
+                  _Admin.id,
+                  email ,
+                  ville ,
+                  _name ,
+                  _password ,
+                  _role,
+                  ville_name, 
+                  account_status from _Admin
+                  inner join villes on _Admin.ville = villes.id   
+                  ORDER BY _Admin.id DESC `;
+
   const admins = SqlQuery(SQL_QUERY);
   if (!admins.success)
     return res.status(500).send({
@@ -283,28 +292,50 @@ const update_admin = async (req, res) => {
     _name,
     account_status,
   } = req.body;
+  console.log({
+    id: admin_id,
+    email,
+    ville,
+    _password,
+    _role,
+    _name,
+    account_status,
+  });
 
   if (this_role != "Admin") {
     throw UnauthenticatedError(
       "you don't have permission to contenue on this request"
     );
   }
+  const pass =
+    _password != "" ? `_password = '${await Encrypte(_password)}' ,` : "";
+
+  console.log(`update  _Admin
+    set email  ='${email}',
+    ${pass}
+	  _name = 	'${_name}',
+    ville = 	${ville},
+    _role = '${_role}',
+    account_status = '${account_status}' 
+    where _Admin.id = ${admin_id}`);
+
   const update_admin = SqlQuery(`update  _Admin
     set email  ='${email}',
-	  _password = '${await Encrypte(_password)}',
+    ${pass}
 	  _name = 	'${_name}',
-    ville = 	'${ville}',
+    ville = 	${ville},
     _role = '${_role}',
-    account_status =${account_status} 
+    account_status = '${account_status}' 
     where _Admin.id = ${admin_id}`);
 
   if (!update_admin.success) {
+    console.log(update_admin.data.err.sqlMessage);
     return res.status(500).send({
-      err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
+      err: update_admin.data.err.sqlMessage,
     });
   }
   res.status(200).send({
-    msg: `an Admin ${_name} has been added with role ${_role} to Database `,
+    msg: "ok",
   });
 };
 

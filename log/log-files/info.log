@@ -1748,3 +1748,16 @@
 11:31:29 [[32minfo[39m] SQL DB Connected
 11:31:29 [[32minfo[39m] connected to Redis!!
 11:31:43 [[32minfo[39m] Email sent: 250 tnnaopHAeciQ3 mail accepted for delivery
+11:57:25 [[32minfo[39m] App Running on port => 5000
+11:57:25 [[32minfo[39m] SQL DB Connected
+11:57:26 [[32minfo[39m] connected to Redis!!
+12:00:24 [[32minfo[39m] App Running on port => 5000
+12:00:24 [[32minfo[39m] SQL DB Connected
+12:00:24 [[32minfo[39m] connected to Redis!!
+12:03:30 [[32minfo[39m] App Running on port => 5000
+12:03:30 [[32minfo[39m] SQL DB Connected
+12:03:31 [[32minfo[39m] connected to Redis!!
+12:15:21 [[32minfo[39m] Email sent: 250 toTno3xacCI7a mail accepted for delivery
+12:19:48 [[32minfo[39m] App Running on port => 5000
+12:19:48 [[32minfo[39m] SQL DB Connected
+12:19:49 [[32minfo[39m] connected to Redis!!

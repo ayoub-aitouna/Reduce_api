@@ -81,10 +81,13 @@ create table defaultdb._Admin(
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
+drop table if EXISTS defaultdb.modify_history;
+
 create table defaultdb.modify_history(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
     admin_id int,
+    edited_column text,
     created_date date NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES partner(id),
@@ -94,7 +97,7 @@ create table defaultdb.modify_history(
 select
     *
 from
-    defaultdb.partner;
+    defaultdb.modify_history;
 
 -- abcdef.123456@@
 insert into
@@ -116,8 +119,12 @@ values
         'Admin',
         'Active',
         CURDATE()
-);
-select * FROM defaultdb.partner;
+    );
+
+select
+    *
+FROM
+    defaultdb.partner;
 
 create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,

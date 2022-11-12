@@ -127,6 +127,7 @@ const get_partners = (req, res) => {
         offer,
         _status,
         note,
+        adrress,
         ville_name,
         activity_name
        from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
@@ -156,6 +157,24 @@ const update_partner = async (req, res) => {
     offer,
     note,
   } = req.body;
+
+  console.trace({
+    id,
+    email,
+    nome_entreprise,
+    identificateur_entreprise,
+    representant_entreprise,
+    role_dans_entriprise,
+    numero_telephone,
+    numero_telephone_fix,
+    ville,
+    adrress,
+    partner_status,
+    activity_entrprise,
+    offer,
+    note,
+  });
+
   try {
     const old_data = SqlQuery(`select * from partner where id = ${id}`);
 

@@ -94,7 +94,7 @@ create table defaultdb.modify_history(
 select
     *
 from
-    defaultdb.modify_history;
+    defaultdb.partner;
 
 -- abcdef.123456@@
 insert into

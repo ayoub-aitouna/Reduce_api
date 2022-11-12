@@ -1,6 +1,7 @@
 const { format } = require("util");
 const { Storage } = require("@google-cloud/storage");
 require("dotenv").config();
+var s_path = require("path");
 
 const storage = new Storage({ keyFilename: "google-cloud-key.json" });
 const bucket = storage.bucket(process.env.STORAGE_BUCKET);
@@ -108,30 +109,34 @@ const UploadBuffer = async (Buffer) => {
   });
 };
 
-
-const UPLOAD=(path)=>{
-  return new Promise((res,rej)=>{
-    var destFilename = "./PDF";
+const UPLOAD = (base, path) => {
+  return new Promise((res, rej) => {
+    var destFilename = base;
     var bucketName = bucket.name;
     var srcFilename = `${path}`;
 
-      const options = {
-        destination: destFilename,
-      };
-    storage.bucket(bucketName).upload(srcFilename, {},async (err, file) => {
-            if(!err){
+    const options = {
+      destination: destFilename,
+    };
+    storage
+      .bucket(bucketName)
+      .upload(
+        `${s_path.resolve("./public")}${base}${srcFilename}`,
+        {},
+        async (err, file) => {
+          if (!err) {
             try {
               await bucket.file(srcFilename).makePublic();
-              res(`https://storage.googleapis.com/${bucket.name}/${srcFilename}`);
-            } catch(error) {
-             rej(error);
-           }
-          }else
-            rej(err);
-        });
+              res(
+                `https://storage.googleapis.com/${bucket.name}/${srcFilename}`
+              );
+            } catch (error) {
+              rej(error);
+            }
+          } else rej(err);
+        }
+      );
+  });
+};
 
-  })
-      
-}
-
-module.exports = { UploadFile, UploadBuffer,UPLOAD };
+module.exports = { UploadFile, UploadBuffer, UPLOAD };

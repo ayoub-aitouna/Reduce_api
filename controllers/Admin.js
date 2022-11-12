@@ -74,7 +74,12 @@ const Response_partner_form = async (req, res) => {
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
   const partner_data = partner.data.rows[0];
-  const url = await Generate_contract_Pdf(partner_data);
+  let url = "";
+  try {
+    url = await Generate_contract_Pdf(partner_data);
+  } catch (error) {
+    throw new BadRequestError(error);
+  }
   const result = SqlQuery(`
                         update partner
                     set
@@ -295,7 +300,7 @@ const update_admin = async (req, res) => {
 	  _name = 	'${_name}',
     ville = 	'${ville}',
     _role = '${_role}',
-    account_status =${account_status} 
+    account_status =${account_status}
     where _Admin.id = ${admin_id}`);
 
   if (!update_admin.success) {

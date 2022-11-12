@@ -274,7 +274,7 @@ const get_modify_history = async (req, res) => {
 const update_admin = async (req, res) => {
   const { id } = req.user;
   const { _role: this_role } = get_this_admin(id);
-  const { email, ville, _password, _role, _name, account_status } = req.body;
+  const { id:admin_id ,email, ville, _password, _role, _name, account_status } = req.body;
 
   if (this_role != "Admin") {
     throw UnauthenticatedError(
@@ -282,12 +282,13 @@ const update_admin = async (req, res) => {
     );
   }
   const update_admin = SqlQuery(`update  _Admin
-    set email  ='${email}',,
+    set email  ='${email}',
 	  _password = '${await Encrypte(_password)}',
 	  _name = 	'${_name}',
     ville = 	'${ville}',
     _role = '${_role}',
-    account_status =${account_status}`);
+    account_status =${account_status} 
+    where _Admin.id = ${admin_id}`);
 
   if (!update_admin.success) {
     return res.status(500).send({
@@ -299,6 +300,30 @@ const update_admin = async (req, res) => {
   });
 };
 
+const reset_pass = () => {
+  const { email, key , _password} = req.body;
+  try {
+    const value = await client.get(email);
+    if(!(value != null && value != undefined && value == key))
+      res.sendStatus(403);
+    
+    const update_admin = SqlQuery(`update  _Admin
+	  _password = '${await Encrypte(_password)}
+    where email = '${email}''`);
+
+  if (!update_admin.success) {
+    return res.status(500).send({
+      err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
+    });
+  }
+  res.status(200).send({
+    msg: `an Admin ${_name} has been added with role ${_role} to Database `,
+  });
+  } catch (err) {
+    throw new BadRequestError("Something Went Wrong");
+  }
+};
+
 module.exports = {
   add_admin,
   remove_admin,
@@ -308,4 +333,5 @@ module.exports = {
   update_partner,
   get_modify_history,
   update_admin,
+  reset_pass
 };

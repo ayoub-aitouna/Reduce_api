@@ -16,26 +16,13 @@ create table defaultdb.partner(
     offer text,
     contract_Url text,
     adrress text,
+    note text,
     created_date date NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id),
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
-
-UPDATE
-    defaultdb.partner
-set
-    email = "aitounaayoub05@gmail.com"
-WHERE
-    id = 34;
-
-SELECT
-    *
-FROM
-    defaultdb.partner
-WHERE
-    id = 34;
 
 create table defaultdb.villes(
     id int NOT NULL AUTO_INCREMENT,
@@ -77,7 +64,7 @@ create table defaultdb.task_done(
     ville int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(manager_id) REFERENCES partner(id),
+    FOREIGN KEY(manager_id) REFERENCES _Admin(id),
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
@@ -130,6 +117,7 @@ values
         'Active',
         CURDATE()
 );
+select * FROM defaultdb.partner;
 
 create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,

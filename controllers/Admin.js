@@ -126,6 +126,7 @@ const get_partners = (req, res) => {
         activity_entrprise,
         offer,
         _status,
+        note,
         ville_name,
         activity_name
        from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
@@ -133,6 +134,7 @@ const get_partners = (req, res) => {
        ORDER BY id DESC `;
   const partners = SqlQuery(Query);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+  console.log(partners.data.rows);
   res.send(partners.data.rows);
 };
 
@@ -149,10 +151,17 @@ const update_partner = async (req, res) => {
     numero_telephone_fix,
     ville,
     adrress,
+    partner_status,
     activity_entrprise,
     offer,
+    note,
   } = req.body;
   try {
+    const old_data = SqlQuery(`select * from partner where id = ${id}`);
+
+    if (!old_data.success)
+      throw new BadRequestError(old_data.data.err.sqlMessage);
+
     const submit = SqlQuery(`update partner set email = '${email}',
       nome_entreprise = 	'${nome_entreprise}',
       identificateur_entreprise = 	'${identificateur_entreprise}',
@@ -162,6 +171,8 @@ const update_partner = async (req, res) => {
       numero_telephone_fix = 	'${numero_telephone_fix}',
       ville = 	'${ville}',
       activity_entrprise = 	'${activity_entrprise}',
+      _status = 	'${partner_status}',
+      note = 	'${note}',
       offer = 	'${offer}',
       adrress =  '${adrress}' where partner.id = ${id}`);
 
@@ -169,6 +180,24 @@ const update_partner = async (req, res) => {
       return res.status(500).json({
         err: `Could not submit the form ${submit.data.err.sqlMessage}`,
       });
+
+    const new_data = {
+      id,
+      email,
+      nome_entreprise,
+      identificateur_entreprise,
+      representant_entreprise,
+      role_dans_entriprise,
+      numero_telephone,
+      numero_telephone_fix,
+      ville,
+      adrress,
+      partner_status,
+      activity_entrprise,
+      offer,
+      note,
+    };
+    const applied_modife = get_applied_modif(old_data.data.rows[0], new_data);
     const add_history_Qeury = `insert into modify_history(partner_id, admin_id, created_date)
                               values(${id}, ${admin_id}, CURDATE());`;
     const add_history = SqlQuery(add_history_Qeury);
@@ -182,6 +211,8 @@ const update_partner = async (req, res) => {
     throw new BadRequestError(err);
   }
 };
+
+function get_applied_modif(old_data, new_data) {}
 
 const get_admins = (req, res) => {
   const { id } = req.user;

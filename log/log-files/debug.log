@@ -3227,3 +3227,75 @@
 12:19:48 [[32minfo[39m] App Running on port => 5000
 12:19:48 [[32minfo[39m] SQL DB Connected
 12:19:49 [[32minfo[39m] connected to Redis!!
+04:04:07 [[32minfo[39m] App Running on port => 5000
+04:04:07 [[32minfo[39m] SQL DB Connected
+04:04:07 [[32minfo[39m] connected to Redis!!
+06:35:43 [[32minfo[39m] App Running on port => 5000
+06:35:43 [[32minfo[39m] SQL DB Connected
+06:35:43 [[32minfo[39m] connected to Redis!!
+06:41:25 [[32minfo[39m] App Running on port => 5000
+06:41:25 [[32minfo[39m] SQL DB Connected
+06:41:25 [[32minfo[39m] connected to Redis!!
+06:42:06 [[32minfo[39m] App Running on port => 5000
+06:42:06 [[32minfo[39m] SQL DB Connected
+06:42:06 [[32minfo[39m] connected to Redis!!
+06:42:27 [[32minfo[39m] App Running on port => 5000
+06:42:27 [[32minfo[39m] SQL DB Connected
+06:42:29 [[32minfo[39m] App Running on port => 5000
+06:42:29 [[32minfo[39m] SQL DB Connected
+06:42:29 [[32minfo[39m] connected to Redis!!
+06:44:14 [[32minfo[39m] App Running on port => 5000
+06:44:14 [[32minfo[39m] SQL DB Connected
+06:44:14 [[32minfo[39m] connected to Redis!!
+06:48:19 [[32minfo[39m] App Running on port => 5000
+06:48:19 [[32minfo[39m] SQL DB Connected
+06:48:19 [[32minfo[39m] connected to Redis!!
+06:49:44 [[32minfo[39m] App Running on port => 5000
+06:49:44 [[32minfo[39m] SQL DB Connected
+06:49:44 [[32minfo[39m] connected to Redis!!
+06:50:50 [[32minfo[39m] App Running on port => 5000
+06:50:50 [[32minfo[39m] SQL DB Connected
+06:50:50 [[32minfo[39m] connected to Redis!!
+06:51:11 [[32minfo[39m] App Running on port => 5000
+06:51:11 [[32minfo[39m] SQL DB Connected
+06:51:11 [[32minfo[39m] connected to Redis!!
+06:51:59 [[32minfo[39m] App Running on port => 5000
+06:51:59 [[32minfo[39m] SQL DB Connected
+06:51:59 [[32minfo[39m] connected to Redis!!
+06:52:19 [[32minfo[39m] App Running on port => 5000
+06:52:20 [[32minfo[39m] SQL DB Connected
+06:52:20 [[32minfo[39m] connected to Redis!!
+06:56:54 [[32minfo[39m] App Running on port => 5000
+06:56:54 [[32minfo[39m] SQL DB Connected
+06:56:54 [[32minfo[39m] connected to Redis!!
+07:19:05 [[32minfo[39m] App Running on port => 5000
+07:19:05 [[32minfo[39m] SQL DB Connected
+07:19:05 [[32minfo[39m] connected to Redis!!
+07:28:26 [[32minfo[39m] App Running on port => 5000
+07:28:27 [[32minfo[39m] SQL DB Connected
+07:28:27 [[32minfo[39m] connected to Redis!!
+07:32:53 [[32minfo[39m] App Running on port => 5000
+07:32:53 [[32minfo[39m] SQL DB Connected
+07:32:53 [[32minfo[39m] connected to Redis!!
+07:37:19 [[32minfo[39m] App Running on port => 5000
+07:37:20 [[32minfo[39m] SQL DB Connected
+07:37:20 [[32minfo[39m] connected to Redis!!
+07:38:19 [[32minfo[39m] App Running on port => 5000
+07:38:19 [[32minfo[39m] SQL DB Connected
+07:38:20 [[32minfo[39m] connected to Redis!!
+07:40:03 [[32minfo[39m] App Running on port => 5000
+07:40:03 [[32minfo[39m] SQL DB Connected
+07:40:03 [[32minfo[39m] connected to Redis!!
+07:41:19 [[32minfo[39m] App Running on port => 5000
+07:41:20 [[32minfo[39m] SQL DB Connected
+07:41:20 [[32minfo[39m] connected to Redis!!
+07:43:19 [[32minfo[39m] App Running on port => 5000
+07:43:19 [[32minfo[39m] SQL DB Connected
+07:43:20 [[32minfo[39m] connected to Redis!!
+07:43:30 [[32minfo[39m] Email sent: 250 u6iGodCJ8yVlE mail accepted for delivery
+07:45:32 [[32minfo[39m] App Running on port => 5000
+07:45:32 [[32minfo[39m] SQL DB Connected
+07:45:32 [[32minfo[39m] connected to Redis!!
+07:45:51 [[32minfo[39m] Email sent: 250 u6kYo7jbECI7a mail accepted for delivery
+07:47:24 [[32minfo[39m] Email sent: 250 u6m1oAy8kjYVq mail accepted for delivery
+07:48:20 [[32minfo[39m] Email sent: 250 u6mwoyoefIrBN mail accepted for delivery

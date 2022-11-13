@@ -1,4 +1,5 @@
 const { response } = require("express");
+
 const Pdf_contract_template = (partner_data) => {
   const {
     email,
@@ -1486,4 +1487,5 @@ const OTP_EMAIL = (code) => {
     </body>
   </html>`;
 };
+
 module.exports = { Pdf_contract_template, EmailTemplate, OTP_EMAIL };

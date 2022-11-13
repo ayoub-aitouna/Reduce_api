@@ -2,12 +2,16 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Log = require("../log");
-const { BadRequestError } = require("../errors/index.js");
+const { BadRequestError, UnauthenticatedError } = require("../errors/index.js");
 const { Encrypte } = require("../Utils/Crypto");
 const { SendMail_to_partner, sendEmail } = require("../Utils/Mailer");
 const { Generate_contract_Pdf } = require("../Utils/Pdfgenerator");
-const UnauthenticatedError = require("../errors/unauthenticated.js");
 const { get_this_admin } = require("../Utils/Utils.js");
+const processFile = require("../middleware/upload.js");
+const { format } = require("util");
+const { Storage } = require("@google-cloud/storage");
+const storage = new Storage({ keyFilename: "google-cloud-key.json" });
+const bucket = storage.bucket(process.env.STORAGE_BUCKET);
 
 const add_admin = async (req, res) => {
   const { id } = req.user;
@@ -67,23 +71,70 @@ const remove_admin = (req, res) => {
   });
 };
 
+const Upload_C_PDF = async (req, res, next) => {
+  try {
+    await processFile(req, res);
+
+    req.file.originalname = `CONTRACT_PDF_GENERATED_U_${
+      JSON.parse(req.body.data).partner_id
+    }.pdf`;
+    if (!req.file) {
+      return res.status(400).send({ message: "Please upload a file!" });
+    }
+
+    const blob = bucket.file(req.file.originalname);
+    const blobStream = blob.createWriteStream({
+      resumable: false,
+    });
+
+    blobStream.on("error", (err) => {
+      throw new BadRequestError(err);
+      res.status(500).send({ message: err.message });
+    });
+
+    blobStream.on("finish", async (data) => {
+      const publicUrl = format(
+        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+      );
+
+      try {
+        await bucket.file(req.file.originalname).makePublic();
+      } catch {
+        return res.status(500).send({
+          message: `Uploaded the file successfully: ${req.file.originalname}, but public access is denied!`,
+          url: publicUrl,
+        });
+      }
+      req.url = publicUrl;
+      next();
+    });
+
+    blobStream.end(req.file.buffer);
+  } catch (err) {
+    console.log(err);
+    if (err.code == "LIMIT_FILE_SIZE") {
+      return res.status(500).send({
+        message: "File size cannot be larger than 2MB!",
+      });
+    }
+
+    res.status(500).send({
+      message: `Could not upload the file: ${req.file.originalname}. ${err}`,
+    });
+  }
+};
 const Response_partner_form = async (req, res) => {
-  //pulled sdsd
-  const { partner_id, response } = req.body;
+  const { partner_id, response } = JSON.parse(req.body.data);
   const { id: admin_id } = req.user;
 
+  console.trace({ partner_id, response });
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
 
   const partner_data = partner.data.rows[0];
 
-  let url = "";
-
-  try {
-    url = response == "Accept" ? await Generate_contract_Pdf(partner_data) : "";
-  } catch (error) {
-    throw new BadRequestError(error);
-  }
+  let url = req.url;
+  console.log(url);
 
   const result = SqlQuery(`
                         update partner
@@ -104,7 +155,7 @@ const Response_partner_form = async (req, res) => {
   if (!admin_partner.success)
     throw new BadRequestError(admin_partner.data.err.sqlMessage);
 
-  if (response == "Accept") {
+  if (response == "Approved") {
     const email = partner_data.email;
     try {
       const send_info = SendMail_to_partner(
@@ -352,4 +403,5 @@ module.exports = {
   update_partner,
   get_modify_history,
   update_admin,
+  Upload_C_PDF,
 };

@@ -1346,8 +1346,8 @@ const EmailTemplate = (PartnerData) => {
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                       <tr>
                         <td>
-                          <p>Hi , ${PartnerData.nome_entreprise} </p>
-                          <p>we had responded to your request form >> you have been ${PartnerData._status}</p>
+                          <p>Bonjour ${PartnerData.representant_entreprise} </p>
+                          <p>Félicitations, vous faites maintenant partie de la famille <reducte>, nous sommes vraiment heureux de vous avoir avec nous.</p>
                           <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                             <tbody>
                               <tr>
@@ -1355,7 +1355,7 @@ const EmailTemplate = (PartnerData) => {
                                   <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                     <tbody>
                                       <tr>
-                                        <td> <a href="${PartnerData.contract_Url}" target="_blank">Download Contract</a> </td>
+                                        <td> <a href="${PartnerData.contract_Url}" target="_blank">télécharger le contrat au format pdf</a> </td>
                                       </tr>
                                     </tbody>
                                   </table>
@@ -1363,8 +1363,8 @@ const EmailTemplate = (PartnerData) => {
                               </tr>
                             </tbody>
                           </table>
-                          <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500</p>
-                          <p>Good luck!</p>
+                          <p>après avoir téléchargé le pdf, vous pouvez signer</p>
+                          <p>merci d'avoir choisi reducte</p>
                         </td>
                       </tr>
                     </table>
@@ -1380,8 +1380,8 @@ const EmailTemplate = (PartnerData) => {
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                   <tr>
                     <td class="content-block">
-                      <span class="apple-link">Company Inc, 3 Abbey Road, San Francisco CA 94102</span>
-                      <br> visite our website <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
+                      <span class="apple-link">Reducte</span>
+                      <br> visite our website <a href="https://www.reducte.com/">visitez notre site web</a>.
                     </td>
                   </tr>
                   <tr>

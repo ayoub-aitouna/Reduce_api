@@ -88,7 +88,6 @@ const Upload_C_PDF = async (req, res, next) => {
     });
 
     blobStream.on("error", (err) => {
-      throw new BadRequestError(err);
       res.status(500).send({ message: err.message });
     });
 

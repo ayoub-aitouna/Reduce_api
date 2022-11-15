@@ -17,7 +17,7 @@ create table defaultdb.partner(
     contract_Url text,
     adrress text,
     note text,
-    created_date date NOT NULL,
+    created_date DATETIME NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id),
@@ -88,16 +88,34 @@ create table defaultdb.modify_history(
     partner_id int,
     admin_id int,
     edited_column text,
-    created_date date NOT NULL,
+    created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES partner(id),
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
+ALTER TABLE
+    defaultdb.partner
+MODIFY
+    defaultdb.partner.created_date DATETIME;
+
 select
     *
 from
     defaultdb.modify_history;
+
+select
+    NOW();
+
+insert into
+    defaultdb.modify_history(
+        partner_id,
+        admin_id,
+        edited_column,
+        created_date
+    )
+values
+    (1, 1, '${applied_modife}', NOW());
 
 -- abcdef.123456@@
 insert into
@@ -121,12 +139,7 @@ values
         CURDATE()
     );
 
-select
-    *
-FROM
-    defaultdb.partner;
-
-create table defaultdb.Admins_partners(
+\ create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,
@@ -135,3 +148,17 @@ create table defaultdb.Admins_partners(
     FOREIGN KEY(admin_id) REFERENCES defaultdb._Admin(id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
+
+select
+    _Admin.id,
+    email,
+    _password,
+    _name,
+    ville,
+    _role,
+    account_status
+from
+    defaultdb._Admin
+    inner join defaultdb.villes on defaultdb._Admin.ville = defaultdb.villes.id
+ORDER BY
+    defaultdb._Admin.id DESC

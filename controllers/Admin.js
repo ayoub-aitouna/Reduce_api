@@ -244,10 +244,7 @@ const update_partner = async (req, res) => {
       offer = 	'${offer}',
       adrress =  '${adrress}' where partner.id = ${id}`);
 
-    if (!submit.success)
-      return res.status(500).json({
-        err: `Could not submit the form ${submit.data.err.sqlMessage}`,
-      });
+    if (!submit.success) throw new BadRequestError(submit.data.err.sqlMessage);
 
     const new_data = {
       id,
@@ -267,13 +264,11 @@ const update_partner = async (req, res) => {
     };
     const applied_modife = get_applied_modif(old_data.data.rows[0], new_data);
     const add_history_Qeury = `insert into modify_history(partner_id, admin_id,edited_column, created_date)
-                              values(${id}, ${admin_id},'${applied_modife}', CURDATE());`;
+                              values(${id}, ${admin_id},'${applied_modife}', NOW());`;
     const add_history = SqlQuery(add_history_Qeury);
     console.trace(add_history);
     if (!add_history.success)
-      return res.status(500).json({
-        err: `Could not submit the form ${add_history.data.err.sqlMessage}`,
-      });
+      throw new BadRequestError(submit.data.err.sqlMessage);
     return res.sendStatus(200);
   } catch (err) {
     throw new BadRequestError(err);
@@ -328,15 +323,20 @@ const get_admins = (req, res) => {
       "you don't have permission to contenue on this request"
     );
 
-  let SQL_QUERY =
-    "select * from _Admin  inner join villes on _Admin.ville = villes.id   ORDER BY _Admin.id DESC ";
+  let SQL_QUERY = `select
+    _Admin.id,
+    email,
+	  _password,
+	  _name,
+    ville,
+    _role,
+    account_status
+    from _Admin  inner join villes on _Admin.ville = villes.id
+    ORDER BY _Admin.id DESC `;
   // SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
   const admins = SqlQuery(SQL_QUERY);
-  if (!admins.success)
-    return res.status(500).send({
-      err: `Could not get Admins in  this Datadabse`,
-    });
-
+  if (!admins.success) throw new BadRequestError(admins.data.err.sqlMessage);
+  console.log(admins.data.rows);
   res.status(200).send(admins.data.rows);
 };
 
@@ -381,13 +381,11 @@ const update_admin = async (req, res) => {
 	  _name = 	'${_name}',
     ville = 	'${ville}',
     _role = '${_role}',
-    account_status =${account_status}
+    account_status = '${account_status}'
     where _Admin.id = ${admin_id}`);
 
   if (!update_admin.success) {
-    return res.status(500).send({
-      err: `Could not Add An Admin ${_name}with role ${_role} to Database`,
-    });
+    throw new BadRequestError(update_admin.data.err.sqlMessage);
   }
   res.status(200).send({
     msg: `an Admin ${_name} has been added with role ${_role} to Database `,

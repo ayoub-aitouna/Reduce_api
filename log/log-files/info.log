@@ -1932,3 +1932,43 @@
 21:13:23 [[32minfo[39m] App Running on port => 5000
 21:13:24 [[32minfo[39m] SQL DB Connected
 21:13:24 [[32minfo[39m] connected to Redis!!
+21:26:08 [[32minfo[39m] App Running on port => 5000
+21:26:08 [[32minfo[39m] SQL DB Connected
+21:26:08 [[32minfo[39m] connected to Redis!!
+21:27:54 [[32minfo[39m] Email sent: 250 v3TEoiZHIIveB mail accepted for delivery
+21:30:32 [[32minfo[39m] Email sent: 250 v3Vmo9urdPHcY mail accepted for delivery
+14:12:22 [[31merror[39m] read ECONNRESET
+14:12:23 [[32minfo[39m] connected to Redis!!
+14:18:18 [[31merror[39m] read ECONNRESET
+14:18:19 [[32minfo[39m] connected to Redis!!
+13:55:04 [[31merror[39m] read ECONNRESET
+13:55:05 [[32minfo[39m] connected to Redis!!
+14:29:09 [[31merror[39m] read ECONNRESET
+14:29:09 [[32minfo[39m] connected to Redis!!
+14:35:34 [[31merror[39m] read ECONNRESET
+14:35:35 [[32minfo[39m] connected to Redis!!
+14:42:46 [[31merror[39m] read ECONNRESET
+14:42:47 [[32minfo[39m] connected to Redis!!
+14:45:13 [[32minfo[39m] Email sent: 250 vg8doVGMKYC8H mail accepted for delivery
+14:45:44 [[32minfo[39m] Email sent: 250 vg98oVTeJ1CJo mail accepted for delivery
+14:47:08 [[32minfo[39m] Email sent: 250 vgAToHRKqvZSH mail accepted for delivery
+18:30:44 [[32minfo[39m] App Running on port => 5000
+18:30:44 [[32minfo[39m] SQL DB Connected
+18:30:44 [[32minfo[39m] connected to Redis!!
+18:32:38 [[32minfo[39m] Email sent: 250 vjghoo0qD2ocF mail accepted for delivery
+18:34:02 [[32minfo[39m] Email sent: 250 vji4oRbTxddww mail accepted for delivery
+18:35:06 [[32minfo[39m] Email sent: 250 vjj6oFNTXu2xC mail accepted for delivery
+18:42:31 [[31merror[39m] read ECONNRESET
+18:42:32 [[32minfo[39m] connected to Redis!!
+18:51:59 [[31merror[39m] read ECONNRESET
+18:52:00 [[32minfo[39m] connected to Redis!!
+18:58:03 [[31merror[39m] read ECONNRESET
+18:58:04 [[32minfo[39m] connected to Redis!!
+19:05:41 [[31merror[39m] read ECONNRESET
+19:05:41 [[32minfo[39m] connected to Redis!!
+19:14:17 [[31merror[39m] read ECONNRESET
+19:14:18 [[32minfo[39m] connected to Redis!!
+19:14:37 [[32minfo[39m] Email sent: 250 vkLKoFVqPu2xC mail accepted for delivery
+19:15:03 [[32minfo[39m] Email sent: 250 vkLloAziBGkST mail accepted for delivery
+19:17:41 [[32minfo[39m] Email sent: 250 vkOIo9SyQ4BBk mail accepted for delivery
+19:20:36 [[32minfo[39m] Email sent: 250 vkR7ogjtkH0m5 mail accepted for delivery

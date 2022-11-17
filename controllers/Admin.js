@@ -329,6 +329,7 @@ const get_admins = (req, res) => {
 	  _password,
 	  _name,
     ville,
+    ville_name,
     _role,
     account_status
     from _Admin  inner join villes on _Admin.ville = villes.id

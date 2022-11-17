@@ -139,7 +139,7 @@ values
         CURDATE()
     );
 
-\ create table defaultdb.Admins_partners(
+create table defaultdb.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,

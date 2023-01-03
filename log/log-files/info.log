@@ -2162,3 +2162,6 @@
 19:02:43 [[32minfo[39m] App Running on port => 5000
 19:02:43 [[32minfo[39m] SQL DB Connected
 19:02:43 [[32minfo[39m] connected to Redis!!
+19:05:43 [[32minfo[39m] App Running on port => 5000
+19:05:43 [[32minfo[39m] SQL DB Connected
+19:05:44 [[32minfo[39m] connected to Redis!!

@@ -111,7 +111,7 @@ const Upload_C_PDF = async (req, res, next) => {
 
     blobStream.end(req.file.buffer);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     if (err.code == "LIMIT_FILE_SIZE") {
       return res.status(500).send({
         message: "File size cannot be larger than 2MB!",
@@ -128,7 +128,6 @@ const Response_partner_form = async (req, res) => {
   const { partner_id, response } = JSON.parse(req.body.data);
   const { id: admin_id } = req.user;
 
-  console.trace({ partner_id, response });
   const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
   if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
 
@@ -177,7 +176,6 @@ const get_partners = (req, res) => {
   const { id } = req.user;
   const { _role, ville } = get_this_admin(id);
   const Filter = _role != "Admin" ? `where ville = ${ville}` : "";
-  console.log(`Role is ${_role} , filter ${Filter}`);
   const Query = `select   partner.id,
         avatar_Url,
         email,
@@ -201,7 +199,6 @@ const get_partners = (req, res) => {
        ORDER BY id DESC `;
   const partners = SqlQuery(Query);
   if (!partners.success) throw new BadRequestError("Some thing went Wrong");
-  console.log(partners.data.rows);
   res.send(partners.data.rows);
 };
 
@@ -266,7 +263,6 @@ const update_partner = async (req, res) => {
     const add_history_Qeury = `insert into modify_history(partner_id, admin_id,edited_column, created_date)
                               values(${id}, ${admin_id},'${applied_modife}', NOW());`;
     const add_history = SqlQuery(add_history_Qeury);
-    console.trace(add_history);
     if (!add_history.success)
       throw new BadRequestError(submit.data.err.sqlMessage);
     return res.sendStatus(200);
@@ -337,7 +333,6 @@ const get_admins = (req, res) => {
   // SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
   const admins = SqlQuery(SQL_QUERY);
   if (!admins.success) throw new BadRequestError(admins.data.err.sqlMessage);
-  console.log(admins.data.rows);
   res.status(200).send(admins.data.rows);
 };
 

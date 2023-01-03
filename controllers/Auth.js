@@ -34,7 +34,7 @@ const partner_login = async (req, res) => {
   try {
     HashedPass = await Encrypte(password);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
   let user = SqlQuery(`select * from partner where email = '${email}'`);
   if (!user.success) throw new BadRequestError("user not found");
@@ -59,7 +59,7 @@ const partner_login = async (req, res) => {
       RefreshToken: RefreshToken,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new BadRequestError(err);
   }
 };
@@ -86,14 +86,13 @@ const Verify_email = async (req, res) => {
     const value = await client.get(email);
     res.send({ Verified: value != null && value != undefined && value == key });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     throw new BadRequestError(err);
   }
 };
 
 const reset_pass = async (req, res) => {
   const { email, key, _password } = req.body;
-  console.log({ email, key, _password });
   try {
     const value = await client.get(email);
     if (!(value != null && value != undefined && value == key))
@@ -104,7 +103,7 @@ const reset_pass = async (req, res) => {
     where email = '${email}'`);
 
     if (!update_admin.success) {
-      console.log(update_admin.data.err.sqlMessage);
+      console.error(update_admin.data.err.sqlMessage);
       return res.status(500).send({
         err: update_admin.data.err.sqlMessage,
       });

@@ -16,7 +16,6 @@ const add_anounsment = async (req, res) => {
     visite_date,
   } = req.body;
   const { id } = req.user;
-  console.log(visite_date);
   const { _role: this_role } = get_this_admin(id);
   if (this_role != "Admin")
     throw new UnauthenticatedError("you dont have permission");
@@ -68,12 +67,11 @@ const anounsments = async (req, res) => {
      `
   );
   if (!task_announcement.success) {
-    console.log(task_announcement.data.err);
+    console.error(task_announcement.data.err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
   }
-  console.table(task_announcement.data.rows);
   res.status(200).json(task_announcement.data.rows);
 };
 
@@ -113,7 +111,7 @@ const set_task_done = async (req, res) => {
                              CURDATE())`
   );
   if (!add_done.success) {
-    console.trace(add_done.data.err);
+    console.error(add_done.data.err);
     return res.status(500).json({
       err: add_done.data.err,
     });
@@ -168,7 +166,7 @@ const add_done = async (req, res) => {
                              CURDATE())`
   );
   if (!add_done.success) {
-    console.trace(add_done.data.err);
+    console.error(add_done.data.err);
     return res.status(500).json({
       err: add_done.data.err,
     });
@@ -201,7 +199,7 @@ const edite_done = async (req, res) => {
      where id = ${id}`
   );
   if (!add_done.success) {
-    console.trace(add_done.data.err);
+    console.error(add_done.data.err);
 
     return res.status(500).json({
       err: add_done.data.err,
@@ -236,7 +234,7 @@ const done = async (req, res) => {
        ORDER BY task_done.id DESC `
   );
   if (!done_tasks.success) {
-    console.trace(done_tasks.data.err);
+    console.error(done_tasks.data.err);
     return res.status(500).json({
       err: done_tasks.data.err,
     });

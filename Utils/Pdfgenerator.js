@@ -14,7 +14,7 @@ const Generate_contract_Pdf = async (partner_data) => {
         .create(content, {})
         .toFile(`${s_path.resolve("./public")}/PDF/${path}`, async (err) => {
           if (err) {
-            console.log(err);
+            console.error(err);
             rej({ msg: err });
           } else {
             try {

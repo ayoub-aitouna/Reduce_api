@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 require("dotenv").config();
 const Log = require("../log");
+
 const get_parner_data = (req, res) => {
   const { id } = req.user;
   const partner = SqlQuery(`select * from partner where id = ${id}`);

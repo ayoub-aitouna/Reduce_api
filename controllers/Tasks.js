@@ -16,6 +16,7 @@ const add_anounsment = async (req, res) => {
     visite_date,
   } = req.body;
   const { id } = req.user;
+  console.log(visite_date);
   const { _role: this_role } = get_this_admin(id);
   if (this_role != "Admin")
     throw new UnauthenticatedError("you dont have permission");
@@ -72,6 +73,7 @@ const anounsments = async (req, res) => {
       err: task_announcement.data.err,
     });
   }
+  console.table(task_announcement.data.rows);
   res.status(200).json(task_announcement.data.rows);
 };
 
@@ -249,7 +251,7 @@ const search = async (req, res) => {
   const name = req.query.partner_name;
   // search on anounsments
   let base_filter = `partner_name LIKE '%${name}%'`;
-  let filter = this_role != "Admin" ? `and ville == ${admin_ville}` : "";
+  let filter = this_role != "Admin" ? `and villes.id = ${admin_ville}` : "";
   const task_announcement = SqlQuery(
     `select * from task_announcement
     inner join villes on  task_announcement.ville = villes.id

@@ -123,6 +123,7 @@ const Upload_C_PDF = async (req, res, next) => {
     });
   }
 };
+
 const Response_partner_form = async (req, res) => {
   const { partner_id, response } = JSON.parse(req.body.data);
   const { id: admin_id } = req.user;
@@ -133,8 +134,7 @@ const Response_partner_form = async (req, res) => {
 
   const partner_data = partner.data.rows[0];
 
-  let url = req.url;
-  console.log(url);
+  let url = "";
 
   const result = SqlQuery(`
                         update partner
@@ -176,8 +176,8 @@ const Response_partner_form = async (req, res) => {
 const get_partners = (req, res) => {
   const { id } = req.user;
   const { _role, ville } = get_this_admin(id);
-
   const Filter = _role != "Admin" ? `where ville = ${ville}` : "";
+  console.log(`Role is ${_role} , filter ${Filter}`);
   const Query = `select   partner.id,
         avatar_Url,
         email,

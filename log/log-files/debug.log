@@ -3438,3 +3438,6 @@
 19:15:03 [[32minfo[39m] Email sent: 250 vkLloAziBGkST mail accepted for delivery
 19:17:41 [[32minfo[39m] Email sent: 250 vkOIo9SyQ4BBk mail accepted for delivery
 19:20:36 [[32minfo[39m] Email sent: 250 vkR7ogjtkH0m5 mail accepted for delivery
+16:46:00 [[32minfo[39m] App Running on port => 5000
+16:46:01 [[32minfo[39m] connected to Redis!!
+16:46:08 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT

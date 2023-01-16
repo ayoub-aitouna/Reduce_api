@@ -5,6 +5,7 @@ create table defaultdb.partner(
     email text,
     _password text,
     avatar_Url text,
+    img_cover_Url text,
     nome_entreprise varchar(20) NOT NULL,
     identificateur_entreprise text NOT NULL,
     representant_entreprise text NOT NULL,
@@ -23,6 +24,20 @@ create table defaultdb.partner(
     FOREIGN KEY(ville) REFERENCES villes(id),
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
+
+
+
+create table defaultdb.sub_partner(
+    id int NOT NULL AUTO_INCREMENT,
+    email text,
+    _password text,
+    partner_id int,
+    sub_partner_Name varchar(20) NOT NULL,
+    _status ENUM ('Unlocked', 'Blocked'),
+    PRIMARY KEY (id),
+    FOREIGN KEY(partner_id) REFERENCES partner(id)
+);
+
 
 create table defaultdb.villes(
     id int NOT NULL AUTO_INCREMENT,

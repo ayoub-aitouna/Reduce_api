@@ -1,57 +1,46 @@
-GET /get_all
+# Sub-partner API
 
-Description: Retrieves all sub_partner data
-Response:
-200: An array of sub_partner objects
-GET /:id
+This API allows you to manage sub-partners, including adding, editing, and deleting sub-partners, as well as retrieving and updating their status.
 
-Description: Retrieves a specific sub_partner by id
-Parameters:
-id: The id of the sub_partner to retrieve
-Response:
-200: A sub_partner object
-404: The sub_partner with the specified id does not exist
-POST /add
+## Endpoints
 
-Description: Add a new sub_partner
-Request Body: A JSON object containing the sub_partner data
-Response:
-201: The new sub_partner object
-400: Invalid sub_partner data provided
-POST /edit
+### POST /add 
+- Add a new sub-partner.
+- Request body should include email, _password, sub_partner_Name, and _status.
+- The partner_id will be taken from the authenticated user's ID.
+- Returns a JSON object with a message and the results of the query.
 
-Description: Edit an existing sub_partner
-Request Body: A JSON object containing the sub_partner data
-Response:
-200: The updated sub_partner object
-400: Invalid sub_partner data provided
-PUT /change_lock_status
+### GET /get_all 
+- Retrieve all sub-partners for the authenticated user.
+- Returns a JSON object with the partner's information.
 
-Description: Change the lock status of a sub_partner
-Request Body: A JSON object containing the sub_partner id and the new lock status
-Response:
-200: The updated sub_partner object
-400: Invalid sub_partner id or lock status provided
-PUT /change_password
+### GET /get/:id 
+- Retrieve a specific sub-partner by ID.
+- Returns a JSON object with the sub-partner's information.
 
-Description: Change the password of a sub_partner
-Request Body: A JSON object containing the sub_partner id and the new password
-Response:
-200: Success message
-400: Invalid sub_partner id or password provided
-DELETE /remove/:id
+### PUT /edit 
+- Edit an existing sub-partner.
+- Request body should include id, email, sub_partner_Name, and _status.
+- The partner_id will be taken from the authenticated user's ID.
+- Returns a JSON object with a message and the results of the query.
 
-Description: Remove a sub_partner by id
-Parameters:
-id: The id of the sub_partner to remove
-Response:
-200: Success message
-400: Invalid sub_partner id provided
-This is the documentation for the sub_partner API, it's allow you to :
+### DELETE /remove/:id 
+- Remove a specific sub-partner by ID.
+- Returns a JSON object with a message and the results of the query.
 
-Retrieve all sub_partners or a specific sub_partner by id
-Add a new sub_partner
-Edit an existing sub_partner
-Change the lock status of a sub_partner
-Change the password of a sub_partner
-Remove a sub_partner by id.
+### PUT /change_lock_status 
+- Change the lock status of a specific sub-partner.
+- Request body should include id and _status (true for unlocked, false for blocked).
+- Returns a JSON object with a message and the results of the query.
+
+### PUT /change_password 
+- Change the password of a specific sub-partner.
+- Request body should include id, old_password, and new_password.
+- Returns a JSON object with a message and the results of the query.
+
+**Note**:
+- _status should be passed as boolean, where true equals to 'unlocked' and false equals to 'blocked'
+- Encrypte and compare functions are used for encryption and comparison of passwords respectively, these functions are imported from ../Utils/Crypto
+- SqlQuery function is used for executing the SQL query that connects to the database.
+- connection.escape(value) is used for preventing SQL injection.
+- req.user is expected to have the id property, It should be populated by the middleware that handles user authentication

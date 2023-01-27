@@ -1975,3 +1975,17 @@
 16:46:00 [[32minfo[39m] App Running on port => 5000
 16:46:01 [[32minfo[39m] connected to Redis!!
 16:46:08 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT
+23:56:14 [[32minfo[39m] App Running on port => 5000
+23:56:15 [[32minfo[39m] connected to Redis!!
+23:56:24 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ETIMEDOUT
+01:37:25 [[32minfo[39m] App Running on port => 5000
+01:37:31 [[32minfo[39m] App Running on port => 5000
+01:48:04 [[32minfo[39m] App Running on port => 5000
+02:08:41 [[32minfo[39m] App Running on port => 5000
+02:09:07 [[32minfo[39m] App Running on port => 5000
+02:11:04 [[32minfo[39m] App Running on port => 5000
+02:11:20 [[32minfo[39m] App Running on port => 5000
+02:11:21 [[32minfo[39m] App Running on port => 5000
+02:11:35 [[32minfo[39m] App Running on port => 5000
+02:11:35 [[32minfo[39m] connected to Redis!!
+02:14:09 [[32minfo[39m] App Running on port => 5000

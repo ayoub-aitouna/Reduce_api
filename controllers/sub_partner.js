@@ -10,28 +10,28 @@ const add = async (req, res) => {
     const { id } = req.user;
     const { email, _password, sub_partner_Name, _status } = req.body;
     const sql = `INSERT INTO sub_partner (email, _password, partner_id,
-        sub_partner_Name, _status) VALUES (${connection.escape(email)},
-        ${await Encrypte(connection.escape(_password))},${connection.escape(id)},
-        ${connection.escape(sub_partner_Name)},${connection.escape(_status === true ? "Unlocked" : "Blocked")})`;
+        sub_partner_Name, _status) VALUES ('${email}',
+        '${await Encrypte(_password)}', ${id}, '${sub_partner_Name}', '${_status === true ? "Unlocked" : "Blocked"}')`;
     const result = SqlQuery(sql);
     if (!result.success)
-        return res.status(500).json({ message: 'Error adding sub_partner', error: result.data.err.sqlMessage });
+        return res.status(500).json({ message: 'Error adding sub_partner',
+		 error: result.data.err.sqlMessage });
     res.status(201).json({ message: 'sub_partner added', results: result });
 };
 
 const get_all = (req, res) => {
     const { id } = req.user;
-    const partner = SqlQuery(`select * from partner where id = ${id}`);
+    const partner = SqlQuery(`select * from sub_partner`);
     if (!partner.success)
-        throw BadRequestError(`couldn't retrive partner with this id ${id}`);
+        throw BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
     if (partner.data.rows.length == 0)
-        return res.status(404).send({ msg: `there is no partner with id ${id}` });
-    res.json(partner.data.rows[0]);
+        return res.status(404).send({ msg: `couldn't retrive partners cus list size = 0` });
+    res.json(partner.data.rows);
 };
 
 const get = (req, res) => {
     const id = req.params.id;
-    const sql = `SELECT * FROM sub_partner WHERE id = ${connection.escape(id)}`;
+    const sql = `SELECT * FROM sub_partner WHERE id = ${id}`;
     const result = SqlQuery(sql);
     if (!result.success)
         return res.status(500).json({ message: 'Error fetching sub_partner', error: result.error });
@@ -45,10 +45,10 @@ const get = (req, res) => {
 const edit = (req, res) => {
     const { id: partner_id } = req.user;
     const { id, email, sub_partner_Name, _status } = req.body;
-    const sql = `UPDATE sub_partner SET email = ${connection.escape(email)},
-        partner_id = ${connection.escape(partner_id)},
-        sub_partner_Name = ${connection.escape(sub_partner_Name)}, _status = ${connection.escape(_status === true ? "Unlocked" : "Blocked")}
-        WHERE id = ${connection.escape(id)}`;
+    const sql = `UPDATE sub_partner SET email = '${email}',
+        partner_id = '${partner_id}',
+        sub_partner_Name = '${sub_partner_Name}', _status = '${_status === true ? "Unlocked" : "Blocked"}'
+        WHERE id = ${id}`;
     const result = SqlQuery(sql);
     if (!result.success)
         return res.status(500).json({ message: 'Error updating sub_partner', error: result.data.err.sqlMessage });
@@ -57,7 +57,7 @@ const edit = (req, res) => {
 
 const remove = (req, res) => {
     const id = req.params.id;
-    const sql = `DELETE FROM sub_partner WHERE id = ${connection.escape(id)}`;
+    const sql = `DELETE FROM sub_partner WHERE id = ${id}`;
     const result = SqlQuery(sql);
     if (!result.success)
         return res.status(500).json({ message: 'Error deleting sub_partner', error: result.data.err.sqlMessage });
@@ -66,8 +66,8 @@ const remove = (req, res) => {
 
 const change_lock_status = (req, res) => {
     const { id, _status } = req.body;
-    const sql = `UPDATE sub_partner SET _status = ${connection.escape(_status === true ? "Unlocked" : "Blocked")}
-    WHERE id = ${connection.escape(id)}`;
+    const sql = `UPDATE sub_partner SET _status = '${_status === true ? "Unlocked" : "Blocked"}'
+    WHERE id = ${id}`;
     const result = SqlQuery(sql);
     if (!result.success)
         return res.status(500)
@@ -77,7 +77,7 @@ const change_lock_status = (req, res) => {
 
 const change_password = async (req, res) => {
     const { id, old_password, new_password } = req.body;
-    const sql = `SELECT _password FROM sub_partner WHERE id = ${connection.escape(id)}`;
+    const sql = `SELECT _password FROM sub_partner WHERE id = ${id}`;
     const result = SqlQuery(sql);
 
     if (!result.success) {
@@ -88,13 +88,13 @@ const change_password = async (req, res) => {
     }
     if (
         result.data.rows[0] == undefined ||
-        user.data.rows.length == 0 ||
+        result.data.rows.length == 0 ||
         !(await compare(old_password, result.data.rows[0]._password))
     ) {
         return res.status(401).json({ message: 'Old password does not match' });
     }
-    const updateSql = `UPDATE sub_partner SET _password = ${await Encrypte(connection.escape(new_password))}
-    WHERE id = ${connection.escape(id)}`;
+    const updateSql = `UPDATE sub_partner SET _password = ${await Encrypte(new_password)}
+    WHERE id = ${id}`;
     const updateResult = SqlQuery(updateSql);
     if (!updateResult.success)
         return res.status(500).json({

@@ -9,10 +9,13 @@ const {
   sendVeriifyOtp,
   Verify_email,
   reset_pass,
+  sub_partner_login
 } = require("../controllers/Auth");
 
 //partner
 router.post("/partner", partner_login);
+router.post("/sub_partner", sub_partner_login);
+
 router.post(
   "/partner_Submit_form",
   does_partner_form_exits,

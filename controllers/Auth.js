@@ -64,6 +64,43 @@ const partner_login = async (req, res) => {
   }
 };
 
+
+const sub_partner_login = async (req, res) => {
+	const { email, password } = req.body;
+	let HashedPass = "";
+	try {
+	  HashedPass = await Encrypte(password);
+	} catch (err) {
+	  console.log(err);
+	}
+	let user = SqlQuery(`select * from sub_partner where email = '${email}'`);
+	if (!user.success) throw new BadRequestError("user not found");
+	try {
+	  if (
+		user.data.rows[0] == undefined ||
+		user.data.rows.length == 0 ||
+		!(await compare(password, user.data.rows[0]._password))
+	  ) {
+		return res.status(404).send({ err: "password or email is not correct" });
+	  }
+	  const accesToken = jwt.sign(
+		user.data.rows[0],
+		process.env.ACCESS_TOKEN_SECRET
+	  );
+	  const RefreshToken = jwt.sign(
+		user.data.rows[0],
+		process.env.REFRESH_TOKEN_SECRET
+	  );
+	  res.status(200).send({
+		accesToken: accesToken,
+		RefreshToken: RefreshToken,
+	  });
+	} catch (err) {
+	  console.log(err);
+	  throw new BadRequestError(err);
+	}
+  };
+
 const sendVeriifyOtp = async (req, res) => {
   const { email } = req.body;
   const Key = await generateKeyAndstoreOtp(email);
@@ -231,4 +268,5 @@ module.exports = {
   Verify_email,
   sendVeriifyOtp,
   reset_pass,
+  sub_partner_login
 };

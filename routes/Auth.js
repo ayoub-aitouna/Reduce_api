@@ -13,8 +13,7 @@ const {
 } = require("../controllers/Auth");
 
 //partner
-router.post("/partner", partner_login);
-router.post("/sub_partner", sub_partner_login);
+router.post("/partner", partner_login, sub_partner_login);
 
 router.post(
   "/partner_Submit_form",

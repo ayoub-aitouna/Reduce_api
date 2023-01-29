@@ -109,6 +109,20 @@ create table defaultdb.modify_history(
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
+
+create table defaultdb.scan_hsitory(
+    id int NOT NULL AUTO_INCREMENT,
+    partner_id int,
+	client_id int,
+	product varchar(50),
+	scan_time int,
+    created_date DATETIME NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(partner_id) REFERENCES partner(id),
+    FOREIGN KEY(admin_id) REFERENCES _Admin(id)
+);
+
+
 ALTER TABLE
     defaultdb.partner
 MODIFY
@@ -177,3 +191,4 @@ from
     inner join defaultdb.villes on defaultdb._Admin.ville = defaultdb.villes.id
 ORDER BY
     defaultdb._Admin.id DESC
+

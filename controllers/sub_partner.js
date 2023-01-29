@@ -93,7 +93,7 @@ const change_password = async (req, res) => {
     ) {
         return res.status(401).json({ message: 'Old password does not match' });
     }
-    const updateSql = `UPDATE sub_partner SET _password = ${await Encrypte(new_password)}
+    const updateSql = `UPDATE sub_partner SET _password = '${await Encrypte(new_password)}'
     WHERE id = ${id}`;
     const updateResult = SqlQuery(updateSql);
     if (!updateResult.success)

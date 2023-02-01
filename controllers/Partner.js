@@ -17,8 +17,10 @@ function generate_qr_code(partnerData) {
 	});
 }
 
-const get_parner_data = async (req, res) => {
+const get_parner_data = async (req, res, next) => {
 	const { id } = req.user;
+	const { isMian } = req.body;
+	if (!isMian) return next();
 	const partner = SqlQuery(`select * from partner inner join villes on
   		villes.id = partner.ville INNER JOIN entrprise_activities on
 		entrprise_activities.id = partner.activity_entrprise where partner.id = ${id}`);
@@ -27,7 +29,6 @@ const get_parner_data = async (req, res) => {
 	if (partner.data.rows.length == 0)
 		return res.status(404).send({ msg: `there is no partner with id ${id}` });
 	const partnerData = partner.data.rows[0];
-	// Add the new property here
 	try {
 		partnerData.qr_code = await generate_qr_code(partnerData);
 	} catch (err) {
@@ -36,4 +37,22 @@ const get_parner_data = async (req, res) => {
 	res.json(partnerData);
 };
 
-module.exports = { get_parner_data };
+const get_sub = async (req, res) => {
+	const { id } = req.user;
+	const sql = `SELECT * FROM sub_partner INNER JOIN partner on partner.id = sub_partner.partner_id WHERE sub_partner.id = ${id}`;
+	const result = SqlQuery(sql);
+	if (!result.success)
+		return res.status(500).json({ message: 'Error fetching sub_partner', error: result.error });
+	if (result.data.rows.length === 0)
+		return res.status(404).json({ message: 'sub_partner not found' });
+	const sub_partner_data = result.data.rows[0];
+	try {
+		sub_partner_data.qr_code = await generate_qr_code(sub_partner_data);
+	} catch (err) {
+		throw BadRequestError(`error generating qr code key for partner ${id}`);
+	}
+	res.json(sub_partner_data);
+};
+
+
+module.exports = { get_parner_data, get_sub };

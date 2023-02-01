@@ -217,3 +217,7 @@
 23:48:57 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
 00:00:23 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
 00:07:27 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
+23:31:06 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
+00:36:02 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
+00:46:10 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
+00:56:44 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306

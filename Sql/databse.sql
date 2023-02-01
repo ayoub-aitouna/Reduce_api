@@ -146,7 +146,7 @@ insert into
 values
     (1, 1, '${applied_modife}', NOW());
 
--- abcdef.123456@@
+-- 	
 insert into
     defaultdb._Admin(
         email,

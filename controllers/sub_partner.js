@@ -37,7 +37,7 @@ const add = async (req, res) => {
 
 const get_all = (req, res) => {
 	const { id } = req.user;
-	const partner = SqlQuery(`select * from sub_partner INNER join partner on sub_partner.partner_id = partner.id where partner.id = ${id}`);
+	const partner = SqlQuery(`select sub_partner.id, sub_partner.sub_partner_Name, sub_partner.email, sub_partner._status from sub_partner INNER join partner on sub_partner.partner_id = partner.id where partner.id = ${id}`);
 	if (!partner.success)
 		throw BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
 	if (partner.data.rows.length == 0)

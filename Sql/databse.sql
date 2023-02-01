@@ -1,5 +1,9 @@
 use defaultdb;
 
+/*
+	partner;
+		*rating int (0 - 5)
+*/
 create table defaultdb.partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,

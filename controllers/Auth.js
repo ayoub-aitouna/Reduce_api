@@ -64,6 +64,10 @@ const partner_login = async (req, res, next) => {
 	}
 };
 
+
+//todo : if account is blocked return status 403
+//todo : retive data {	id, cover, avatar, entrpname , sub_accountname, qr}
+
 const sub_partner_login = async (req, res) => {
 	const { email, password } = req.body;
 	let HashedPass = "";
@@ -101,20 +105,31 @@ const sub_partner_login = async (req, res) => {
 	}
 };
 
+
+
 const sendVeriifyOtp = async (req, res) => {
 	const { email } = req.body;
-	const Key = await generateKeyAndstoreOtp(email);
-	try {
-		await sendEmail({
-			subject: `Le code de vérification`,
-			to: email,
-			text: ``,
-			html: OTP_EMAIL(Key),
-		});
-		res.sendStatus(200);
-	} catch (err) {
-		res.sendStatus(500);
-	}
+	const client = redis.createClient({
+		socket: {
+			host: "redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com",
+			port: "11844",
+		},
+		password: "Xhl3ENh5O3gyKqiObVUCX9xqXmE2L0AK",
+	});
+	
+	client.on("connect", function (err) {
+		if (err) {
+			throw new BadRequestError(err);
+		} else {
+			res.send("Conencted")
+		}
+	});
+	
+	client.on("error", function (err) {
+		if (err) {
+			throw new BadRequestError(err);
+		}
+	});
 };
 
 const Verify_email = async (req, res) => {
@@ -123,7 +138,6 @@ const Verify_email = async (req, res) => {
 		const value = await client.get(email);
 		res.send({ Verified: value != null && value != undefined && value == key });
 	} catch (err) {
-		console.log(err);
 		throw new BadRequestError(err);
 	}
 };

@@ -1,5 +1,6 @@
 const redis = require("redis");
 const Log = require("../log");
+
 const client = redis.createClient({
 	socket: {
 		host: "redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com",
@@ -7,6 +8,7 @@ const client = redis.createClient({
 	},
 	password: "Xhl3ENh5O3gyKqiObVUCX9xqXmE2L0AK",
 });
+
 client.on("connect", function (err) {
 	if (err) {
 		Log.error("Error occured while connecting to redis server");
@@ -14,6 +16,7 @@ client.on("connect", function (err) {
 		Log.info("connected to Redis!!");
 	}
 });
+
 client.on("error", function (err) {
 	if (err) {
 		Log.error(err);

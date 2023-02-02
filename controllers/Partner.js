@@ -38,6 +38,7 @@ const get_parner_data = async (req, res, next) => {
 	res.json(partnerData);
 };
 
+//todo : retive data {	id, cover, avatar, entrpname , sub_accountname, qr}
 const get_sub = async (req, res) => {
 	const { id } = req.user;
 	const sql = `SELECT * FROM sub_partner INNER JOIN partner on partner.id = sub_partner.partner_id WHERE sub_partner.id = ${id}`;

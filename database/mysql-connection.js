@@ -13,13 +13,13 @@ const connect = {
 };
 var Mysql = mysql.createConnection(connect);
 
-Mysql.connect(function (err) {
-  if (err) {
-    Log.error(`An Error while trying to connect to databse ==> ${err}`);
-    throw err;
-  }
-  Log.info(`SQL DB Connected`);
-});
+// Mysql.connect(function (err) {
+//   if (err) {
+//     Log.error(`An Error while trying to connect to databse ==> ${err}`);
+//     throw err;
+//   }
+//   Log.info(`SQL DB Connected`);
+// });
 
 function Query(query) {
   try {

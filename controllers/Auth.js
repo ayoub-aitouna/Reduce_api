@@ -66,7 +66,6 @@ const partner_login = async (req, res, next) => {
 
 
 //todo : if account is blocked return status 403
-//todo : retive data {	id, cover, avatar, entrpname , sub_accountname, qr}
 
 const sub_partner_login = async (req, res) => {
 	const { email, password } = req.body;
@@ -86,6 +85,8 @@ const sub_partner_login = async (req, res) => {
 		) {
 			return res.status(404).send({ err: "password or email is not correct" });
 		}
+		if(user.data.rows[0]._status === "Blocked")
+			return res.status(403).json({msg: "this account is Blocked ."});
 		const accesToken = jwt.sign(
 			user.data.rows[0],
 			process.env.ACCESS_TOKEN_SECRET

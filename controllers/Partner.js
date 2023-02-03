@@ -38,10 +38,17 @@ const get_parner_data = async (req, res, next) => {
 	res.json(partnerData);
 };
 
-//todo : retive data {	id, cover, avatar, entrpname , sub_accountname, qr}
+
 const get_sub = async (req, res) => {
 	const { id } = req.user;
-	const sql = `SELECT * FROM sub_partner INNER JOIN partner on partner.id = sub_partner.partner_id WHERE sub_partner.id = ${id}`;
+	const sql = `SELECT sub_partner.id, partner.nome_entreprise, 
+				sub_partner.sub_partner_Name as representant_entreprise,
+				partner.role_dans_entriprise, partner.identificateur_entreprise,
+				partner.adrress, partner.numero_telephone, partner.numero_telephone_fix,
+				sub_partner.email, partner.offer, partner.avatar_Url, partner.img_cover_Url,
+				sub_partner._status
+				FROM sub_partner INNER JOIN partner on partner.id = sub_partner.partner_id
+				WHERE sub_partner.id =${id}`;
 	const result = SqlQuery(sql);
 	if (!result.success)
 		return res.status(500).json({ message: 'Error fetching sub_partner', error: result.error });
@@ -101,4 +108,5 @@ const history = (req, res) => {
 
 	res.status(200).json(list);
 }
-module.exports = { get_parner_data, get_sub, change_password , history};
+
+module.exports = { get_parner_data, get_sub, change_password, history };

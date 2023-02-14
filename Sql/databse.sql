@@ -1,9 +1,9 @@
 use defaultdb;
 
 /*
-	partner;
-		*rating int (0 - 5)
-*/
+ partner;
+ *rating int (0 - 5)
+ */
 create table defaultdb.partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
@@ -29,8 +29,6 @@ create table defaultdb.partner(
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
 
-
-
 create table defaultdb.sub_partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
@@ -41,7 +39,6 @@ create table defaultdb.sub_partner(
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
-
 
 create table defaultdb.villes(
     id int NOT NULL AUTO_INCREMENT,
@@ -113,19 +110,55 @@ create table defaultdb.modify_history(
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
+drop table if EXISTS defaultdb.profession;
+
+create table defaultdb.profession(
+    id int NOT NULL AUTO_INCREMENT,
+    profession text
+);
+
+drop table if EXISTS defaultdb.client;
+
+create table defaultdb.client(
+    id int NOT NULL AUTO_INCREMENT,
+    full_name text,
+    birth_date int,
+    sexe ENUM('M', 'F'),
+    ville int,
+    adresse text,
+    profession int,
+    tel text,
+    Email text,
+    Abonnement ENUM(
+        'Abonne',
+        'Telecharger',
+        'Gratuit',
+        'Routier',
+        'investisseur'
+    ),
+    Device_id text,
+    Statut ENUM('Activé', 'Desactivé', 'Archivé'),
+    Date_inscription DATETIME NOT NULL,
+    Date_debut_abonnement DATETIME NOT NULL,
+    Date_Fin_abonnement DATETIME NOT NULL,
+    product varchar(50),
+    scan_time int,
+    created_date DATETIME NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(profession) REFERENCES profession(id),
+);
 
 create table defaultdb.scan_hsitory(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
-	client_id int,
-	product varchar(50),
-	scan_time int,
+    client_id int,
+    product varchar(50),
+    scan_time int,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES partner(id),
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
-
 
 ALTER TABLE
     defaultdb.partner
@@ -195,4 +228,3 @@ from
     inner join defaultdb.villes on defaultdb._Admin.ville = defaultdb.villes.id
 ORDER BY
     defaultdb._Admin.id DESC
-

@@ -64,9 +64,7 @@ const partner_login = async (req, res, next) => {
 	}
 };
 
-
 //todo : if account is blocked return status 403
-
 const sub_partner_login = async (req, res) => {
 	const { email, password } = req.body;
 	let HashedPass = "";
@@ -85,8 +83,8 @@ const sub_partner_login = async (req, res) => {
 		) {
 			return res.status(404).send({ err: "password or email is not correct" });
 		}
-		if(user.data.rows[0]._status === "Blocked")
-			return res.status(403).json({msg: "this account is Blocked ."});
+		if (user.data.rows[0]._status === "Blocked")
+			return res.status(403).json({ msg: "this account is Blocked ." });
 		const accesToken = jwt.sign(
 			user.data.rows[0],
 			process.env.ACCESS_TOKEN_SECRET
@@ -106,8 +104,6 @@ const sub_partner_login = async (req, res) => {
 	}
 };
 
-
-
 const sendVeriifyOtp = async (req, res) => {
 	const { email } = req.body;
 	const client = redis.createClient({
@@ -117,7 +113,7 @@ const sendVeriifyOtp = async (req, res) => {
 		},
 		password: "Xhl3ENh5O3gyKqiObVUCX9xqXmE2L0AK",
 	});
-	
+
 	client.on("connect", function (err) {
 		if (err) {
 			throw new BadRequestError(err);
@@ -125,7 +121,7 @@ const sendVeriifyOtp = async (req, res) => {
 			res.send("Conencted")
 		}
 	});
-	
+
 	client.on("error", function (err) {
 		if (err) {
 			throw new BadRequestError(err);
@@ -224,7 +220,7 @@ const partner_Submit_form = async (req, res) => {
 	} catch (err) {
 		throw new BadRequestError(err);
 	}
-	
+
 };
 
 //admin
@@ -276,6 +272,69 @@ const ResendOTP = async (req, res) => {
 	}
 };
 
+const client_login = async (req, res) => {
+	const { email, password } = req.body;
+	let HashedPass = "";
+	try {
+		HashedPass = await Encrypte(password);
+	} catch (err) {
+		console.log(err);
+	}
+	let user = SqlQuery(`select * from client where email = '${email}'`);
+	if (!user.success) throw new BadRequestError("user not found");
+	try {
+		if (
+			user.data.rows[0] == undefined ||
+			user.data.rows.length == 0 ||
+			!(await compare(password, user.data.rows[0]._password))
+		)
+			return next();
+		const accesToken = jwt.sign(
+			user.data.rows[0],
+			process.env.ACCESS_TOKEN_SECRET
+		);
+		const RefreshToken = jwt.sign(
+			user.data.rows[0],
+			process.env.REFRESH_TOKEN_SECRET
+		);
+		res.status(200).send({
+			accesToken: accesToken,
+			RefreshToken: RefreshToken,
+			isMain: true,
+		});
+	} catch (err) {
+		console.log(err);
+		throw new BadRequestError(err);
+	}
+}
+
+// Create new Client
+const new_client = async (req, res) => {
+	try {
+		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
+			email, _password, abonnement, device_id, statut, date_inscription,
+			date_debut_abonnement, date_fin_abonnement }
+			= req.body;
+		// Validate required fields
+		if (!full_name || !email || !_password)
+			return res.status(400).json({ msg: "Please provide all required fields" });
+		// Insert new client into database
+		const result = await Query(
+			`INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
+			tel, email, _password, abonnement, device_id, statut, date_inscription, 
+			date_debut_abonnement, date_fin_abonnement, created_date) VALUES 
+			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
+			'${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
+			'${date_inscription}', '${date_debut_abonnement}', '${date_fin_abonnement}', NOW())`);
+
+		res.status(201).json({
+			msg: "Client added successfully"
+		});
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
+}
+
 module.exports = {
 	does_partner_form_exits,
 	partner_login,
@@ -285,5 +344,7 @@ module.exports = {
 	Verify_email,
 	sendVeriifyOtp,
 	reset_pass,
-	sub_partner_login
+	sub_partner_login,
+	client_login,
+	new_client
 };

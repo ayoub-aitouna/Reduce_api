@@ -20,6 +20,9 @@ const AddActivity = async (req, res) => {
     msg: `OK`,
   });
 };
+
+
+
 const Activities = async (req, res) => {
   const entrprise_activities = SqlQuery(`select * from entrprise_activities`);
   if (!entrprise_activities.success)

@@ -1,10 +1,29 @@
-use defaultdb;
+create database sql7598449;
+
+use sql7598449;
+
+
+
+
+create table sql7598449.villes(
+    id int NOT NULL AUTO_INCREMENT,
+    ville_name text,
+    created_date date NOT NULL,
+    PRIMARY KEY (id)
+);
+
+create table sql7598449.entrprise_activities(
+    id int NOT NULL AUTO_INCREMENT,
+    activity_name text,
+    created_date date NOT NULL,
+    PRIMARY KEY (id)
+);
 
 /*
  partner;
  *rating int (0 - 5)
  */
-create table defaultdb.partner(
+create table sql7598449.partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
     _password text,
@@ -29,7 +48,7 @@ create table defaultdb.partner(
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
 
-create table defaultdb.sub_partner(
+create table sql7598449.sub_partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
     _password text,
@@ -40,21 +59,7 @@ create table defaultdb.sub_partner(
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
 
-create table defaultdb.villes(
-    id int NOT NULL AUTO_INCREMENT,
-    ville_name text,
-    created_date date NOT NULL,
-    PRIMARY KEY (id)
-);
-
-create table defaultdb.entrprise_activities(
-    id int NOT NULL AUTO_INCREMENT,
-    activity_name text,
-    created_date date NOT NULL,
-    PRIMARY KEY (id)
-);
-
-create table defaultdb.task_announcement(
+create table sql7598449.task_announcement(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
     partner_full_name text,
@@ -69,7 +74,20 @@ create table defaultdb.task_announcement(
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
-create table defaultdb.task_done(
+create table sql7598449._Admin(
+    id int NOT NULL AUTO_INCREMENT,
+    email text NOT NULL,
+    ville int,
+    _name text,
+    _password text NOT NULL,
+    _role ENUM('Admin', 'Manager'),
+    account_status ENUM('Banned', 'Active', 'Suspanded'),
+    created_date date NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY(ville) REFERENCES villes(id)
+);
+
+create table sql7598449.task_done(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
     partner_full_name text,
@@ -84,22 +102,9 @@ create table defaultdb.task_done(
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
-create table defaultdb._Admin(
-    id int NOT NULL AUTO_INCREMENT,
-    email text NOT NULL,
-    ville int,
-    _name text,
-    _password text NOT NULL,
-    _role ENUM('Admin', 'Manager'),
-    account_status ENUM('Banned', 'Active', 'Suspanded'),
-    created_date date NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY(ville) REFERENCES villes(id)
-);
+drop table if EXISTS sql7598449.modify_history;
 
-drop table if EXISTS defaultdb.modify_history;
-
-create table defaultdb.modify_history(
+create table sql7598449.modify_history(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
     admin_id int,
@@ -110,45 +115,45 @@ create table defaultdb.modify_history(
     FOREIGN KEY(admin_id) REFERENCES _Admin(id)
 );
 
-drop table if EXISTS defaultdb.profession;
+drop table if EXISTS sql7598449.profession;
 
-create table defaultdb.profession(
+create table sql7598449.profession(
     id int NOT NULL AUTO_INCREMENT,
-    profession text
+    profession text,
+	PRIMARY KEY (id)
 );
 
-drop table if EXISTS defaultdb.client;
+drop table if EXISTS sql7598449.client;
 
-create table defaultdb.client(
-    id int NOT NULL AUTO_INCREMENT,
-    full_name text,
-    birth_date int,
+CREATE TABLE sql7598449.client (
+    id INT NOT NULL AUTO_INCREMENT,
+    full_name TEXT,
+    birth_date DATETIME NOT NULL,
     sexe ENUM('M', 'F'),
-    ville int,
-    adresse text,
-    profession int,
-    tel text,
-    Email text,
-    Abonnement ENUM(
+    ville INT,
+    adresse TEXT,
+    profession INT,
+    tel TEXT,
+    email text NOT NULL,
+    _password text NOT NULL,
+    abonnement ENUM(
         'Abonne',
         'Telecharger',
         'Gratuit',
         'Routier',
         'investisseur'
     ),
-    Device_id text,
-    Statut ENUM('Activé', 'Desactivé', 'Archivé'),
-    Date_inscription DATETIME NOT NULL,
-    Date_debut_abonnement DATETIME NOT NULL,
-    Date_Fin_abonnement DATETIME NOT NULL,
-    product varchar(50),
-    scan_time int,
+    device_id TEXT,
+    statut ENUM('Activé', 'Desactivé', 'Archivé'),
+    date_inscription DATETIME NOT NULL,
+    date_debut_abonnement DATETIME NOT NULL,
+    date_fin_abonnement DATETIME NOT NULL,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(profession) REFERENCES profession(id),
+    FOREIGN KEY (profession) REFERENCES profession(id)
 );
 
-create table defaultdb.scan_hsitory(
+create table sql7598449.scan_hsitory(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
     client_id int,
@@ -157,74 +162,18 @@ create table defaultdb.scan_hsitory(
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES partner(id),
-    FOREIGN KEY(admin_id) REFERENCES _Admin(id)
+    FOREIGN KEY(client_id) REFERENCES client(id)
 );
 
-ALTER TABLE
-    defaultdb.partner
-MODIFY
-    defaultdb.partner.created_date DATETIME;
 
-select
-    *
-from
-    defaultdb.modify_history;
-
-select
-    NOW();
-
-insert into
-    defaultdb.modify_history(
-        partner_id,
-        admin_id,
-        edited_column,
-        created_date
-    )
-values
-    (1, 1, '${applied_modife}', NOW());
-
---abcdef.123456@@
-insert into
-    defaultdb._Admin(
-        email,
-        ville,
-        _name,
-        _password,
-        _role,
-        account_status,
-        created_date
-    )
-values
-    (
-        'reducte.cloud@gmail.com',
-        1,
-        'SUPER_ADMIN',
-        '$2a$10$nPh0FRYpxalCb5UT9/Zim.CNw1SQhFiSv1uVoabbfbZDiK.OFxLeG',
-        'Admin',
-        'Active',
-        CURDATE()
-    );
-
-create table defaultdb.Admins_partners(
+create table sql7598449.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(admin_id) REFERENCES defaultdb._Admin(id),
+    FOREIGN KEY(admin_id) REFERENCES sql7598449._Admin(id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
 
-select
-    _Admin.id,
-    email,
-    _password,
-    _name,
-    ville,
-    _role,
-    account_status
-from
-    defaultdb._Admin
-    inner join defaultdb.villes on defaultdb._Admin.ville = defaultdb.villes.id
-ORDER BY
-    defaultdb._Admin.id DESC
+-- default passowrd ==  abcdef.123456@@

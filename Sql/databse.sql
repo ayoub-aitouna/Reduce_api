@@ -2,8 +2,7 @@ create database sql7598449;
 
 use sql7598449;
 
-
-
+drop table if EXISTS sql7598449.villes;
 
 create table sql7598449.villes(
     id int NOT NULL AUTO_INCREMENT,
@@ -11,6 +10,8 @@ create table sql7598449.villes(
     created_date date NOT NULL,
     PRIMARY KEY (id)
 );
+
+drop table if EXISTS sql7598449.entrprise_activities;
 
 create table sql7598449.entrprise_activities(
     id int NOT NULL AUTO_INCREMENT,
@@ -23,6 +24,8 @@ create table sql7598449.entrprise_activities(
  partner;
  *rating int (0 - 5)
  */
+drop table if EXISTS sql7598449.partner;
+
 create table sql7598449.partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
@@ -48,6 +51,8 @@ create table sql7598449.partner(
     FOREIGN KEY(activity_entrprise) REFERENCES entrprise_activities(id)
 );
 
+drop table if EXISTS sql7598449.sub_partner;
+
 create table sql7598449.sub_partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
@@ -58,6 +63,8 @@ create table sql7598449.sub_partner(
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
 );
+
+drop table if EXISTS sql7598449.task_announcement;
 
 create table sql7598449.task_announcement(
     id int NOT NULL AUTO_INCREMENT,
@@ -74,6 +81,8 @@ create table sql7598449.task_announcement(
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
 
+drop table if EXISTS sql7598449._Admin;
+
 create table sql7598449._Admin(
     id int NOT NULL AUTO_INCREMENT,
     email text NOT NULL,
@@ -86,6 +95,8 @@ create table sql7598449._Admin(
     PRIMARY KEY (id),
     FOREIGN KEY(ville) REFERENCES villes(id)
 );
+
+drop table if EXISTS sql7598449.task_done;
 
 create table sql7598449.task_done(
     id int NOT NULL AUTO_INCREMENT,
@@ -120,7 +131,7 @@ drop table if EXISTS sql7598449.profession;
 create table sql7598449.profession(
     id int NOT NULL AUTO_INCREMENT,
     profession text,
-	PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 
 drop table if EXISTS sql7598449.client;
@@ -153,6 +164,8 @@ CREATE TABLE sql7598449.client (
     FOREIGN KEY (profession) REFERENCES profession(id)
 );
 
+drop table if EXISTS sql7598449.scan_hsitory;
+
 create table sql7598449.scan_hsitory(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
@@ -165,7 +178,6 @@ create table sql7598449.scan_hsitory(
     FOREIGN KEY(client_id) REFERENCES client(id)
 );
 
-
 create table sql7598449.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
@@ -174,6 +186,21 @@ create table sql7598449.Admins_partners(
     PRIMARY KEY (id),
     FOREIGN KEY(admin_id) REFERENCES sql7598449._Admin(id),
     FOREIGN KEY(partner_id) REFERENCES partner(id)
+);
+
+drop table if EXISTS sql7598449.banners;
+
+create table sql7598449.banners(
+    id int NOT NULL AUTO_INCREMENT,
+    Baniere_ordre int,
+    Logo text,
+    Couverture text,
+    Offer text,
+    Adresse text,
+    Tel text,
+    statut ENUM ('activer', 'Desactiver'),
+    created_date DATETIME NOT NULL,
+    PRIMARY KEY (id)
 );
 
 -- default passowrd ==  abcdef.123456@@

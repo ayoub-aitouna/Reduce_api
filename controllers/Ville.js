@@ -20,6 +20,7 @@ const AddVille = async (req, res) => {
     msg: `OK`,
   });
 };
+
 const Villes = async (req, res) => {
   const villes = SqlQuery(`select * from villes`);
   if (!villes.success)
@@ -28,6 +29,7 @@ const Villes = async (req, res) => {
     });
   res.status(200).json(villes.data.rows);
 };
+
 module.exports = {
   AddVille,
   Villes,

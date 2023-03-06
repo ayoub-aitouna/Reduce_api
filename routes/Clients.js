@@ -17,4 +17,5 @@ router.put("/:id/setDeviceId", setDeviceId);
 // change client status
 router.put("/:id/change_status", change_status);
 
+
 module.exports = router;

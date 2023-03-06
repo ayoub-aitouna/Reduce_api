@@ -38,7 +38,6 @@ const get_parner_data = async (req, res, next) => {
 	res.json(partnerData);
 };
 
-
 const get_sub = async (req, res) => {
 	const { id } = req.user;
 	const sql = `SELECT sub_partner.id, partner.nome_entreprise, 
@@ -96,6 +95,96 @@ const change_password = async (req, res) => {
 	});
 };
 
+
+
+const get_recent_partners = (req, res) => {
+	const { activity, ville } = req.body;
+	const Filter = _role != "Admin" ? `` : "";
+	const Query = `SELECT partner.id,
+        avatar_Url,
+        email,
+        nome_entreprise,
+        identificateur_entreprise,
+        representant_entreprise,
+        role_dans_entriprise,
+        numero_telephone,
+        numero_telephone_fix,
+        ville,
+        activity_entrprise,
+        offer,
+        _status,
+        note,
+        adrress,
+        partner.created_date,
+        ville_name,
+        activity_name
+    	from partner ORDER BY created_date DESC LIMIT 25 `;
+	const partners = SqlQuery(Query);
+	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+	console.log(partners.data.rows);
+	res.send(partners.data.rows);
+}
+
+
+const get_recomandation = (req, res) => {
+	const { activity, ville } = req.body;
+	const Filter = _role != "Admin" ? `` : "";
+	const Query = `SELECT partner.id,
+        avatar_Url,
+        email,
+        nome_entreprise,
+        identificateur_entreprise,
+        representant_entreprise,
+        role_dans_entriprise,
+        numero_telephone,
+        numero_telephone_fix,
+        ville,
+        activity_entrprise,
+        offer,
+        _status,
+        note,
+        adrress,
+        partner.created_date,
+        ville_name,
+        activity_name
+    	from partner ORDER BY created_date DESC LIMIT 25 `;
+	const partners = SqlQuery(Query);
+	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+	console.log(partners.data.rows);
+	res.send(partners.data.rows);
+}
+
+const get_partners = (req, res) => {
+	const { activity, ville } = req.body;
+	const Filter = _role != "Admin" ? `` : "";
+	const Query = `select   partner.id,
+        avatar_Url,
+        email,
+        nome_entreprise,
+        identificateur_entreprise,
+        representant_entreprise,
+        role_dans_entriprise,
+        numero_telephone,
+        numero_telephone_fix,
+        ville,
+        activity_entrprise,
+        offer,
+        _status,
+        note,
+        adrress,
+        partner.created_date,
+        ville_name,
+        activity_name
+    	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+    	where ville = ${ville} AND  activity_entrprise = ${activity}
+    	ORDER BY id DESC `;
+	const partners = SqlQuery(Query);
+	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+	console.log(partners.data.rows);
+	res.send(partners.data.rows);
+}
+
+
 const history = (req, res) => {
 	const list = [];
 	list.push({
@@ -105,7 +194,6 @@ const history = (req, res) => {
 		email: "Dummy@Dummy.com",
 		date: 445481245
 	});
-
 	res.status(200).json(list);
 }
 

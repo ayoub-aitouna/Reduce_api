@@ -43,6 +43,7 @@ create table sql7598449.partner(
     offer text,
     contract_Url text,
     adrress text,
+    is_recommandation int,
     note text,
     created_date DATETIME NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
@@ -169,6 +170,8 @@ drop table if EXISTS sql7598449.scan_hsitory;
 create table sql7598449.scan_hsitory(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
+    sub_partner_id int,
+    statut ENUM('active', 'deleted'),
     client_id int,
     product varchar(50),
     scan_time int,

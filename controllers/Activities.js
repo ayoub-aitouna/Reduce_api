@@ -21,8 +21,6 @@ const AddActivity = async (req, res) => {
   });
 };
 
-
-
 const Activities = async (req, res) => {
   const entrprise_activities = SqlQuery(`select * from entrprise_activities`);
   if (!entrprise_activities.success)
@@ -31,6 +29,7 @@ const Activities = async (req, res) => {
     });
   res.status(200).json(entrprise_activities.data.rows);
 };
+
 module.exports = {
   AddActivity,
   Activities,

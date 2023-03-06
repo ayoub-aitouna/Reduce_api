@@ -212,7 +212,6 @@ const partner_Submit_form = async (req, res) => {
     '${adrress}',
      NOW(),
     'Pending')`);
-
 		if (submit.success) return res.status(200).send();
 		return res
 			.status(500)
@@ -322,11 +321,10 @@ const new_client = async (req, res) => {
 		const result = await Query(
 			`INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
 			tel, email, _password, abonnement, device_id, statut, date_inscription, 
-			date_debut_abonnement, date_fin_abonnement, created_date) VALUES 
+			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
 			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
 			'${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
 			'${date_inscription}', '${date_debut_abonnement}', '${date_fin_abonnement}', NOW())`);
-
 		res.status(201).json({
 			msg: "Client added successfully"
 		});

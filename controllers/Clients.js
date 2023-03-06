@@ -4,6 +4,7 @@ const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
 require("dotenv").config();
 const Log = require("../log");
+const { promises } = require("nodemailer/lib/xoauth2/index.js");
 
 //Update a Client
 const update_client = async (req, res) => {
@@ -129,6 +130,12 @@ const setDeviceId = async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 }
+const decipher = (encrypted) => {
+    const decipher = crypto.createDecipher('aes-256-cbc', secretKey);
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 // change client status
 const change_status = async (req, res) => {
@@ -156,7 +163,48 @@ const change_status = async (req, res) => {
     }
 }
 
+const checkSubsription = (id) => {
+    return new promises(async (res, rej) => {
+        let rows = await SqlQuery(`SELECT * FROM client WHERE id = '${id}' AND abonnement = 'Abonne' AND date_fin_abonnement > NOW()`);
+        if (!rows.success) res(false);
+        if (rows.length === 0) res(false);
+        res(true);
+    });
+}
+
+const check_is_valide_qr = async (obj) => {
+    return new promises(async (res, rej) => {
+        let rows = await SqlQuery(`SELECT * FROM ${obj.is_main ? 'partner' : 'sub_partner'} WHERE id = '${id}'`);
+        if (!rows.success) res(false);
+        if (rows.length === 0) res(false);
+        res(true);
+    });
+}
+
+const scan = async (req, res) => {
+    const { id } = req.user;
+    const { qr_code, product, scan_time } = req.body;
+    // {id: "partner/sub_partner__id" , is_main : true/false};
+    const qr_obj = JSON.parse(decipher(qr_code));
+    if (!('id' in qr_obj && 'is_main' in qr_obj))
+        throw new BadRequestError(`QR Code not valide`);
+    if (!(await checkSubsription(id)))
+        throw new BadRequestError(`No subscription found for user with ID ${id}`);
+    if (!(await check_is_valide_qr(qr_obj)))
+        throw new BadRequestError(`QR Code not valide`);
+
+    const result = await Query(
+        `INSERT INTO scan_hsitory (partner_id, sub_partner_id, client_id, product, scan_time, created_date)
+            VALUES (${qr_obj.is_main ? qr_obj.id : 0}, ${qr_obj.is_main ? 0 : qr_obj.id},
+                '${id}', '${product}', '${scan_time}', NOW())`);
+    if (!result.success)
+        throw new BadRequestError(`${result.data.err.sqlMessage}`);
+    res.status(200).json({
+        partner_id: qr_obj.id,
+        is_main: qr_obj.is_main
+    });
+}
 
 module.exports = {
-    get_all_client, update_client, change_password, get_client, setDeviceId, change_status
+    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan
 };

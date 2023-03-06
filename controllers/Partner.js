@@ -5,17 +5,11 @@ const { Encrypte, compare } = require("../Utils/Crypto");
 require("dotenv").config();
 const Log = require("../log");
 
-function generate_qr_code(partnerData) {
-	return new Promise(async (res, rej) => {
-		try {
-			res(jwt.sign(
-				partnerData,
-				process.env.ACCESS_TOKEN_SECRET
-			))
-		} catch (err) {
-			rej(err);
-		}
-	});
+const cipher = (str) => {
+	const cipher = crypto.createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET);
+	let encrypted = cipher.update(str, 'utf8', 'hex');
+	encrypted += cipher.final('hex');
+	return (encrypted);
 }
 
 const get_parner_data = async (req, res, next) => {
@@ -31,7 +25,7 @@ const get_parner_data = async (req, res, next) => {
 		return res.status(404).send({ msg: `there is no partner with id ${id}` });
 	const partnerData = partner.data.rows[0];
 	try {
-		partnerData.qr_code = await generate_qr_code(partnerData);
+		partnerData.qr_code = Buffer.from(partnerData.id).toString("base64");
 	} catch (err) {
 		throw BadRequestError(`error generating qr code key for partner ${id}`);
 	}
@@ -55,12 +49,28 @@ const get_sub = async (req, res) => {
 		return res.status(404).json({ message: 'sub_partner not found' });
 	const sub_partner_data = result.data.rows[0];
 	try {
-		sub_partner_data.qr_code = await generate_qr_code(sub_partner_data);
+		partnerData.qr_code = cipher(JSON.stringify({ id: sub_partner_data.id, is_main: false }));
 	} catch (err) {
 		throw BadRequestError(`error generating qr code key for partner ${id}`);
 	}
 	res.json(sub_partner_data);
 };
+
+const locate = async (req, res) => {
+	const { id } = req.user;
+	const { lat, long } = req.body;
+	const updateSql = `UPDATE partner SET lat = ${lat}, long = ${long} WHERE id = ${id}`;
+	const updateResult = SqlQuery(updateSql);
+	if (!updateResult.success)
+		return res.status(500).json({
+			message: 'Error updating partner location',
+			error: updateResult.data.err.sqlMessage
+		});
+	res.status(200).json({
+		message: 'partner location updated',
+		results: updateResult
+	});
+}
 
 const change_password = async (req, res) => {
 	const { id } = req.user;
@@ -95,8 +105,6 @@ const change_password = async (req, res) => {
 	});
 };
 
-
-
 const get_recent_partners = (req, res) => {
 	const { activity, ville } = req.body;
 	const Filter = _role != "Admin" ? `` : "";
@@ -118,17 +126,17 @@ const get_recent_partners = (req, res) => {
         partner.created_date,
         ville_name,
         activity_name
-    	from partner ORDER BY created_date DESC LIMIT 25 `;
+    	from partner 
+		where ville = ${ville}
+		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
-
 const get_recomandation = (req, res) => {
-	const { activity, ville } = req.body;
-	const Filter = _role != "Admin" ? `` : "";
+	const { ville } = req.body;
 	const Query = `SELECT partner.id,
         avatar_Url,
         email,
@@ -147,7 +155,9 @@ const get_recomandation = (req, res) => {
         partner.created_date,
         ville_name,
         activity_name
-    	from partner ORDER BY created_date DESC LIMIT 25 `;
+    	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+		where activity_name = 'medical' AND ville = ${ville}
+		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	console.log(partners.data.rows);
@@ -156,7 +166,6 @@ const get_recomandation = (req, res) => {
 
 const get_partners = (req, res) => {
 	const { activity, ville } = req.body;
-	const Filter = _role != "Admin" ? `` : "";
 	const Query = `select   partner.id,
         avatar_Url,
         email,
@@ -176,14 +185,13 @@ const get_partners = (req, res) => {
         ville_name,
         activity_name
     	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
-    	where ville = ${ville} AND  activity_entrprise = ${activity}
+    	where ville = ${ville} AND activity_entrprise = ${activity}
     	ORDER BY id DESC `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
-
 
 const history = (req, res) => {
 	const list = [];
@@ -197,4 +205,4 @@ const history = (req, res) => {
 	res.status(200).json(list);
 }
 
-module.exports = { get_parner_data, get_sub, change_password, history };
+module.exports = { get_parner_data, get_sub, change_password, history, locate, get_partners, get_recomandation, get_recent_partners };

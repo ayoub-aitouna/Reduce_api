@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-    get_all_client, update_client, change_password, get_client, setDeviceId, change_status
+    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan
 } = require("../controllers/Clients");
 
 //Update a Client
@@ -16,6 +16,8 @@ router.get("/", get_all_client);
 router.put("/:id/setDeviceId", setDeviceId);
 // change client status
 router.put("/:id/change_status", change_status);
+
+router.put("/:id/scan", scan);
 
 
 module.exports = router;

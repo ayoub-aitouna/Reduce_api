@@ -20,10 +20,17 @@ create table sql7598449.entrprise_activities(
     PRIMARY KEY (id)
 );
 
-/*
- partner;
- *rating int (0 - 5)
- */
+drop table if EXISTS sql7598449.ratings;
+
+create table sql7598449.ratings(
+    id int NOT NULL AUTO_INCREMENT,
+    partner_id int,
+    client_id int,
+    email text,
+    _subject text,
+    
+)
+
 drop table if EXISTS sql7598449.partner;
 
 create table sql7598449.partner(
@@ -43,7 +50,8 @@ create table sql7598449.partner(
     offer text,
     contract_Url text,
     adrress text,
-    is_recommandation int,
+    lat int,
+    long int,
     note text,
     created_date DATETIME NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),

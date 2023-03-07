@@ -1,23 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const {
-    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan
+    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan, scan_hoistroy, delete_history
 } = require("../controllers/Clients");
 
-//Update a Client
-router.put("/:id", update_client);
-//change clinet password
-router.put("/:id/change-password", change_password);
-//get client by id
-router.get("/:id", get_client);
-//get all clients
-router.get("/", get_all_client);
-//reset Device Id
-router.put("/:id/setDeviceId", setDeviceId);
-// change client status
-router.put("/:id/change_status", change_status);
-
-router.put("/:id/scan", scan);
-
-
+router.put("/", update_client);
+router.get("/", get_client);
+router.get("/all", get_all_client);
+router.get("/scan_histroy", scan_hoistroy);
+router.put("/change-password", change_password);
+router.put("/setDeviceId", setDeviceId);
+router.put("/change_status", change_status);
+router.post("/scan", scan);
+router.delete("/delete_history", delete_history);
 module.exports = router;

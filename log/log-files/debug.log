@@ -3507,3 +3507,38 @@
 16:34:51 [[32minfo[39m] connected to Redis!!
 00:10:35 [[32minfo[39m] App Running on port => 5000
 00:10:36 [[32minfo[39m] connected to Redis!!
+16:48:15 [[32minfo[39m] App Running on port => 5000
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:16 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:16 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:16 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:17 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:17 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:18 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:18 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:19 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:19 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:20 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:20 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:21 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:21 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:22 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:22 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:23 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:23 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:56 [[32minfo[39m] App Running on port => 5000
+17:48:12 [[32minfo[39m] App Running on port => 5000
+17:50:45 [[32minfo[39m] App Running on port => 5000
+17:51:37 [[32minfo[39m] App Running on port => 5000
+17:52:18 [[32minfo[39m] App Running on port => 5000
+17:53:55 [[32minfo[39m] App Running on port => 5000
+17:55:10 [[32minfo[39m] App Running on port => 5000
+18:01:30 [[32minfo[39m] App Running on port => 5000
+18:01:58 [[32minfo[39m] App Running on port => 5000
+18:02:12 [[32minfo[39m] App Running on port => 5000
+18:05:05 [[32minfo[39m] App Running on port => 5000

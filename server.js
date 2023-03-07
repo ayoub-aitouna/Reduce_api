@@ -37,7 +37,7 @@ app.use(cors());
 // })
 app.use(express.static(path.resolve("./public")));
 // app.use(express.static("./public"));
-client.connect();
+// client.connect();
 
 app.use("/api/v1/auth", Auth);
 app.use("/api/v1/partners", authenticationMiddleware, Partners);

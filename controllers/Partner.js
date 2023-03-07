@@ -2,6 +2,9 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
+const { BadRequestError } = require("../errors/index.js");
+
+const UnauthenticatedError = require("../errors/unauthenticated.js");
 require("dotenv").config();
 const Log = require("../log");
 
@@ -25,9 +28,10 @@ const get_parner_data = async (req, res, next) => {
 		return res.status(404).send({ msg: `there is no partner with id ${id}` });
 	const partnerData = partner.data.rows[0];
 	try {
-		partnerData.qr_code = Buffer.from(partnerData.id).toString("base64");
+		const obj = { id: partnerData.id, is_main: isMian };
+		partnerData.qr_code = cipher(JSON.stringify(obj));
 	} catch (err) {
-		throw BadRequestError(`error generating qr code key for partner ${id}`);
+		throw new BadRequestError(`error generating qr code key for partner : ${err}`);
 	}
 	res.json(partnerData);
 };
@@ -106,8 +110,7 @@ const change_password = async (req, res) => {
 };
 
 const get_recent_partners = (req, res) => {
-	const { activity, ville } = req.body;
-	const Filter = _role != "Admin" ? `` : "";
+	const { ville } = req.query;
 	const Query = `SELECT partner.id,
         avatar_Url,
         email,
@@ -126,17 +129,17 @@ const get_recent_partners = (req, res) => {
         partner.created_date,
         ville_name,
         activity_name
-    	from partner 
+    	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
 		where ville = ${ville}
 		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
-	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+	if (!partners.success) throw new BadRequestError(partners.data.err.message);
 	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
 const get_recomandation = (req, res) => {
-	const { ville } = req.body;
+	const { ville } = req.query;
 	const Query = `SELECT partner.id,
         avatar_Url,
         email,
@@ -159,13 +162,13 @@ const get_recomandation = (req, res) => {
 		where activity_name = 'medical' AND ville = ${ville}
 		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
-	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+	if (!partners.success) throw new BadRequestError(`${partners.data.err.sqlMessage}`);
 	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
 const get_partners = (req, res) => {
-	const { activity, ville } = req.body;
+	const { activity, ville } = req.query;
 	const Query = `select   partner.id,
         avatar_Url,
         email,
@@ -188,21 +191,23 @@ const get_partners = (req, res) => {
     	where ville = ${ville} AND activity_entrprise = ${activity}
     	ORDER BY id DESC `;
 	const partners = SqlQuery(Query);
-	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
+	if (!partners.success) throw new BadRequestError(`${partners.data.err.sqlMessage}`);
 	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
-const history = (req, res) => {
-	const list = [];
-	list.push({
-		id: 55441,
-		client_name: "Dummy Dummy",
-		description: "Dummy Dummy Dummy Dummy Dummy Dummy Dummy Dummy",
-		email: "Dummy@Dummy.com",
-		date: 445481245
-	});
-	res.status(200).json(list);
+const history = async (req, res) => {
+	const { id } = req.user;
+	try {
+		let rows = await SqlQuery(`SELECT * FROM scan_hsitory WHERE partner_id = ${id}`);
+		if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
+		rows = rows.data.rows
+		if (rows.length === 0)
+			return res.status(404).json({ msg: "no partner history" });
+		res.status(200).json(rows);
+	} catch (err) {
+		res.status(500).json({ err: err });
+	}
 }
 
 module.exports = { get_parner_data, get_sub, change_password, history, locate, get_partners, get_recomandation, get_recent_partners };

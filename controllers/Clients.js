@@ -4,20 +4,21 @@ const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
 require("dotenv").config();
 const Log = require("../log");
-const { promises } = require("nodemailer/lib/xoauth2/index.js");
 
 //Update a Client
 const update_client = async (req, res) => {
+    const { full_name, birth_date, sexe, ville, adresse, profession,
+        tel, email, abonnement,
+        date_inscription, date_debut_abonnement,
+        date_fin_abonnement } = req.body;
+    const { id } = req.user;
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${req.params.id}`);
+        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)
             return res.status(404).json({ msg: "Client not found" });
-        const { full_name, birth_date, sexe, ville, adresse, profession,
-            tel, email, abonnement,
-            date_inscription, date_debut_abonnement,
-            date_fin_abonnement } = req.body;
+
         // Validate required fields
         if (!full_name || !email) {
             return res.status(400).json({ msg: "Please provide all required fields" });
@@ -29,7 +30,7 @@ const update_client = async (req, res) => {
             tel = '${tel}', abonnement = '${abonnement}',
             date_inscription = '${date_inscription}', date_debut_abonnement = '${date_debut_abonnement}',
             date_fin_abonnement = '${date_fin_abonnement}',
-            WHERE id = ${req.params.id}`
+            WHERE id = ${id}`
         );
         if (!result.success)
             return res
@@ -44,10 +45,11 @@ const update_client = async (req, res) => {
 
 //change clinet password
 const change_password = async (req, res) => {
+    const { id } = req.user;
     const { old_password, new_password } = req.body;
     let HashedPass = "";
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${req.params.id}`);
+        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError("user not found");
         rows = rows.data.rows
         if (rows.length === 0)
@@ -65,7 +67,7 @@ const change_password = async (req, res) => {
         }
 
         // Update password in database
-        const result = await SqlQuery(`UPDATE client SET _password = '${await Encrypte(new_password)}' WHERE id = ${req.params.id}`);
+        const result = await SqlQuery(`UPDATE client SET _password = '${await Encrypte(new_password)}' WHERE id = ${id}`);
         if (!result.success)
             return res
                 .status(500)
@@ -79,8 +81,9 @@ const change_password = async (req, res) => {
 
 //get client by id
 const get_client = async (req, res) => {
+    const { id } = req.user;
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${req.params.id}`);
+        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)
@@ -107,8 +110,10 @@ const get_all_client = async (req, res) => {
 
 //reset Device Id
 const setDeviceId = async (req, res) => {
+    const { id } = req.user;
+
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${req.params.id}`);
+        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         const { device_id } = req.body;
@@ -117,7 +122,7 @@ const setDeviceId = async (req, res) => {
             return res.status(404).json({ msg: "Client not found" });
         }
         // Reset the device ID for the client
-        const result = await SqlQuery(`UPDATE client SET device_id = '${device_id}' WHERE id  = ${req.params.id}`);
+        const result = await SqlQuery(`UPDATE client SET device_id = '${device_id}' WHERE id  = ${id}`);
         if (!result.success)
             return res
                 .status(500)
@@ -140,8 +145,10 @@ const decipher = (encrypted) => {
 // change client status
 const change_status = async (req, res) => {
     const { statut } = req.body;
+    const { id } = req.user;
+
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${req.params.id}`);
+        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)
@@ -149,7 +156,7 @@ const change_status = async (req, res) => {
         if (statut !== "Activé" && statut !== "Desactivé" && statut !== "Archivé")
             return res.status(400).json({ msg: "Statut must be 'Activé' or 'Desactivé' or Archivé" });
         // Update client in database
-        const result = await SqlQuery(`UPDATE client SET statut = '${statut}' WHERE id = ${req.params.id}`);
+        const result = await SqlQuery(`UPDATE client SET statut = '${statut}' WHERE id = ${id}`);
         if (!result.success)
             return res
                 .status(500)
@@ -164,7 +171,7 @@ const change_status = async (req, res) => {
 }
 
 const checkSubsription = (id) => {
-    return new promises(async (res, rej) => {
+    return new Promise(async (res, rej) => {
         let rows = await SqlQuery(`SELECT * FROM client WHERE id = '${id}' AND abonnement = 'Abonne' AND date_fin_abonnement > NOW()`);
         if (!rows.success) res(false);
         if (rows.length === 0) res(false);
@@ -173,7 +180,7 @@ const checkSubsription = (id) => {
 }
 
 const check_is_valide_qr = async (obj) => {
-    return new promises(async (res, rej) => {
+    return new Promise(async (res, rej) => {
         let rows = await SqlQuery(`SELECT * FROM ${obj.is_main ? 'partner' : 'sub_partner'} WHERE id = '${id}'`);
         if (!rows.success) res(false);
         if (rows.length === 0) res(false);
@@ -184,7 +191,7 @@ const check_is_valide_qr = async (obj) => {
 const scan = async (req, res) => {
     const { id } = req.user;
     const { qr_code, product, scan_time } = req.body;
-    // {id: "partner/sub_partner__id" , is_main : true/false};
+    // qr_obj : {id: "partner/sub_partner__id" , is_main : true/false};
     const qr_obj = JSON.parse(decipher(qr_code));
     if (!('id' in qr_obj && 'is_main' in qr_obj))
         throw new BadRequestError(`QR Code not valide`);
@@ -194,8 +201,8 @@ const scan = async (req, res) => {
         throw new BadRequestError(`QR Code not valide`);
 
     const result = await Query(
-        `INSERT INTO scan_hsitory (partner_id, sub_partner_id, client_id, product, scan_time, created_date)
-            VALUES (${qr_obj.is_main ? qr_obj.id : 0}, ${qr_obj.is_main ? 0 : qr_obj.id},
+        `INSERT INTO scan_hsitory (partner_id, sub_partner_id, statut, client_id, product, scan_time, created_date)
+            VALUES (${qr_obj.is_main ? qr_obj.id : 0}, ${qr_obj.is_main ? 0 : qr_obj.id}, 'active',
                 '${id}', '${product}', '${scan_time}', NOW())`);
     if (!result.success)
         throw new BadRequestError(`${result.data.err.sqlMessage}`);
@@ -205,6 +212,41 @@ const scan = async (req, res) => {
     });
 }
 
+const scan_hoistroy = async (req, res) => {
+    const { id } = req.user;
+    try {
+        let rows = await SqlQuery(`SELECT * FROM scan_hsitory WHERE client_id = ${id} where    = 'active'`);
+        if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
+        rows = rows.data.rows
+        if (rows.length === 0)
+            return res.status(404).json({ msg: "no clients history" });
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ err: err });
+    }
+}
+
+
+
+const delete_history = async (req, res) => {
+    const { idList } = req.body;
+    try {
+        let result = await SqlQuery(`UPDATE client SET scan_hsitory = 'deleted' WHERE id IN (${idList.join(',')})`);
+        if (!result.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
+        if (!result.success)
+            return res
+                .status(500)
+                .json({ err: `${result.data.err.sqlMessage}` });
+        res.status(200).send({
+            msg: "OK",
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ err: err });
+    }
+}
+
 module.exports = {
-    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan
+    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan, scan_hoistroy, delete_history
 };

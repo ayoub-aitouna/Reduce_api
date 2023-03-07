@@ -224,3 +224,26 @@
 17:12:30 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
 17:45:09 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
 22:26:30 [[31merror[39m] An Error while trying to connect to databse ==> Error: connect ECONNREFUSED 127.0.0.1:3306
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:15 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:16 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:16 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:16 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:17 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:17 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:18 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:18 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:19 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:19 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:20 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:20 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:21 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:21 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:22 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:22 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:23 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com
+16:48:23 [[31merror[39m] getaddrinfo EAI_AGAIN redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com

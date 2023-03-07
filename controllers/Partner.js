@@ -19,16 +19,34 @@ const get_parner_data = async (req, res, next) => {
 	const { id } = req.user;
 	const { isMian } = req.query;
 	if (isMian !== 'true') return next();
-	const partner = SqlQuery(`select * from partner inner join villes on
-			villes.id = partner.ville INNER JOIN entrprise_activities on
-			entrprise_activities.id = partner.activity_entrprise where partner.id = ${id}`);
+	const partner = SqlQuery(`select  partner.id,
+        avatar_Url,
+        email,
+        nome_entreprise,
+        identificateur_entreprise,
+        representant_entreprise,
+        role_dans_entriprise,
+        numero_telephone,
+        numero_telephone_fix,
+        ville,
+        activity_entrprise,
+        offer,
+        _status,
+        note,
+        adrress,
+        partner.created_date,
+        ville_name,
+        activity_name
+		from partner inner join villes on
+		villes.id = partner.ville INNER JOIN entrprise_activities on
+		entrprise_activities.id = partner.activity_entrprise where partner.id = ${id}`);
 	if (!partner.success)
-		throw BadRequestError(`couldn't retrive partner with this id ${id}`);
+		throw new BadRequestError(`couldn't retrive partner with this id ${id} : ${partner.data.err.sqlMessage}`);
 	if (partner.data.rows.length == 0)
 		return res.status(404).send({ msg: `there is no partner with id ${id}` });
 	const partnerData = partner.data.rows[0];
 	try {
-		const obj = { id: partnerData.id, is_main: isMian };
+		const obj = { id: id, is_main: isMian };
 		partnerData.qr_code = cipher(JSON.stringify(obj));
 	} catch (err) {
 		throw new BadRequestError(`error generating qr code key for partner : ${err}`);

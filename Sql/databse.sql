@@ -247,3 +247,5 @@ VALUES
         111,
         NOW()
     )
+
+    select * from sql7603674.partner;

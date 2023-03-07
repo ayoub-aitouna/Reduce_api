@@ -222,30 +222,4 @@ create table sql7603674.ratings(
 );
 
 -- default passowrd ==  abcdef.123456@@
-select
-    *
-from
-    sql7603674.client;
-
-INSERT INTO
-    sql7603674.scan_hsitory (
-        partner_id,
-        sub_partner_id,
-        statut,
-        client_id,
-        product,
-        scan_time,
-        created_date
-    )
-VALUES
-    (
-        1,
-        0,
-        'active',
-        1,
-        '${product}',
-        111,
-        NOW()
-    )
-
-    select * from sql7603674.partner;
+select * from sql7603674.partner;

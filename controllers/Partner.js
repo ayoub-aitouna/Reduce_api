@@ -4,9 +4,30 @@ const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
 const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
-
 require("dotenv").config();
 const Log = require("../log");
+
+const partner_feilds = `partner.id,
+avatar_Url,
+	email,
+	nome_entreprise,
+	identificateur_entreprise,
+	representant_entreprise,
+	role_dans_entriprise,
+	numero_telephone,
+	numero_telephone_fix,
+	ville,
+	activity_entrprise,
+	offer,
+	_status,
+	note,
+	lat,
+	longitude,
+	rating,
+	adrress,
+	partner.created_date,
+	ville_name,
+	activity_name`;
 
 const cipher = (str) => {
 	const cipher = crypto.createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET);
@@ -19,24 +40,7 @@ const get_parner_data = async (req, res, next) => {
 	const { id } = req.user;
 	const { isMian } = req.query;
 	if (isMian !== 'true') return next();
-	const partner = SqlQuery(`select  partner.id,
-        avatar_Url,
-        email,
-        nome_entreprise,
-        identificateur_entreprise,
-        representant_entreprise,
-        role_dans_entriprise,
-        numero_telephone,
-        numero_telephone_fix,
-        ville,
-        activity_entrprise,
-        offer,
-        _status,
-        note,
-        adrress,
-        partner.created_date,
-        ville_name,
-        activity_name
+	const partner = SqlQuery(`select ${partner_feilds}
 		from partner inner join villes on
 		villes.id = partner.ville INNER JOIN entrprise_activities on
 		entrprise_activities.id = partner.activity_entrprise where partner.id = ${id}`);
@@ -80,8 +84,9 @@ const get_sub = async (req, res) => {
 
 const locate = async (req, res) => {
 	const { id } = req.user;
+	console.log({ id: id });
 	const { lat, long } = req.body;
-	const updateSql = `UPDATE partner SET lat = ${lat}, long = ${long} WHERE id = ${id}`;
+	const updateSql = `UPDATE partner SET lat = ${lat}, longitude = ${long} WHERE id = ${id}`;
 	const updateResult = SqlQuery(updateSql);
 	if (!updateResult.success)
 		return res.status(500).json({
@@ -129,24 +134,7 @@ const change_password = async (req, res) => {
 
 const get_recent_partners = (req, res) => {
 	const { ville } = req.query;
-	const Query = `SELECT partner.id,
-        avatar_Url,
-        email,
-        nome_entreprise,
-        identificateur_entreprise,
-        representant_entreprise,
-        role_dans_entriprise,
-        numero_telephone,
-        numero_telephone_fix,
-        ville,
-        activity_entrprise,
-        offer,
-        _status,
-        note,
-        adrress,
-        partner.created_date,
-        ville_name,
-        activity_name
+	const Query = `SELECT ${partner_feilds}
     	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
 		where ville = ${ville}
 		ORDER BY created_date DESC LIMIT 25 `;
@@ -158,24 +146,7 @@ const get_recent_partners = (req, res) => {
 
 const get_recomandation = (req, res) => {
 	const { ville } = req.query;
-	const Query = `SELECT partner.id,
-        avatar_Url,
-        email,
-        nome_entreprise,
-        identificateur_entreprise,
-        representant_entreprise,
-        role_dans_entriprise,
-        numero_telephone,
-        numero_telephone_fix,
-        ville,
-        activity_entrprise,
-        offer,
-        _status,
-        note,
-        adrress,
-        partner.created_date,
-        ville_name,
-        activity_name
+	const Query = `SELECT ${partner_feilds}
     	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
 		where activity_name = 'medical' AND ville = ${ville}
 		ORDER BY created_date DESC LIMIT 25 `;
@@ -187,24 +158,7 @@ const get_recomandation = (req, res) => {
 
 const get_partners = (req, res) => {
 	const { activity, ville } = req.query;
-	const Query = `select   partner.id,
-        avatar_Url,
-        email,
-        nome_entreprise,
-        identificateur_entreprise,
-        representant_entreprise,
-        role_dans_entriprise,
-        numero_telephone,
-        numero_telephone_fix,
-        ville,
-        activity_entrprise,
-        offer,
-        _status,
-        note,
-        adrress,
-        partner.created_date,
-        ville_name,
-        activity_name
+	const Query = `select  ${partner_feilds}
     	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
     	where ville = ${ville} AND activity_entrprise = ${activity}
     	ORDER BY id DESC `;
@@ -228,4 +182,7 @@ const history = async (req, res) => {
 	}
 }
 
-module.exports = { get_parner_data, get_sub, change_password, history, locate, get_partners, get_recomandation, get_recent_partners };
+module.exports = {
+	get_parner_data, get_sub, change_password,
+	history, locate, get_partners, get_recomandation, get_recent_partners
+};

@@ -13,12 +13,6 @@ const update_client = async (req, res) => {
         date_fin_abonnement } = req.body;
     const { id } = req.user;
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
-        if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
-        rows = rows.data.rows
-        if (rows.length === 0)
-            return res.status(404).json({ msg: "Client not found" });
-
         // Validate required fields
         if (!full_name || !email) {
             return res.status(400).json({ msg: "Please provide all required fields" });
@@ -29,7 +23,7 @@ const update_client = async (req, res) => {
             sexe = '${sexe}', ville = ${ville}, adresse = '${adresse}', profession = '${profession}',
             tel = '${tel}', abonnement = '${abonnement}',
             date_inscription = '${date_inscription}', date_debut_abonnement = '${date_debut_abonnement}',
-            date_fin_abonnement = '${date_fin_abonnement}',
+            date_fin_abonnement = '${date_fin_abonnement}'
             WHERE id = ${id}`
         );
         if (!result.success)
@@ -135,6 +129,7 @@ const setDeviceId = async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 }
+
 const decipher = (encrypted) => {
     const decipher = crypto.createDecipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET);
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
@@ -188,6 +183,16 @@ const check_is_valide_qr = async (obj) => {
     });
 }
 
+const get_mainpartner_id = (id) => {
+    return new Promise(async (res, rej) => {
+        const result = await SqlQuery(`SELECT * from sub_partner where id = ${id}`);
+        if (!result.success)
+            throw new BadRequestError(`${result.data.err.sqlMessage}`);
+        if (result.data.rows === 0)
+            throw new BadRequestError(`no sub partner found`);
+    });
+}
+
 const scan = async (req, res) => {
     const { id } = req.user;
     const { qr_code, product, scan_time } = req.body;
@@ -200,15 +205,18 @@ const scan = async (req, res) => {
         throw new BadRequestError(`No subscription found for user with ID ${id}`);
     if (!(await check_is_valide_qr(qr_obj)))
         throw new BadRequestError(`QR Code not valide`);
-
-    const result = await SqlQuery(
+    const partner_id = qr_obj.is_main === false ? get_mainpartner_id(qr_obj.id) : qr_obj.id;
+    let query = qr_obj.is_main
+        ? `INSERT INTO scan_hsitory (partner_id, statut, client_id, product, scan_time, created_date)
+        VALUES (${qr_obj.id}, 'active', ${id}, '${product}', '${scan_time}', NOW())`
+        :
         `INSERT INTO scan_hsitory (partner_id, sub_partner_id, statut, client_id, product, scan_time, created_date)
-            VALUES (${qr_obj.is_main ? qr_obj.id : 0}, ${qr_obj.is_main ? 0 : qr_obj.id}, 'active',
-                ${id}, '${product}', '${scan_time}', NOW())`);
+        VALUES  (${partner_id}, ${qr_obj.id}, 'active', ${id}, '${product}', '${scan_time}', NOW())`
+    const result = await SqlQuery(query);
     if (!result.success)
         throw new BadRequestError(`${result.data.err.sqlMessage}`);
     res.status(200).json({
-        partner_id: qr_obj.id,
+        partner_id: partner_id,
         is_main: qr_obj.is_main
     });
 }
@@ -216,7 +224,7 @@ const scan = async (req, res) => {
 const scan_hoistroy = async (req, res) => {
     const { id } = req.user;
     try {
-        let rows = await SqlQuery(`SELECT * FROM scan_hsitory WHERE client_id = ${id} where    = 'active'`);
+        let rows = await SqlQuery(`SELECT * FROM scan_hsitory WHERE client_id = ${id} AND statut = 'active'`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)
@@ -228,26 +236,86 @@ const scan_hoistroy = async (req, res) => {
     }
 }
 
-
-
 const delete_history = async (req, res) => {
     const { idList } = req.body;
-    try {
-        let result = await SqlQuery(`UPDATE client SET scan_hsitory = 'deleted' WHERE id IN (${idList.join(',')})`);
-        if (!result.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
+    let result = await SqlQuery(`UPDATE scan_hsitory SET statut = 'deleted' WHERE id IN (${idList.join(',')})`);
+    if (!result.success) throw new BadRequestError(`${result.data.err.sqlMessage}`);
+    res.status(200).send({
+        msg: "OK",
+    });
+}
+
+const save_rating = (id, client_id, email, _subject, serviceRating, communicationRating, recommendationRating) => {
+    return new Promise(async (res, rej) => {
+        const query = `INSERT INTO ratings 
+		(partner_id,
+		client_id,
+		email,
+		_subject,
+		serviceRating,
+		communicationRating,
+		recommendationRating)
+		VALUES
+		(
+			${id},
+			${client_id},
+			'${email}',
+			'${_subject}',
+			${serviceRating},
+			${communicationRating},
+			${recommendationRating}
+		)`
+        const result = await SqlQuery(query);
         if (!result.success)
-            return res
-                .status(500)
-                .json({ err: `${result.data.err.sqlMessage}` });
-        res.status(200).send({
-            msg: "OK",
-        });
+            throw new BadRequestError(`${result.data.err.sqlMessage}`);
+        res(result);
+    });
+}
+
+const get_rating_avg = (id) => {
+    return new Promise(async (res, rej) => {
+        const query = `
+		SELECT AVG(serviceRating) AS avg_rating,
+		AVG(communicationRating) AS avg_communicationRating,
+		AVG(recommendationRating) AS avg_recommendationRating
+		FROM ratings
+		WHERE partner_id = ${id};`
+        const result = await SqlQuery(query);
+        if (!result.success)
+            throw new BadRequestError(`${result.data.err.sqlMessage}`);
+        if (result.data.rows === 0)
+            res(-1);
+        else {
+            const row = result.data.rows[0];
+            const avg = (row.avg_rating + row.avg_communicationRating + row.avg_recommendationRating) / 3;
+            res(avg);
+        }
+    });
+}
+
+const rating = async (req, res) => {
+    const { id } = req.user;
+    const { partner_id, email, _subject, serviceRating, communicationRating, recommendationRating } = req.body;
+    await save_rating(partner_id, id, email, _subject, serviceRating, communicationRating, recommendationRating);
+    let avg;
+    try {
+        avg = await get_rating_avg(partner_id);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ err: err });
+        throw new BadRequestError(`get_rating_avg err : ${err}`);
     }
+    const qeury = `UPDATE partner SET rating = ${avg} WHERE id = ${partner_id}`;
+    const updateResult = SqlQuery(qeury);
+    if (!updateResult.success)
+        return res.status(500).json({
+            message: 'Error updating partner rating avg',
+            error: updateResult.data.err.sqlMessage
+        });
+    res.status(200).json({
+        message: 'partner rating avg updated',
+        results: updateResult
+    });
 }
 
 module.exports = {
-    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan, scan_hoistroy, delete_history
+    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan, scan_hoistroy, delete_history, rating
 };

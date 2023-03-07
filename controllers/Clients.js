@@ -1,9 +1,9 @@
 const { Mysql, SqlQuery, SqlSqlQuery } = require("../database/index.js");
-const jwt = require("jsonwebtoken");
-const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
 require("dotenv").config();
 const Log = require("../log");
+const crypto = require('crypto');
+const { BadRequestError } = require("../errors/index.js");
 
 //Update a Client
 const update_client = async (req, res) => {
@@ -136,7 +136,7 @@ const setDeviceId = async (req, res) => {
     }
 }
 const decipher = (encrypted) => {
-    const decipher = crypto.createDecipher('aes-256-cbc', secretKey);
+    const decipher = crypto.createDecipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET);
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
     return decrypted;
@@ -181,7 +181,7 @@ const checkSubsription = (id) => {
 
 const check_is_valide_qr = async (obj) => {
     return new Promise(async (res, rej) => {
-        let rows = await SqlQuery(`SELECT * FROM ${obj.is_main ? 'partner' : 'sub_partner'} WHERE id = '${id}'`);
+        let rows = await SqlQuery(`SELECT * FROM ${obj.is_main ? 'partner' : 'sub_partner'} WHERE id = '${obj.id}'`);
         if (!rows.success) res(false);
         if (rows.length === 0) res(false);
         res(true);
@@ -193,6 +193,7 @@ const scan = async (req, res) => {
     const { qr_code, product, scan_time } = req.body;
     // qr_obj : {id: "partner/sub_partner__id" , is_main : true/false};
     const qr_obj = JSON.parse(decipher(qr_code));
+    console.log(qr_obj);
     if (!('id' in qr_obj && 'is_main' in qr_obj))
         throw new BadRequestError(`QR Code not valide`);
     if (!(await checkSubsription(id)))
@@ -200,10 +201,10 @@ const scan = async (req, res) => {
     if (!(await check_is_valide_qr(qr_obj)))
         throw new BadRequestError(`QR Code not valide`);
 
-    const result = await Query(
+    const result = await SqlQuery(
         `INSERT INTO scan_hsitory (partner_id, sub_partner_id, statut, client_id, product, scan_time, created_date)
             VALUES (${qr_obj.is_main ? qr_obj.id : 0}, ${qr_obj.is_main ? 0 : qr_obj.id}, 'active',
-                '${id}', '${product}', '${scan_time}', NOW())`);
+                ${id}, '${product}', '${scan_time}', NOW())`);
     if (!result.success)
         throw new BadRequestError(`${result.data.err.sqlMessage}`);
     res.status(200).json({

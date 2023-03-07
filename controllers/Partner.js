@@ -2,9 +2,9 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
+const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
 
-const UnauthenticatedError = require("../errors/unauthenticated.js");
 require("dotenv").config();
 const Log = require("../log");
 

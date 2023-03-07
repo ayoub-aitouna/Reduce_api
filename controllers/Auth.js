@@ -273,21 +273,18 @@ const ResendOTP = async (req, res) => {
 
 const client_login = async (req, res) => {
 	const { email, password } = req.body;
-	let HashedPass = "";
-	try {
-		HashedPass = await Encrypte(password);
-	} catch (err) {
-		console.log(err);
-	}
 	let user = SqlQuery(`select * from client where email = '${email}'`);
-	if (!user.success) throw new BadRequestError("user not found");
+	console.table(user.data.rows);
+	if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
 	try {
 		if (
 			user.data.rows[0] == undefined ||
 			user.data.rows.length == 0 ||
 			!(await compare(password, user.data.rows[0]._password))
 		)
-			return next();
+			return res.status(404).send({
+				msg: "user not found"
+			});
 		const accesToken = jwt.sign(
 			user.data.rows[0],
 			process.env.ACCESS_TOKEN_SECRET
@@ -318,13 +315,16 @@ const new_client = async (req, res) => {
 		if (!full_name || !email || !_password)
 			return res.status(400).json({ msg: "Please provide all required fields" });
 		// Insert new client into database
-		const result = await Query(
+		const result = await SqlQuery(
 			`INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
 			tel, email, _password, abonnement, device_id, statut, date_inscription, 
 			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
 			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
 			'${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
 			'${date_inscription}', '${date_debut_abonnement}', '${date_fin_abonnement}', NOW())`);
+		if (!result.success)
+			throw new BadRequestError(result.data.err
+				.sqlMessage)
 		res.status(201).json({
 			msg: "Client added successfully"
 		});

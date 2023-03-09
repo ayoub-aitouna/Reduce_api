@@ -345,6 +345,37 @@ const update_admin = async (req, res) => {
 	});
 };
 
+
+const update_client_info = async (req, res) => {
+	const { id, full_name, birth_date, sexe, ville, adresse, profession,
+		tel, email, abonnement,
+		date_inscription, date_debut_abonnement,
+		date_fin_abonnement } = req.body;
+	try {
+		// Validate required fields
+		if (!full_name || !email) {
+			return res.status(400).json({ msg: "Please provide all required fields" });
+		}
+		// Update client in database
+		result = await SqlQuery(
+			`UPDATE client SET full_name = '${full_name}', birth_date = '${birth_date}',
+            sexe = '${sexe}', ville = ${ville}, adresse = '${adresse}', profession = '${profession}',
+            tel = '${tel}', abonnement = '${abonnement}',
+            date_inscription = '${date_inscription}', date_debut_abonnement = '${date_debut_abonnement}',
+            date_fin_abonnement = '${date_fin_abonnement}'
+            WHERE id = ${id}`
+		);
+		if (!result.success)
+			return res
+				.status(500)
+				.json({ err: `${result.data.err.sqlMessage}` });
+		res.status(200).json({ msg: "Client updated" });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).json({ msg: "Server error" });
+	}
+}
+
 module.exports = {
 	add_admin,
 	remove_admin,
@@ -354,7 +385,8 @@ module.exports = {
 	update_partner,
 	get_modify_history,
 	update_admin,
-	save_C_pdf
+	save_C_pdf,
+	update_client_info
 };
 
 

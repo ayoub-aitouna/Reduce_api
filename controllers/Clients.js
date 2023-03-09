@@ -1,5 +1,5 @@
 const { Mysql, SqlQuery, SqlSqlQuery } = require("../database/index.js");
-const { Encrypte, compare } = require("../Utils/Crypto");
+const { Encrypte, compare, cipher } = require("../Utils/Crypto");
 require("dotenv").config();
 const Log = require("../log");
 const crypto = require('crypto');
@@ -104,7 +104,7 @@ const get_all_client = async (req, res) => {
 
 //reset Device Id
 const setDeviceId = async (req, res) => {
-    const { id } = req.user;
+    const { id } = req.qeury;
 
     try {
         let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
@@ -140,7 +140,7 @@ const decipher = (encrypted) => {
 // change client status
 const change_status = async (req, res) => {
     const { statut } = req.body;
-    const { id } = req.user;
+    const { id } = req.qeury;
 
     try {
         let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);

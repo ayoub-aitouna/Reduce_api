@@ -1,5 +1,6 @@
 // Requiring module
 const bcrypt = require("bcryptjs");
+const crypto = require('crypto');
 
 const Encrypte = async (password) => {
   return new Promise(async (res, rej) => {
@@ -21,4 +22,12 @@ const compare = (password, hashedPassword) => {
   });
 };
 
-module.exports = { Encrypte, compare };
+
+const cipher = (str) => {
+  const cipher = crypto.createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET);
+  let encrypted = cipher.update(str, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  return (encrypted);
+}
+
+module.exports = { Encrypte, compare, cipher };

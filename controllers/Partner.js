@@ -2,10 +2,11 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
-const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
 require("dotenv").config();
 const Log = require("../log");
+const { Encrypte, compare, cipher } = require("../Utils/Crypto");
+
 
 const partner_feilds = `partner.id,
 avatar_Url,
@@ -29,12 +30,6 @@ avatar_Url,
 	ville_name,
 	activity_name`;
 
-const cipher = (str) => {
-	const cipher = crypto.createCipher('aes-256-cbc', process.env.ACCESS_TOKEN_SECRET);
-	let encrypted = cipher.update(str, 'utf8', 'hex');
-	encrypted += cipher.final('hex');
-	return (encrypted);
-}
 
 const get_parner_data = async (req, res, next) => {
 	const { id } = req.user;

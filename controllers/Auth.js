@@ -225,15 +225,18 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
 	const { email, password } = req.body;
-	console.table([{ email, password }]);
 	const admin = Query(
 		`select * from _Admin where email = '${email.toLowerCase()}'`
 	);
+	const hashed_pass = await Encrypte(password)
+	console.table([{ email, password, hashed_pass }]);
+
 	if (admin == undefined || admin.length == 0)
 		return res.status(404).send({ err: "email is not correct" });
 
 	const is_Authed = await compare(password, admin[0]._password);
 	const { _role, account_status, _name } = admin[0];
+
 
 	if (!is_Authed)
 		return res.status(404).send({ err: "password is not correct" });

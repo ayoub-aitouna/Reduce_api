@@ -11,6 +11,13 @@ create table sql7603674.villes(
     PRIMARY KEY (id)
 );
 
+ALTER TABLE
+    sql7603674.villes
+ADD
+    COLUMN status BOOLEAN NOT NULL DEFAULT true;
+
+select * from sql7603674.villes;
+
 drop table if EXISTS sql7603674.entrprise_activities;
 
 create table sql7603674.entrprise_activities(
@@ -95,6 +102,37 @@ create table sql7603674._Admin(
     FOREIGN KEY(ville) REFERENCES sql7603674.villes(id)
 );
 
+INSERT INTO
+    sql7603674._Admin (
+        email,
+        ville,
+        _name,
+        _password,
+        _role,
+        account_status,
+        created_date
+    )
+VALUES
+    (
+        'admin@example.com',
+        1,
+        'John Doe',
+        '$2a$10$FJYH6mydZ5NUvS4MRuajm.5L8EC4OMR0baPROi8RgIiglgDgTvD3O',
+        'Admin',
+        'Active',
+        NOW()
+    );
+
+
+SELECT
+    *
+FROM
+    banners
+WHERE
+    statut == 'activer'
+ORDER BY
+    Baniere_ordre;
+    
 drop table if EXISTS sql7603674.task_done;
 
 create table sql7603674.task_done(
@@ -132,7 +170,6 @@ create table sql7603674.profession(
     profession text,
     PRIMARY KEY (id)
 );
-
 drop table if EXISTS sql7603674.client;
 
 CREATE TABLE sql7603674.client (
@@ -160,7 +197,8 @@ CREATE TABLE sql7603674.client (
     date_fin_abonnement DATETIME NOT NULL,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (profession) REFERENCES sql7603674.profession(id)
+    FOREIGN KEY (profession) REFERENCES sql7603674.profession(id),
+    FOREIGN KEY (ville) REFERENCES sql7603674.villes(id)
 );
 
 drop table if EXISTS sql7603674.scan_hsitory;
@@ -221,5 +259,7 @@ create table sql7603674.ratings(
     FOREIGN KEY(client_id) REFERENCES sql7603674.client(id)
 );
 
--- default passowrd ==  abcdef.123456@@
-select * from sql7603674.partner;
+select
+    *
+from
+    sql7603674.partner;

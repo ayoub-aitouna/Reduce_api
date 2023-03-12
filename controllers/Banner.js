@@ -3,11 +3,12 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const AddBanner = async (req, res) => {
+    console.log("adding banner ");
     const { Baniere_ordre, Logo, Couverture, Offer, Adresse, Tel, statut } = req.body;
     const added_Activity = SqlQuery(`INSERT INTO banners 
     (Baniere_ordre, Logo, Couverture, Offer, Adresse, Tel, statut, created_date)
     VALUES ('${Baniere_ordre}', '${Logo}', '${Couverture}', '${Offer}', 
-    '${Adresse}', '${Tel}', '${statut}', NOW())`);
+    '${Adresse}', '${Tel}', '${statut == '' ? 'activer' : statut}', NOW())`);
     if (!added_Activity.success)
         return res.status(500).json({
             err: added_Activity.data.err,
@@ -38,7 +39,7 @@ const UpdateBanner = async (req, res) => {
 }
 
 const Banner = async (req, res) => {
-    const banners = SqlQuery(`SELECT * FROM banners WHERE statut == 'activer' ORDER BY Baniere_ordre`);
+    const banners = SqlQuery(`SELECT * FROM banners WHERE statut = 'activer' ORDER BY Baniere_ordre`);
     if (!banners.success)
         return res.status(500).json({
             err: banners.data.err,

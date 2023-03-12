@@ -22,6 +22,7 @@ const Tasks = require("./routes/Tasks");
 const sub_partner = require("./routes/sub_partner");
 const Banner = require("./routes/Banners");
 const clients = require("./routes/Clients");
+const profession = require("./routes/profession");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -48,6 +49,7 @@ app.use("/api/v1/clients", authenticationMiddleware, clients);
 app.use("/api/v1/banners", authenticationMiddleware, Banner);
 app.use("/api/v1/sub_parnter", authenticationMiddleware, sub_partner);
 app.use("/api/v1/Ville", Ville);
+app.use("/api/v1/profession", profession);
 app.use("/api/v1/Activities", Activities);
 
 app.use(notFoundMiddleware);

@@ -29,6 +29,7 @@ router.post("/ResendOTP", ResendOTP);
 
 //admin
 router.post("/admin", admin_login);
+router.post("/admin_login", admin_login);
 router.post("/reset_pass", reset_pass);
 
 module.exports = router;

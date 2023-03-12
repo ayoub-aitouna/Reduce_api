@@ -1,7 +1,6 @@
 const { Mysql, SqlQuery, SqlSqlQuery } = require("../database/index.js");
 const { Encrypte, compare, cipher } = require("../Utils/Crypto");
 require("dotenv").config();
-const Log = require("../log");
 const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
 
@@ -92,7 +91,31 @@ const get_client = async (req, res) => {
 //get client by id
 const get_all_client = async (req, res) => {
     try {
-        let rows = await SqlQuery(`SELECT * FROM client WHERE statut != 'Archivé'`);
+        let rows = await SqlQuery(`SELECT
+            client.id,
+            full_name ,
+            birth_date ,
+            sexe ,
+            ville,
+            adresse ,
+            client.profession,
+            tel ,
+            email ,
+            _password ,
+            abonnement,
+            device_id,
+            statut,
+            villes.ville_name,
+            profession.profession,
+            date_inscription ,
+            date_debut_abonnement ,
+            date_fin_abonnement
+        FROM client
+            inner join profession
+                on profession.id = client.profession
+            inner join villes
+                on villes.id = ville
+            WHERE statut != 'Archivé'`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows;
         res.status(200).json(rows);
@@ -317,5 +340,14 @@ const rating = async (req, res) => {
 }
 
 module.exports = {
-    get_all_client, update_client, change_password, get_client, setDeviceId, change_status, scan, scan_hoistroy, delete_history, rating
+    get_all_client,
+    update_client,
+    change_password,
+    get_client,
+    setDeviceId,
+    change_status,
+    scan,
+    scan_hoistroy,
+    delete_history,
+    rating,
 };

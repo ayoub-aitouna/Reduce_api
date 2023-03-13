@@ -4,6 +4,7 @@ require("dotenv").config();
 
 const AddActivity = async (req, res) => {
   const { Activity } = req.body;
+
   const added_Activity = SqlQuery(`insert into entrprise_activities(
     activity_name,
     created_date

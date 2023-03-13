@@ -7,7 +7,7 @@ const get_profesional = async (req, res) => {
         let rows = await SqlQuery(`SELECT * FROM profession`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
-        res.status(200).json(rows[0]);
+        res.status(200).json(rows);
     } catch (err) {
         console.error(err);
         res.status(500).json({ err: err });

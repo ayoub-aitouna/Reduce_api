@@ -225,17 +225,18 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
 	const { email, password } = req.body;
-	const admin = Query(
+	const admin = SqlQuery(
 		`select * from _Admin where email = '${email.toLowerCase()}'`
 	);
-	const hashed_pass = await Encrypte(password)
-	console.table([{ email, password, hashed_pass }]);
+	if (!admin.success) throw new BadRequestError(`err : ${admin.data.err.sqlMessage}`);
+	// 	const hashed_pass = await Encrypte(password)
+	// console.table([{ email, password, hashed_pass }]);
 
-	if (admin == undefined || admin.length == 0)
+	if (admin.data.rows == undefined || admin.data.rows.length == 0)
 		return res.status(404).send({ err: "email is not correct" });
 
-	const is_Authed = await compare(password, admin[0]._password);
-	const { _role, account_status, _name } = admin[0];
+	const is_Authed = await compare(password, admin.data.rows[0]._password);
+	const { _role, account_status, _name } = admin.data.rows[0];
 
 
 	if (!is_Authed)
@@ -243,8 +244,8 @@ const admin_login = async (req, res) => {
 	if (account_status == "Banned" || account_status == "Suspanded")
 		return res.status(404).send({ err: `this account is ${account_status}` });
 
-	const accesToken = jwt.sign(admin[0], process.env.ACCESS_TOKEN_SECRET);
-	const RefreshToken = jwt.sign(admin[0], process.env.REFRESH_TOKEN_SECRET);
+	const accesToken = jwt.sign(admin.data.rows[0], process.env.ACCESS_TOKEN_SECRET);
+	const RefreshToken = jwt.sign(admin.data.rows[0], process.env.REFRESH_TOKEN_SECRET);
 	res.status(200).send({
 		role: _role,
 		_name: _name,

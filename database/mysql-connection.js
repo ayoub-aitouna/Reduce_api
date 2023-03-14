@@ -12,10 +12,10 @@ const { BadRequestError } = require("../errors");
 //   multipleStatements: true,
 // };
 const connect = {
-  user: "sql7603674",
+  user: "sql7605757",
   host: "sql7.freesqldatabase.com",
-  password: "hS3pjQArHP",
-  database: "sql7603674",
+  password: "kFAQHRuucs",
+  database: "sql7605757",
   port: 3306,
   multipleStatements: true,
 };

@@ -87,7 +87,7 @@ def start_caf():
         root.quit()
 
 root = tk.Tk()
-duration = 12 # duration in hours
+duration = 6 # duration in hours
 duration = duration * 60 * 60 * 1000
 # hide cursor
 CGDisplayHideCursor(0)

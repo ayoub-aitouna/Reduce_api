@@ -3487,3 +3487,5 @@
 23:17:03 [[32minfo[39m] App Running on port => 5000
 23:17:04 [[32minfo[39m] connected to Redis!!
 23:17:10 [[32minfo[39m] Email sent: 250 OK id=1pNLPi-00DU5U-9Q
+03:49:44 [[32minfo[39m] App Running on port => 5000
+03:49:44 [[32minfo[39m] connected to Redis!!

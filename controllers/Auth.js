@@ -17,15 +17,15 @@ const does_partner_form_exits = async (req, res, next) => {
 	if (!email) {
 		throw new BadRequestError("Please provide email");
 	}
-	const partner = Query(`select * from partner where email = ${email}`);
-	if (partner != undefined && partner.length != 0)
-		return res.json({
-			err: {
-				already: false,
-				msg: "a form has Already submited with same Email Adress",
-			},
-		});
-	next();
+	let user = SqlQuery(`select * from partner where email = '${email}'`);
+	if (!user.success) throw new BadRequestError("server error");
+	try {
+		if (user.data.rows[0] != undefined && user.data.rows.length != 0)
+			return res.status(403).send({msg: "account with same email already exists"});
+		next();
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
 };
 
 const partner_login = async (req, res, next) => {

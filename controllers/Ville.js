@@ -46,6 +46,7 @@ const change_status = async (req, res) => {
 
 
 module.exports = {
-  AddVille,
-  Villes,
+	AddVille,
+	Villes,
+	change_status
 };

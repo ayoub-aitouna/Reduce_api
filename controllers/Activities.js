@@ -31,7 +31,7 @@ const Activities = async (req, res) => {
     });
   res.status(200).json(entrprise_activities.data.rows);
 };
-
+/*
 const get_cities - async (req, res)=>{
 
 	const {id} = req.Query;
@@ -76,12 +76,12 @@ const get_acviity_by_city = async (req, res) =>{
 		throw new BadRequestError(activities.data.err);
 	res.status(200).send(activities.data);
 }
-
+*/
 module.exports = {
 	AddActivity,
 	Activities,
-	get_cities,
-	get_acviity_by_city,
-	toggle_city
+//	get_cities,
+//	get_acviity_by_city,
+//	toggle_city
 	
 };

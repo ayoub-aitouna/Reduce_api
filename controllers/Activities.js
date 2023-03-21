@@ -4,13 +4,15 @@ const {BadRequestError} = require("../errors/index.js");
 require("dotenv").config();
 
 const AddActivity = async (req, res) => {
-  const { Activity } = req.body;
+  const { Activity , icon } = req.body;
 
   const added_Activity = SqlQuery(`insert into entrprise_activities(
     activity_name,
+	icon,
     created_date
 	) values (
 		'${Activity}',
+		'${icon}',
 		CURDATE()
 	)`);
   if (!added_Activity.success)

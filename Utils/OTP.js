@@ -1,4 +1,4 @@
-const { client } = require("../database/index.js");
+
 /**
  *
  * @param {String} Email
@@ -8,12 +8,18 @@ const { client } = require("../database/index.js");
 async function generateKeyAndstoreOtp(Email) {
   return new Promise(async (res, rej) => {
     let key = Math.floor(Math.random() * 90000) + 100000;
-    try {
-      await client.set(Email, key, "EX", 60 * 10 * 1000);
-    } catch (err) {
-      console.log(err);
-    }
     res(key);
   });
 }
-module.exports = { generateKeyAndstoreOtp };
+
+// Function to set OTP for an email in the session
+function setOTPForEmail(req, email, otp) {
+  req.session[email] = otp;
+}
+
+// Function to get OTP for an email from the session
+function getOTPForEmail(req, email) {
+  return req.session[email];
+}
+
+module.exports = { generateKeyAndstoreOtp, setOTPForEmail, getOTPForEmail };

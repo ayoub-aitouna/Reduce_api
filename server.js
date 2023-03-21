@@ -4,6 +4,7 @@ const Log = require("./log/index");
 const { client } = require("./database/index");
 const http = require("http");
 /** Create HTTP server. */
+const session = require('express-session');
 const server = http.createServer(app);
 const { Encrypte } = require("./Utils/Crypto");
 var cors = require("cors");
@@ -31,14 +32,14 @@ const { authenticationMiddleware } = require("./middleware/Auth/auth");
 
 app.use(express.json());
 app.use(cors());
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// })
+
+app.use(session({
+  secret: 'mySecretKey',
+  resave: false,
+  saveUninitialized: true
+}));
+
 app.use(express.static(path.resolve("./public")));
-// app.use(express.static("./public"));
-// client.connect();
 
 app.use("/api/v1/auth", Auth);
 app.use("/api/v1/partners", authenticationMiddleware, Partners);

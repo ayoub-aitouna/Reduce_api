@@ -2,20 +2,11 @@ var mysql = require("mysql");
 const Log = require("../log");
 var syncSql = require("sync-sql");
 const { BadRequestError } = require("../errors");
-
-// const connect = {
-//   user: "hostname",
-//   host: "localhost",
-//   password: "kijilikiIUGIULJ43@",
-//   database: "mariwafo_defaultdb",
-//   port: 3306,
-//   multipleStatements: true,
-// };
 const connect = {
-  user: "sql7605757",
+  user: "sql7607447",
   host: "sql7.freesqldatabase.com",
-  password: "kFAQHRuucs",
-  database: "sql7605757",
+  password: "8JzUyA7tKx",
+  database: "sql7607447",
   port: 3306,
   multipleStatements: true,
 };

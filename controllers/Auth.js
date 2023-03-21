@@ -2,7 +2,7 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 require("dotenv").config();
-const { generateKeyAndstoreOtp } = require("../Utils/OTP.js");
+const { generateKeyAndstoreOtp, setOTPForEmail, getOTPForEmail } = require("../Utils/OTP.js");
 
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
@@ -106,28 +106,26 @@ const sub_partner_login = async (req, res) => {
 
 const sendVeriifyOtp = async (req, res) => {
 	const { email } = req.body;
-	const client = redis.createClient({
-		socket: {
-			host: "redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com",
-			port: "11844",
-		},
-		password: "Xhl3ENh5O3gyKqiObVUCX9xqXmE2L0AK",
-	});
 
-	client.on("connect", function (err) {
-		if (err) {
-			throw new BadRequestError(err);
-		} else {
-			res.send("Conencted")
-		}
-	});
+	let otp = getOTPForEmail(req, email);
+	if (otp == null || otp == undefined) {
+		otp = await generateKeyAndstoreOtp(email);
+	}
+	try {
+		await sendEmail({
+			subject: `Le code de vérification`,
+			to: email,
+			text: ``,
+			html: OTP_EMAIL(otp),
+		});
+		res.sendStatus(200);
+	} catch (err) {
+		console.trace(err);
+		res.sendStatus(500);
+	}
 
-	client.on("error", function (err) {
-		if (err) {
-			throw new BadRequestError(err);
-		}
-	});
 };
+
 
 const Verify_email = async (req, res) => {
 	const { email, key } = req.body;
@@ -257,10 +255,11 @@ const admin_login = async (req, res) => {
 
 const ResendOTP = async (req, res) => {
 	const { email } = req.body;
-	let key = "";
-	key = await client.get(email);
-	if (key == null || key == undefined)
-		key = await generateKeyAndstoreOtp(email);
+	const otp = getOTPForEmail(req, email);
+	if (otp == null || otp == undefined) {
+		otp = await generateKeyAndstoreOtp(email);
+		setOTPForEmail(req, email, otp);
+	}
 	try {
 		await sendEmail({
 			subject: `Le code de vérification`,
@@ -270,7 +269,6 @@ const ResendOTP = async (req, res) => {
 		});
 		res.sendStatus(200);
 	} catch (err) {
-		console.trace(err);
 		res.sendStatus(500);
 	}
 };

@@ -2,23 +2,11 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
+const { BadRequestError } = require("../errors/index.js");
 
 require("dotenv").config();
 const Log = require("../log");
 
-
-function generate_qr_code(partnerData) {
-	return new Promise(async (res, rej) => {
-		try {
-			res(jwt.sign(
-				partnerData,
-				process.env.ACCESS_TOKEN_SECRET
-			))
-		} catch (err) {
-			rej(err);
-		}
-	});
-}
 
 const add = async (req, res) => {
 	const { id } = req.user;
@@ -39,12 +27,22 @@ const get_all = (req, res) => {
 	const { id } = req.user;
 	const partner = SqlQuery(`select sub_partner.id, sub_partner.sub_partner_Name, sub_partner.email, sub_partner._status from sub_partner INNER join partner on sub_partner.partner_id = partner.id where partner.id = ${id}`);
 	if (!partner.success)
-		throw BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
+		throw new BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
 	if (partner.data.rows.length == 0)
 		return res.status(200).send({ msg: `no account available` });
 	res.json(partner.data.rows);
 };
 
+
+const admin_all_subs = (req, res) => {
+	const id = req.params.id;
+	const partner = SqlQuery(`select sub_partner.id, sub_partner.sub_partner_Name, sub_partner.email, sub_partner._status from sub_partner INNER join partner on sub_partner.partner_id = partner.id where partner.id = ${id}`);
+	if (!partner.success)
+		throw new BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
+	if (partner.data.rows.length == 0)
+		return res.status(200).send({ msg: `no account available` });
+	res.json(partner.data.rows);
+};
 
 
 
@@ -115,5 +113,5 @@ const change_password = async (req, res) => {
 
 module.exports = {
 	add, get_all, remove,
-	change_lock_status, change_password, edit
+	change_lock_status, change_password, edit, admin_all_subs
 };

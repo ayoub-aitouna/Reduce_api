@@ -2,7 +2,7 @@ const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const { client } = require("../database/index.js");
 require("dotenv").config();
-const { generateKeyAndstoreOtp } = require("../Utils/OTP.js");
+const { generateKeyAndstoreOtp, setOTPForEmail, getOTPForEmail } = require("../Utils/OTP.js");
 
 const { BadRequestError } = require("../errors/index.js");
 const { Encrypte, compare } = require("../Utils/Crypto");
@@ -64,9 +64,7 @@ const partner_login = async (req, res, next) => {
 	}
 };
 
-
 //todo : if account is blocked return status 403
-
 const sub_partner_login = async (req, res) => {
 	const { email, password } = req.body;
 	let HashedPass = "";
@@ -85,8 +83,8 @@ const sub_partner_login = async (req, res) => {
 		) {
 			return res.status(404).send({ err: "password or email is not correct" });
 		}
-		if(user.data.rows[0]._status === "Blocked")
-			return res.status(403).json({msg: "this account is Blocked ."});
+		if (user.data.rows[0]._status === "Blocked")
+			return res.status(403).json({ msg: "this account is Blocked ." });
 		const accesToken = jwt.sign(
 			user.data.rows[0],
 			process.env.ACCESS_TOKEN_SECRET
@@ -106,32 +104,28 @@ const sub_partner_login = async (req, res) => {
 	}
 };
 
-
-
 const sendVeriifyOtp = async (req, res) => {
 	const { email } = req.body;
-	const client = redis.createClient({
-		socket: {
-			host: "redis-11844.c302.asia-northeast1-1.gce.cloud.redislabs.com",
-			port: "11844",
-		},
-		password: "Xhl3ENh5O3gyKqiObVUCX9xqXmE2L0AK",
-	});
-	
-	client.on("connect", function (err) {
-		if (err) {
-			throw new BadRequestError(err);
-		} else {
-			res.send("Conencted")
-		}
-	});
-	
-	client.on("error", function (err) {
-		if (err) {
-			throw new BadRequestError(err);
-		}
-	});
+
+	let otp = getOTPForEmail(req, email);
+	if (otp == null || otp == undefined) {
+		otp = await generateKeyAndstoreOtp(email);
+	}
+	try {
+		await sendEmail({
+			subject: `Le code de vérification`,
+			to: email,
+			text: ``,
+			html: OTP_EMAIL(otp),
+		});
+		res.sendStatus(200);
+	} catch (err) {
+		console.trace(err);
+		res.sendStatus(500);
+	}
+
 };
+
 
 const Verify_email = async (req, res) => {
 	const { email, key } = req.body;
@@ -216,7 +210,6 @@ const partner_Submit_form = async (req, res) => {
     '${adrress}',
      NOW(),
     'Pending')`);
-
 		if (submit.success) return res.status(200).send();
 		return res
 			.status(500)
@@ -224,29 +217,33 @@ const partner_Submit_form = async (req, res) => {
 	} catch (err) {
 		throw new BadRequestError(err);
 	}
-	
+
 };
 
 //admin
 const admin_login = async (req, res) => {
 	const { email, password } = req.body;
-	console.table([{ email, password }]);
-	const admin = Query(
+	const admin = SqlQuery(
 		`select * from _Admin where email = '${email.toLowerCase()}'`
 	);
-	if (admin == undefined || admin.length == 0)
+	if (!admin.success) throw new BadRequestError(`err : ${admin.data.err.sqlMessage}`);
+	// 	const hashed_pass = await Encrypte(password)
+	// console.table([{ email, password, hashed_pass }]);
+
+	if (admin.data.rows == undefined || admin.data.rows.length == 0)
 		return res.status(404).send({ err: "email is not correct" });
 
-	const is_Authed = await compare(password, admin[0]._password);
-	const { _role, account_status, _name } = admin[0];
+	const is_Authed = await compare(password, admin.data.rows[0]._password);
+	const { _role, account_status, _name } = admin.data.rows[0];
+
 
 	if (!is_Authed)
 		return res.status(404).send({ err: "password is not correct" });
 	if (account_status == "Banned" || account_status == "Suspanded")
 		return res.status(404).send({ err: `this account is ${account_status}` });
 
-	const accesToken = jwt.sign(admin[0], process.env.ACCESS_TOKEN_SECRET);
-	const RefreshToken = jwt.sign(admin[0], process.env.REFRESH_TOKEN_SECRET);
+	const accesToken = jwt.sign(admin.data.rows[0], process.env.ACCESS_TOKEN_SECRET);
+	const RefreshToken = jwt.sign(admin.data.rows[0], process.env.REFRESH_TOKEN_SECRET);
 	res.status(200).send({
 		role: _role,
 		_name: _name,
@@ -258,10 +255,11 @@ const admin_login = async (req, res) => {
 
 const ResendOTP = async (req, res) => {
 	const { email } = req.body;
-	let key = "";
-	key = await client.get(email);
-	if (key == null || key == undefined)
-		key = await generateKeyAndstoreOtp(email);
+	const otp = getOTPForEmail(req, email);
+	if (otp == null || otp == undefined) {
+		otp = await generateKeyAndstoreOtp(email);
+		setOTPForEmail(req, email, otp);
+	}
 	try {
 		await sendEmail({
 			subject: `Le code de vérification`,
@@ -271,10 +269,71 @@ const ResendOTP = async (req, res) => {
 		});
 		res.sendStatus(200);
 	} catch (err) {
-		console.trace(err);
 		res.sendStatus(500);
 	}
 };
+
+const client_login = async (req, res) => {
+	const { email, password } = req.body;
+	let user = SqlQuery(`select * from client where email = '${email}'`);
+	console.table(user.data.rows);
+	if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
+	try {
+		if (
+			user.data.rows[0] == undefined ||
+			user.data.rows.length == 0 ||
+			!(await compare(password, user.data.rows[0]._password))
+		)
+			return res.status(404).send({
+				msg: "user not found"
+			});
+		const accesToken = jwt.sign(
+			user.data.rows[0],
+			process.env.ACCESS_TOKEN_SECRET
+		);
+		const RefreshToken = jwt.sign(
+			user.data.rows[0],
+			process.env.REFRESH_TOKEN_SECRET
+		);
+		res.status(200).send({
+			accesToken: accesToken,
+			RefreshToken: RefreshToken,
+			isMain: true,
+		});
+	} catch (err) {
+		console.log(err);
+		throw new BadRequestError(err);
+	}
+}
+
+// Create new Client
+const new_client = async (req, res) => {
+	try {
+		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
+			email, _password, abonnement, device_id, statut, date_inscription,
+			date_debut_abonnement, date_fin_abonnement }
+			= req.body;
+		// Validate required fields
+		if (!full_name || !email || !_password)
+			return res.status(400).json({ msg: "Please provide all required fields" });
+		// Insert new client into database
+		const result = await SqlQuery(
+			`INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
+			tel, email, _password, abonnement, device_id, statut, date_inscription, 
+			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
+			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
+			'${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
+			'${date_inscription}', '${date_debut_abonnement}', '${date_fin_abonnement}', NOW())`);
+		if (!result.success)
+			throw new BadRequestError(result.data.err
+				.sqlMessage)
+		res.status(201).json({
+			msg: "Client added successfully"
+		});
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
+}
 
 module.exports = {
 	does_partner_form_exits,
@@ -285,5 +344,7 @@ module.exports = {
 	Verify_email,
 	sendVeriifyOtp,
 	reset_pass,
-	sub_partner_login
+	sub_partner_login,
+	client_login,
+	new_client
 };

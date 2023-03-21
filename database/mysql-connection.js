@@ -2,24 +2,15 @@ var mysql = require("mysql");
 const Log = require("../log");
 var syncSql = require("sync-sql");
 const { BadRequestError } = require("../errors");
-
 const connect = {
-  user: "hostname",
-  host: "localhost",
-  password: "kijilikiIUGIULJ43@",
-  database: "mariwafo_defaultdb",
+  user: "sql7607447",
+  host: "sql7.freesqldatabase.com",
+  password: "8JzUyA7tKx",
+  database: "sql7607447",
   port: 3306,
   multipleStatements: true,
 };
 var Mysql = mysql.createConnection(connect);
-
-// Mysql.connect(function (err) {
-//   if (err) {
-//     Log.error(`An Error while trying to connect to databse ==> ${err}`);
-//     throw err;
-//   }
-//   Log.info(`SQL DB Connected`);
-// });
 
 function Query(query) {
   try {

@@ -10,19 +10,19 @@ const {
   get_modify_history,
   update_admin,
   save_C_pdf,
-  Upload_C_PDF,
+  update_client_info,
 } = require("../controllers/Admin.js");
 const multer = require("multer");
 const { v4: uuidv4 } = require('uuid');
 
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, 'public/partners_contact_pdfs');
-	},
-	filename: function (req, file, cb) {
-		const uniqueName = uuidv4() + '.' + file.originalname.split('.')[1]+'.pdf';
-		cb(null, uniqueName);
-	}
+  destination: function (req, file, cb) {
+    cb(null, 'public/partners_contact_pdfs');
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = uuidv4() + '.' + file.originalname.split('.')[1] + '.pdf';
+    cb(null, uniqueName);
+  }
 });
 
 const upload = multer({ storage: storage });
@@ -35,4 +35,5 @@ router.post("/update_partner", update_partner);
 router.post("/Response_partner_form", upload.single('file'), save_C_pdf, Response_partner_form);
 router.get("/get_modify_history", get_modify_history);
 router.post("/update_admin", update_admin);
+router.post("/update_client_info", update_client_info);
 module.exports = router;

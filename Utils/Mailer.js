@@ -2,6 +2,7 @@ var nodemailer = require("nodemailer");
 require("dotenv");
 const Log = require("../log");
 const { EmailTemplate } = require("./Templates.js");
+
 const SendMail_to_partner = async ({ subject, to, text }, PartnerData) => {
 	return new Promise((res, rej) => {
 		var transporter = nodemailer.createTransport({
@@ -35,10 +36,9 @@ const SendMail_to_partner = async ({ subject, to, text }, PartnerData) => {
 
 
 const sendEmail = async ({ subject, to, text, html }) => {
-	console.log("merybtk.xyz");
 	var transporter = nodemailer.createTransport({
 		host: "merybtk.xyz",
-		port:465,
+		port: 465,
 		secure: true, // true for 465, false for other ports
 		auth: {
 			user: "reduct@merybtk.xyz",

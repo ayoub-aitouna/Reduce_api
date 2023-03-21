@@ -48,7 +48,8 @@ from
 SELECT
     *
 FROM
-    banners
+    sql7607447.client
+
 WHERE
     statut == 'activer'
 ORDER BY

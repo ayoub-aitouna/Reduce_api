@@ -2,7 +2,7 @@
 all : commit_and_push
 
 fclean: 
-	rm -rf log/log-files/*
+	rm -rf log/log-files/* public/imgs/* public/partners_contact_pdfs/*
 
 files = $(shell git diff --name-only HEAD)
 

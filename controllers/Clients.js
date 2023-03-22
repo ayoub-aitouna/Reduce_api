@@ -9,8 +9,11 @@ const update_client = async (req, res) => {
     const { full_name, birth_date, sexe, ville, adresse, profession,
         tel, email, abonnement,
         date_inscription, date_debut_abonnement,
-        date_fin_abonnement } = req.body;
-    const { id } = req.user;
+        date_fin_abonnement , admin} = req.body;
+	
+	let is_admin = admin === undefined ? true : false;
+	const { id } =  !is_admin ? req.user : req.body;
+	console.log(id);	
     try {
         // Validate required fields
         if (!full_name || !email) {

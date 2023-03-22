@@ -67,11 +67,24 @@ const remove_admin = (req, res) => {
 	});
 };
 
+
+
 const save_C_pdf = async (req, res, next) => {
 	const domain = req.headers.host;
 	const protocol = req.protocol;
 	const domainUrl = protocol + '://' + domain;
 	req.url = `${domainUrl}/partners_contact_pdfs/${req.file.filename}`
+	next();
+};
+
+
+const save_logo_cover = async (req, res, next) => {
+	const domain = req.headers.host;
+	const protocol = req.protocol;
+	const domainUrl = protocol + '://' + domain;
+	const filenames = req.files.map(file => file.filename);	
+	req.logo = `${domainUrl}/imgs/${filenames[0]}`
+	req.cover = `${domainUrl}/imgs/${filenames[1]}`
 	next();
 };
 
@@ -175,14 +188,17 @@ const update_partner = async (req, res) => {
 		offer,
 		note,
 	} = req.body;
-
+	
+	let cover = req.cover;
+	let logo = req.logo;
+	
 	try {
 		const old_data = SqlQuery(`select * from partner where id = ${id}`);
 
 		if (!old_data.success)
 			throw new BadRequestError(old_data.data.err.sqlMessage);
 
-		const submit = SqlQuery(`update partner set email = '${email}',
+	const submit = SqlQuery(`update partner set email = '${email}',
       nome_entreprise = 	'${nome_entreprise}',
       identificateur_entreprise = 	'${identificateur_entreprise}',
       representant_entreprise = '${representant_entreprise}',
@@ -194,10 +210,10 @@ const update_partner = async (req, res) => {
       _status = 	'${partner_status}',
       note = 	'${note}',
       offer = 	'${offer}',
+	  avatar_Url = '${logo}', 
+	  img_cover_Url - '${cover}',
       adrress =  '${adrress}' where partner.id = ${id}`);
-
 		if (!submit.success) throw new BadRequestError(submit.data.err.sqlMessage);
-
 		const new_data = {
 			id,
 			email,
@@ -386,7 +402,8 @@ module.exports = {
 	get_modify_history,
 	update_admin,
 	save_C_pdf,
-	update_client_info
+	update_client_info,
+	save_logo_cover
 };
 
 

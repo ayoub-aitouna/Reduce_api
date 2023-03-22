@@ -1,17 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const {
-  add_admin,
-  remove_admin,
-  get_admins,
-  Response_partner_form,
-  get_partners,
-  update_partner,
-  get_modify_history,
-  update_admin,
-  save_C_pdf,
-  update_client_info,
+	add_admin,
+	remove_admin,
+	get_admins,
+	Response_partner_form,
+	get_partners,
+	update_partner,
+	get_modify_history,
+	update_admin,
+	save_C_pdf,
+	update_client_info,
+	save_logo_cover
 } = require("../controllers/Admin.js");
+
 const multer = require("multer");
 const { v4: uuidv4 } = require('uuid');
 
@@ -25,13 +27,25 @@ const storage = multer.diskStorage({
   }
 });
 
+const images_storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/imgs');
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = uuidv4() + '.' + file.originalname.split('.')[1]; 
+    cb(null, uniqueName);
+  }
+});
+
+
 const upload = multer({ storage: storage });
+const upload_images = multer({ storage: storage });
 
 router.post("/add_admin", add_admin);
 router.post("/Remove_admin", remove_admin);
 router.get("/", get_admins);
 router.get("/get_partners", get_partners);
-router.post("/update_partner", update_partner);
+router.post("/update_partner",  upload_images.array('images', 2), save_logo_cover, update_partner);
 router.post("/Response_partner_form", upload.single('file'), save_C_pdf, Response_partner_form);
 router.get("/get_modify_history", get_modify_history);
 router.post("/update_admin", update_admin);

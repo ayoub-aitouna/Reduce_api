@@ -20,7 +20,7 @@ avatar_Url,
 	offer,
 	_status,
 	note,
-	lat,
+	partner.lat,
 	longitude,
 	rating,
 	adrress,
@@ -151,9 +151,10 @@ const get_recomandation = (req, res) => {
 
 const get_partners = (req, res) => {
 	const { activity, ville } = req.query;
+	let query_selection = activity !== undefined ? `AND activity_entrprise = ${activity}` : '';
 	const Query = `select  ${partner_feilds}
     	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
-    	where ville = ${ville} AND activity_entrprise = ${activity}
+    	where ville = ${ville} ${query_selection} 
     	ORDER BY id DESC `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError(`${partners.data.err.sqlMessage}`);

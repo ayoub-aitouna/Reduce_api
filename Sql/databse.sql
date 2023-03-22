@@ -158,7 +158,7 @@ drop table if EXISTS sql7607447.client;
 
 CREATE TABLE sql7607447.client (
     id INT NOT NULL AUTO_INCREMENT,
-    full_name TEXT,
+         TEXT,
     birth_date DATETIME NOT NULL,
     sexe ENUM('M', 'F'),
     ville INT,

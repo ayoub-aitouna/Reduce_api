@@ -20,13 +20,13 @@ const add_admin = async (req, res) => {
 		);
 	}
 	const added_admin = SqlQuery(`insert into _Admin(
-    email  ,
+	email  ,
 	_password ,
 	_name,
-    ville ,
-    _role,
-    account_status,
-    created_date
+	ville ,
+	_role,
+	account_status,
+	created_date
 	) values (
 		'${email}',
 		'${await Encrypte(_password)}',
@@ -82,11 +82,19 @@ const save_logo_cover = async (req, res, next) => {
 	const domain = req.headers.host;
 	const protocol = req.protocol;
 	const domainUrl = protocol + '://' + domain;
-	const filenames = req.files.map(file => file.filename);	
-	req.logo = `${domainUrl}/imgs/${filenames[0]}`
-	req.cover = `${domainUrl}/imgs/${filenames[1]}`
+	const filenames = req.files.map(file => file.filename);
+	const { logo_selected, cover_selected } = JSON.parse(req.body.data);
+	console.table(["macros", logo_selected, cover_selected]);
+	let i = 0;
+	if (filenames.length === 0)
+		next();
+	if (logo_selected != undefined && logo_selected != false)
+		req.logo = `${domainUrl}/imgs/${filenames[i++]}`
+	if (cover_selected != undefined && cover_selected != false)
+		req.cover = `${domainUrl}/imgs/${filenames[i]}`
 	next();
 };
+
 
 const Response_partner_form = async (req, res) => {
 	const { partner_id, response } = JSON.parse(req.body.data);
@@ -102,21 +110,21 @@ const Response_partner_form = async (req, res) => {
 	console.log(url);
 
 	const result = SqlQuery(`
-                        update partner
-                    set
-                        _status = '${response}',
+						update partner
+					set
+						_status = '${response}',
 						contract_Url = '${url}'
-                    where
-                        id = ${partner_id};`);
+					where
+						id = ${partner_id};`);
 	if (!result.success) throw new BadRequestError(result.data.err.sqlMessage);
 
 	partner_data.contract_Url = url;
 
 	const admin_partner = SqlQuery(`
-                    insert into Admins_partners
-                    (admin_id, partner_id, created_date)
-                    values
-                    (${admin_id}, ${partner_id}, CURDATE());`);
+					insert into Admins_partners
+					(admin_id, partner_id, created_date)
+					values
+					(${admin_id}, ${partner_id}, CURDATE());`);
 	if (!admin_partner.success)
 		throw new BadRequestError(admin_partner.data.err.sqlMessage);
 
@@ -144,26 +152,26 @@ const get_partners = (req, res) => {
 
 	const Filter = _role != "Admin" ? `where ville = ${ville}` : "";
 	const Query = `select   partner.id,
-        avatar_Url,
-        email,
-        nome_entreprise,
-        identificateur_entreprise,
-        representant_entreprise,
-        role_dans_entriprise,
-        numero_telephone,
-        numero_telephone_fix,
-        ville,
-        activity_entrprise,
-        offer,
-        _status,
-        note,
-        adrress,
-        partner.created_date,
-        ville_name,
-        activity_name
-       from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
-       ${Filter}
-       ORDER BY id DESC `;
+		avatar_Url,
+		email,
+		nome_entreprise,
+		identificateur_entreprise,
+		representant_entreprise,
+		role_dans_entriprise,
+		numero_telephone,
+		numero_telephone_fix,
+		ville,
+		activity_entrprise,
+		offer,
+		_status,
+		note,
+		adrress,
+		partner.created_date,
+		ville_name,
+		activity_name
+	   from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+	   ${Filter}
+	   ORDER BY id DESC `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
 	console.log(partners.data.rows);
@@ -187,32 +195,34 @@ const update_partner = async (req, res) => {
 		activity_entrprise,
 		offer,
 		note,
-	} = req.body;
-	
-	let cover = req.cover;
-	let logo = req.logo;
-	
+	} = JSON.parse(req.body.data);
+
+	console.log("update");
 	try {
 		const old_data = SqlQuery(`select * from partner where id = ${id}`);
 
 		if (!old_data.success)
 			throw new BadRequestError(old_data.data.err.sqlMessage);
-
-	const submit = SqlQuery(`update partner set email = '${email}',
-      nome_entreprise = 	'${nome_entreprise}',
-      identificateur_entreprise = 	'${identificateur_entreprise}',
-      representant_entreprise = '${representant_entreprise}',
-      role_dans_entriprise = 	'${role_dans_entriprise}',
-      numero_telephone = 		'${numero_telephone}',
-      numero_telephone_fix = 	'${numero_telephone_fix}',
-      ville = 	'${ville}',
-      activity_entrprise = 	'${activity_entrprise}',
-      _status = 	'${partner_status}',
-      note = 	'${note}',
-      offer = 	'${offer}',
+		if (old_data.data.rows.length === 0)
+			return res.status(404).send();
+		let cover = req.cover == undefined ? old_data.data.rows[0].img_cover_Url : req.cover;
+		let logo = req.logo == undefined ? old_data.data.rows[0].avatar_Url : req.logo;
+		console.table([cover, logo]);
+		const submit = SqlQuery(`update partner set email = '${email}',
+	  nome_entreprise = 	'${nome_entreprise}',
+	  identificateur_entreprise = 	'${identificateur_entreprise}',
+	  representant_entreprise = '${representant_entreprise}',
+	  role_dans_entriprise = 	'${role_dans_entriprise}',
+	  numero_telephone = 		'${numero_telephone}',
+	  numero_telephone_fix = 	'${numero_telephone_fix}',
+	  ville = 	'${ville}',
+	  activity_entrprise = 	'${activity_entrprise}',
+	  _status = 	'${partner_status}',
+	  note = 	'${note}',
+	  offer = 	'${offer}',
 	  avatar_Url = '${logo}', 
-	  img_cover_Url - '${cover}',
-      adrress =  '${adrress}' where partner.id = ${id}`);
+	  img_cover_Url = '${cover}',
+	  adrress =  '${adrress}' where partner.id = ${id}`);
 		if (!submit.success) throw new BadRequestError(submit.data.err.sqlMessage);
 		const new_data = {
 			id,
@@ -232,7 +242,7 @@ const update_partner = async (req, res) => {
 		};
 		const applied_modife = get_applied_modif(old_data.data.rows[0], new_data);
 		const add_history_Qeury = `insert into modify_history(partner_id, admin_id,edited_column, created_date)
-                              values(${id}, ${admin_id},'${applied_modife}', NOW());`;
+							  values(${id}, ${admin_id},'${applied_modife}', NOW());`;
 		const add_history = SqlQuery(add_history_Qeury);
 		console.trace(add_history);
 		if (!add_history.success)
@@ -292,16 +302,16 @@ const get_admins = (req, res) => {
 		);
 
 	let SQL_QUERY = `select
-    _Admin.id,
-    email,
+	_Admin.id,
+	email,
 	  _password,
 	  _name,
-    ville,
-    ville_name,
-    _role,
-    account_status
-    from _Admin  inner join villes on _Admin.ville = villes.id
-    ORDER BY _Admin.id DESC `;
+	ville,
+	ville_name,
+	_role,
+	account_status
+	from _Admin  inner join villes on _Admin.ville = villes.id
+	ORDER BY _Admin.id DESC `;
 	// SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
 	const admins = SqlQuery(SQL_QUERY);
 	if (!admins.success) throw new BadRequestError(admins.data.err.sqlMessage);
@@ -316,11 +326,11 @@ const get_modify_history = async (req, res) => {
 	const Filter = _role != "Admin" ? `where partner.ville = ${ville}` : "";
 
 	const Query = `select  _Admin._name , partner.nome_entreprise, modify_history.created_date,edited_column
-                  from modify_history
-                  inner join  partner on  modify_history.partner_id =  partner.id
-                  inner join _Admin on modify_history.admin_id =  _Admin.id
-                  ${Filter}
-                  ORDER BY modify_history.id DESC `;
+				  from modify_history
+				  inner join  partner on  modify_history.partner_id =  partner.id
+				  inner join _Admin on modify_history.admin_id =  _Admin.id
+				  ${Filter}
+				  ORDER BY modify_history.id DESC `;
 	const History = SqlQuery(Query);
 	if (!History.success) throw new BadRequestError("Some thing went Wrong");
 	res.send(History.data.rows);
@@ -345,13 +355,13 @@ const update_admin = async (req, res) => {
 		);
 	}
 	const update_admin = SqlQuery(`update  _Admin
-    set email  ='${email}',
+	set email  ='${email}',
 	  _password = '${await Encrypte(_password)}',
 	  _name = 	'${_name}',
-    ville = 	'${ville}',
-    _role = '${_role}',
-    account_status = '${account_status}'
-    where _Admin.id = ${admin_id}`);
+	ville = 	'${ville}',
+	_role = '${_role}',
+	account_status = '${account_status}'
+	where _Admin.id = ${admin_id}`);
 
 	if (!update_admin.success) {
 		throw new BadRequestError(update_admin.data.err.sqlMessage);
@@ -375,11 +385,11 @@ const update_client_info = async (req, res) => {
 		// Update client in database
 		result = await SqlQuery(
 			`UPDATE client SET full_name = '${full_name}', birth_date = '${birth_date}',
-            sexe = '${sexe}', ville = ${ville}, adresse = '${adresse}', profession = '${profession}',
-            tel = '${tel}', abonnement = '${abonnement}',
-            date_inscription = '${date_inscription}', date_debut_abonnement = '${date_debut_abonnement}',
-            date_fin_abonnement = '${date_fin_abonnement}'
-            WHERE id = ${id}`
+			sexe = '${sexe}', ville = ${ville}, adresse = '${adresse}', profession = '${profession}',
+			tel = '${tel}', abonnement = '${abonnement}',
+			date_inscription = '${date_inscription}', date_debut_abonnement = '${date_debut_abonnement}',
+			date_fin_abonnement = '${date_fin_abonnement}'
+			WHERE id = ${id}`
 		);
 		if (!result.success)
 			return res
@@ -405,58 +415,3 @@ module.exports = {
 	update_client_info,
 	save_logo_cover
 };
-
-
-
-
-// const Upload_C_PDF = async (req, res, next) => {
-// 	try {
-// 		await processFile(req, res);
-
-// 		req.file.originalname = `CONTRACT_PDF_GENERATED_U_${JSON.parse(req.body.data).partner_id
-// 			}.pdf`;
-// 		if (!req.file) {
-// 			return res.status(400).send({ message: "Please upload a file!" });
-// 		}
-
-// 		const blob = bucket.file(req.file.originalname);
-// 		const blobStream = blob.createWriteStream({
-// 			resumable: false,
-// 		});
-
-// 		blobStream.on("error", (err) => {
-// 			throw new BadRequestError(err);
-// 			res.status(500).send({ message: err.message });
-// 		});
-
-// 		blobStream.on("finish", async (data) => {
-// 			const publicUrl = format(
-// 				`https://storage.googleapis.com/${bucket.name}/${blob.name}`
-// 			);
-
-// 			try {
-// 				await bucket.file(req.file.originalname).makePublic();
-// 			} catch {
-// 				return res.status(500).send({
-// 					message: `Uploaded the file successfully: ${req.file.originalname}, but public access is denied!`,
-// 					url: publicUrl,
-// 				});
-// 			}
-// 			req.url = publicUrl;
-// 			next();
-// 		});
-
-// 		blobStream.end(req.file.buffer);
-// 	} catch (err) {
-// 		console.log(err);
-// 		if (err.code == "LIMIT_FILE_SIZE") {
-// 			return res.status(500).send({
-// 				message: "File size cannot be larger than 2MB!",
-// 			});
-// 		}
-
-// 		res.status(500).send({
-// 			message: `Could not upload the file: ${req.file.originalname}. ${err}`,
-// 		});
-// 	}
-// };

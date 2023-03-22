@@ -17,8 +17,9 @@ ALTER TABLE
     sql7607447.villes
 ADD
     COLUMN status BOOLEAN NOT NULL DEFAULT true;
+    
+ALTER TABLE sql7607447.villes ADD UNIQUE (ville_name)
 
-select * from sql7607447.villes;
 
 drop table if EXISTS sql7607447.entrprise_activities;
 
@@ -34,7 +35,6 @@ ALTER TABLE
     sql7607447.entrprise_activities
 ADD
     COLUMN icon text;
-
 
 drop table if EXISTS sql7607447.blocked_activities;
 
@@ -160,11 +160,12 @@ create table sql7607447.profession(
     profession text,
     PRIMARY KEY (id)
 );
+
 drop table if EXISTS sql7607447.client;
 
 CREATE TABLE sql7607447.client (
     id INT NOT NULL AUTO_INCREMENT,
-         TEXT,
+    full_name TEXT,
     birth_date DATETIME NOT NULL,
     birth_date_stamp int,
     sexe ENUM('M', 'F'),

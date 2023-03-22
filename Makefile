@@ -1,6 +1,8 @@
 
+all : commit_and_push
+
 fclean: 
-	rm log/log-files/*
+	rm -rf log/log-files/*
 
 files = $(shell git diff --name-only HEAD)
 

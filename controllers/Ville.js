@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const AddVille = async (req, res) => {
-  const { ville , lang, lat} = req.body;
+  const { ville , long, lat} = req.body;
   const added_ville = SqlQuery(`insert into villes(
     ville_name,
     created_date,
@@ -12,7 +12,7 @@ const AddVille = async (req, res) => {
 	) values (
 		'${ville}',
 		CURDATE(),
-		${lang},
+		${long},
 		${lat}
   )`);
   if (!added_ville.success)

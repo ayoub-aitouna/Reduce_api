@@ -21,7 +21,7 @@ avatar_Url,
 	_status,
 	note,
 	partner.lat,
-	longitude,
+	partner.longitude,
 	rating,
 	adrress,
 	partner.created_date,
@@ -122,7 +122,7 @@ const change_password = async (req, res) => {
 	res.status(200).json({
 		message: 'partner password updated',
 		results: updateResult
-	});
+});
 };
 
 const get_recent_partners = (req, res) => {

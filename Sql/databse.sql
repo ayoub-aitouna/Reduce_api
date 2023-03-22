@@ -25,9 +25,15 @@ drop table if EXISTS sql7607447.entrprise_activities;
 create table sql7607447.entrprise_activities(
     id int NOT NULL AUTO_INCREMENT,
     activity_name text,
+    icon text,
     created_date date NOT NULL,
     PRIMARY KEY (id)
 );
+
+ALTER TABLE
+    sql7607447.entrprise_activities
+ADD
+    COLUMN icon text;
 
 
 drop table if EXISTS sql7607447.blocked_activities;
@@ -160,6 +166,7 @@ CREATE TABLE sql7607447.client (
     id INT NOT NULL AUTO_INCREMENT,
          TEXT,
     birth_date DATETIME NOT NULL,
+    birth_date_stamp int,
     sexe ENUM('M', 'F'),
     ville INT,
     adresse TEXT,

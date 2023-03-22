@@ -17,15 +17,15 @@ const does_partner_form_exits = async (req, res, next) => {
 	if (!email) {
 		throw new BadRequestError("Please provide email");
 	}
-	const partner = Query(`select * from partner where email = ${email}`);
-	if (partner != undefined && partner.length != 0)
-		return res.json({
-			err: {
-				already: false,
-				msg: "a form has Already submited with same Email Adress",
-			},
-		});
-	next();
+	let user = SqlQuery(`select * from partner where email = '${email}'`);
+	if (!user.success) throw new BadRequestError("server error");
+	try {
+		if (user.data.rows[0] != undefined && user.data.rows.length != 0)
+			return res.status(403).send({msg: "account with same email already exists"});
+		next();
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
 };
 
 const partner_login = async (req, res, next) => {
@@ -310,7 +310,7 @@ const client_login = async (req, res) => {
 const new_client = async (req, res) => {
 	try {
 		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
-			email, _password, abonnement, device_id, statut, date_inscription,
+				birth_date_stamp, email, _password, abonnement, device_id, statut, date_inscription,
 			date_debut_abonnement, date_fin_abonnement }
 			= req.body;
 		// Validate required fields
@@ -319,10 +319,10 @@ const new_client = async (req, res) => {
 		// Insert new client into database
 		const result = await SqlQuery(
 			`INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
-			tel, email, _password, abonnement, device_id, statut, date_inscription, 
+				birth_date_stamp, tel, email, _password, abonnement, device_id, statut, date_inscription, 
 			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
 			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
-			'${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
+			${birth_date_stamp}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
 			'${date_inscription}', '${date_debut_abonnement}', '${date_fin_abonnement}', NOW())`);
 		if (!result.success)
 			throw new BadRequestError(result.data.err

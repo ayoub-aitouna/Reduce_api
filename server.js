@@ -10,7 +10,7 @@ const { Encrypte } = require("./Utils/Crypto");
 var cors = require("cors");
 var path = require("path");
 
-// require("express-async-errors");
+require("express-async-errors");
 
 //  routers
 const Auth = require("./routes/Auth");

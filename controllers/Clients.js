@@ -9,11 +9,11 @@ const update_client = async (req, res) => {
     const { full_name, birth_date, sexe, ville, adresse, profession,
         tel, email, abonnement,
         date_inscription, date_debut_abonnement,
-        date_fin_abonnement , admin} = req.body;
-	
-	let is_admin = admin === undefined ? true : false;
-	const { id } =  !is_admin ? req.user : req.body;
-	console.log(id);	
+        date_fin_abonnement, admin } = req.body;
+
+    let is_admin = admin === undefined ? true : false;
+    const { id } = !is_admin ? req.user : req.body;
+    console.log(id);
     try {
         // Validate required fields
         if (!full_name || !email) {
@@ -218,7 +218,33 @@ const get_mainpartner_id = (id) => {
             throw new BadRequestError(`no sub partner found`);
     });
 }
+function get_partner_info(id, is_main) {
+    return new Promise(async (res, rej) => {
+        const partner_feilds = `partner.id,
+    avatar_Url,
+	nome_entreprise,
+	ville_name,
+	activity_name`;
 
+        let query = is_main ? `select ${partner_feilds}
+		from partner inner join villes on
+		villes.id = partner.ville INNER JOIN entrprise_activities on
+		entrprise_activities.id = partner.activity_entrprise where partner.id = ${id}` :
+            `SELECT sub_partner.id, partner.nome_entreprise, 
+				sub_partner.sub_partner_Name as representant_entreprise, partner.avatar_Url, partner.img_cover_Url
+				FROM sub_partner INNER JOIN partner on partner.id = sub_partner.partner_id
+				WHERE sub_partner.id =${id}`
+        const result = await SqlQuery(query);
+        if (!result.success)
+            throw new BadRequestError(`${result.data.err.sqlMessage}`);
+        if (result.data.rows.length < 1)
+            res({ name: '', img: '', activity: '' })
+        let data = result.data.rows[0];
+        console.log(data);
+        res({ name: data.nome_entreprise, img: data.avatar_Url, activity: data.activity_name })
+    });
+
+}
 const scan = async (req, res) => {
     const { id } = req.user;
     const { qr_code, product, scan_time } = req.body;
@@ -231,7 +257,10 @@ const scan = async (req, res) => {
         throw new BadRequestError(`No subscription found for user with ID ${id}`);
     if (!(await check_is_valide_qr(qr_obj)))
         throw new BadRequestError(`QR Code not valide`);
+
     const partner_id = qr_obj.is_main === false ? get_mainpartner_id(qr_obj.id) : qr_obj.id;
+
+    const { name, img, activity } = await get_partner_info(partner_id, qr_obj.is_main);
     let query = qr_obj.is_main
         ? `INSERT INTO scan_hsitory (partner_id, statut, client_id, product, scan_time, created_date)
         VALUES (${qr_obj.id}, 'active', ${id}, '${product}', '${scan_time}', NOW())`
@@ -243,14 +272,17 @@ const scan = async (req, res) => {
         throw new BadRequestError(`${result.data.err.sqlMessage}`);
     res.status(200).json({
         partner_id: partner_id,
-        is_main: qr_obj.is_main
+        is_main: qr_obj.is_main,
+        img: img,
+        activity: activity,
+        name: name
     });
 }
 
 const scan_hoistroy = async (req, res) => {
     const { id } = req.user;
     try {
-        let rows = await SqlQuery(`SELECT * FROM scan_hsitory WHERE client_id = ${id} AND statut = 'active'`);
+        let rows = await SqlQuery(`SELECT * FROM scan_hsitory inner join partner on partner_id = partner.id WHERE client_id = ${id} AND statut = 'active'`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)

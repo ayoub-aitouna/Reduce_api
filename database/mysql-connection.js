@@ -27,4 +27,13 @@ function SqlQuery(query) {
     throw new BadRequestError(err);
   }
 }
-module.exports = { Mysql, Query, SqlQuery };
+
+
+async function runSql(query) {
+  const res = await SqlQuery(query);
+  if (!res.success) throw new BadRequestError(`err :${res.data.err.sqlMessage}`);
+  return res.data.rows;
+}
+
+
+module.exports = { Mysql, Query, SqlQuery, runSql };

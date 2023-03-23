@@ -42,8 +42,8 @@ CREATE TABLE sql7607447.blocked_activities (
     city_id INT NOT NULL,
     activity_id INT NOT NULL,
     PRIMARY KEY (city_id, activity_id),
-    FOREIGN KEY (city_id) REFERENCES villes(id),
-    FOREIGN KEY (activity_id) REFERENCES activity_entrprise(id)
+    FOREIGN KEY (city_id) REFERENCES sql7607447.villes(id),
+    FOREIGN KEY (activity_id) REFERENCES sql7607447.entrprise_activities(id)
 );
 
 

@@ -58,4 +58,13 @@ ORDER BY
 
 select * from sql7607447.villes
 
--- to disable them
+
+
+SELECT
+    c.id,
+    c.ville_name,
+    IF(b.activity_id IS NULL, TRUE, FALSE) AS status
+FROM
+    sql7607447.villes c
+    LEFT JOIN sql7607447.blocked_activities b ON c.id = b.city_id
+    AND b.activity_id = 1;

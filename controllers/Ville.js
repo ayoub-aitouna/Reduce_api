@@ -34,6 +34,7 @@ const Villes = async (req, res) => {
   res.status(200).json(villes.data.rows);
 };
 
+
 const change_status = async (req, res) => {
 	const {status , id} = req.body;
 	const villes = SqlQuery(`update villes set status = '${status}' where villes.id = ${id}`);
@@ -41,7 +42,7 @@ const change_status = async (req, res) => {
 		return res.status(500).json({
 		err: villes.data.err,
 	});
-	res.status(200).json(villes.data.rows);
+	res.sendStatus(200);
 };
 
 

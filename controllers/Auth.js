@@ -310,8 +310,7 @@ const client_login = async (req, res) => {
 const new_client = async (req, res) => {
 	try {
 		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
-				birth_date_stamp, email, _password, abonnement, device_id, statut, date_inscription,
-			date_debut_abonnement, date_fin_abonnement }
+				birth_date_stamp, email, _password, abonnement, device_id, statut }
 			= req.body;
 		// Validate required fields
 		if (!full_name || !email || !_password)
@@ -323,7 +322,7 @@ const new_client = async (req, res) => {
 			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
 			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
 			${birth_date_stamp}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
-			'${date_inscription}', '${date_debut_abonnement}', '${date_fin_abonnement}', NOW())`);
+			NOW(), NOW(), NOW(), NOW())`);
 		if (!result.success)
 			throw new BadRequestError(result.data.err
 				.sqlMessage)

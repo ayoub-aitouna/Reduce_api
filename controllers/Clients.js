@@ -387,7 +387,7 @@ const contact_us = async (req, res) => {
             text: message,
         });
     } catch (error) {
-        res.sendStatus(200);
+        res.sendStatus(500);
     }
     res.sendStatus(200);
 }

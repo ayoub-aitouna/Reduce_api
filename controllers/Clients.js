@@ -130,19 +130,15 @@ const get_all_client = async (req, res) => {
 
 //reset Device Id
 const setDeviceId = async (req, res) => {
-    const { id } = req.qeury;
-
+    const { id } = req.body;
     try {
         let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
-        const { device_id } = req.body;
-
         if (rows.length === 0) {
             return res.status(404).json({ msg: "Client not found" });
         }
-        // Reset the device ID for the client
-        const result = await SqlQuery(`UPDATE client SET device_id = '${device_id}' WHERE id  = ${id}`);
+        const result = await SqlQuery(`UPDATE client SET device_id = '' WHERE id  = ${id}`);
         if (!result.success)
             return res
                 .status(500)
@@ -165,9 +161,7 @@ const decipher = (encrypted) => {
 
 // change client status
 const change_status = async (req, res) => {
-    const { statut } = req.body;
-    const { id } = req.qeury;
-
+    const { id, statut } = req.body;
     try {
         let rows = await SqlQuery(`SELECT * FROM client WHERE id = ${id}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);

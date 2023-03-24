@@ -21,7 +21,7 @@ const does_partner_form_exits = async (req, res, next) => {
 	if (!user.success) throw new BadRequestError("server error");
 	try {
 		if (user.data.rows[0] != undefined && user.data.rows.length != 0)
-			return res.status(403).send({msg: "account with same email already exists"});
+			return res.status(403).send({ msg: "account with same email already exists" });
 		next();
 	} catch (err) {
 		throw new BadRequestError(err);
@@ -310,8 +310,12 @@ const client_login = async (req, res) => {
 const new_client = async (req, res) => {
 	try {
 		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
-				birth_date_stamp, email, _password, abonnement, device_id, statut }
+			birth_date_stamp, email, _password, abonnement, device_id, date_fin_abonnement }
 			= req.body;
+		console.log({
+			full_name, birth_date, sexe, ville, adresse, profession, tel,
+			birth_date_stamp, email, _password, abonnement, device_id, date_fin_abonnement
+		});
 		// Validate required fields
 		if (!full_name || !email || !_password)
 			return res.status(400).json({ msg: "Please provide all required fields" });
@@ -321,8 +325,8 @@ const new_client = async (req, res) => {
 				birth_date_stamp, tel, email, _password, abonnement, device_id, statut, date_inscription, 
 			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
 			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
-			${birth_date_stamp}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', '${device_id}', '${statut}',
-			NOW(), NOW(), NOW(), NOW())`);
+			${birth_date_stamp != undefined ? birth_date_stamp : 0}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', ${device_id != undefined ? '' : `'${device_id}'`}, 'Activé',
+			NOW(), NOW(), ${date_fin_abonnement != undefined ? `'${date_fin_abonnement}'` : `NOW()`} , NOW())`);
 		if (!result.success)
 			throw new BadRequestError(result.data.err
 				.sqlMessage)

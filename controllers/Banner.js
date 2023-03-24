@@ -1,7 +1,7 @@
 const { Mysql, Query, SqlQuery } = require("../database/index.js");
 const jwt = require("jsonwebtoken");
 const BadRequest = require("../errors/bad-request.js");
-const {BadRequestError} = require("../errors/index.js");
+const { BadRequestError } = require("../errors/index.js");
 require("dotenv").config();
 
 const AddBanner = async (req, res) => {
@@ -10,9 +10,9 @@ const AddBanner = async (req, res) => {
 
 	const { Baniere_ordre, Logo, Couverture, Offer, Adresse, Tel, statut } = JSON.parse(req.body.data);
 
-	let cover = req.cover == undefined ? '': req.cover;
+	let cover = req.cover == undefined ? '' : req.cover;
 
-	let logo = req.logo == undefined ? '': req.logo;
+	let logo = req.logo == undefined ? '' : req.logo;
 	console.table([cover, logo]);
 	const added_Activity = SqlQuery(`INSERT INTO banners 
 	(Baniere_ordre, Logo, Couverture, Offer, Adresse, Tel, statut, created_date)
@@ -50,9 +50,10 @@ const save_logo_cover = async (req, res, next) => {
 
 const UpdateBanner = async (req, res) => {
 	const id = req.params.id;
-	const { Baniere_ordre, Offer, Adresse, Tel, statut } = req.body;
+	const { Baniere_ordre, Offer, Adresse, Tel, statut } = JSON.parse(req.body.data);
+	console.log({ Baniere_ordre, Offer, Adresse, Tel, statut });
 	const old_data = SqlQuery(`SELECT * FROM banners WHERE id = ${id}`);
-	if(!old_data.success)
+	if (!old_data.success)
 		throw new BadRequestError('old_data err ');
 	if (old_data.data.rows.length === 0)
 		return res.status(404).send();
@@ -75,7 +76,10 @@ const UpdateBanner = async (req, res) => {
 }
 
 const Banner = async (req, res) => {
-	const banners = SqlQuery(`SELECT * FROM banners WHERE statut = 'activer' ORDER BY Baniere_ordre`);
+	const { type } = req.query;
+	let query_selection = type !== undefined && type == 1 ? ` WHERE statut = 'activer'` : type == 2 ? ` WHERE statut = 'Desactiver'` : '';
+	console.table([type, query_selection]);
+	const banners = SqlQuery(`SELECT * FROM banners ${query_selection} ORDER BY Baniere_ordre`);
 	if (!banners.success)
 		return res.status(500).json({
 			err: banners.data.err,

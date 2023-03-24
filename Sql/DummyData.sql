@@ -69,5 +69,4 @@ FROM
     LEFT JOIN sql7607447.blocked_activities b ON c.id = b.city_id
     AND b.activity_id = 1;
 
-
-    select CURDATE();
+select * from sql7607447.banners;

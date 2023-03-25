@@ -202,7 +202,7 @@ create table sql7607447.scan_hsitory(
     statut ENUM('active', 'deleted'),
     client_id int,
     product varchar(50),
-    scan_time int,
+    scan_time BIGINT,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(partner_id) REFERENCES sql7607447.partner(id),

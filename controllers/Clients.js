@@ -307,7 +307,19 @@ const scan_hoistroy = async (req, res) => {
 
     const query_filter_date = days !== undefined ? `AND scan_hsitory.created_date >= DATE_SUB(CURDATE(), INTERVAL ${days} DAY)` : '';
     try {
-        let rows = await SqlQuery(`SELECT * FROM scan_hsitory inner join partner on partner_id = partner.id WHERE client_id = ${id} AND statut = 'active' ${query_filter_date}`);
+        let rows = await SqlQuery(`SELECT
+        scan_hsitory.id,
+        partner_id,
+        client_id,
+        partner.email,
+        img_cover_Url,
+        nome_entreprise,
+        identificateur_entreprise,
+        representant_entreprise,
+        rating
+        FROM scan_hsitory
+        inner join partner on partner_id = partner.id
+        WHERE client_id = ${id} AND statut = 'active' ${query_filter_date}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)

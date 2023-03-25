@@ -316,6 +316,7 @@ const scan_hoistroy = async (req, res) => {
         nome_entreprise,
         identificateur_entreprise,
         representant_entreprise,
+        product,
         rating
         FROM scan_hsitory
         inner join partner on partner_id = partner.id

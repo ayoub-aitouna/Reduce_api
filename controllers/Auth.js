@@ -321,13 +321,14 @@ const new_client = async (req, res) => {
 		if (!full_name || !email || !_password)
 			return res.status(400).json({ msg: "Please provide all required fields" });
 		// Insert new client into database
-		const result = await SqlQuery(
-			`INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
-				birth_date_stamp, tel, email, _password, abonnement, device_id, statut, date_inscription, 
-			date_debut_abonnement, date_fin_abonnement, created_date) VALUES
-			('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
-			${birth_date_stamp != undefined ? birth_date_stamp : 0}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', ${device_id != undefined ? '' : `'${device_id}'`}, 'Activé',
-			NOW(), NOW(), ${date_fin_abonnement != undefined ? `'${date_fin_abonnement}'` : `NOW()`} , NOW())`);
+		const Query = `INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
+			birth_date_stamp, tel, email, _password, abonnement,${device_id != undefined ? '' : `device_id,`} statut, date_inscription, 
+		date_debut_abonnement, date_fin_abonnement, created_date) VALUES
+		('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
+		${birth_date_stamp != undefined ? birth_date_stamp : 0}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', ${device_id != undefined ? '' : `'${device_id}',`} 'Activé',
+		NOW(), NOW(), ${date_fin_abonnement != undefined ? `'${date_fin_abonnement}'` : 'NOW()'} , NOW())`;
+		console.log(Query);
+		const result = await SqlQuery(Query);
 		if (!result.success)
 			throw new BadRequestError(result.data.err
 				.sqlMessage)

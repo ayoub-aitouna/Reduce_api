@@ -10,6 +10,7 @@ const { sendEmail } = require("../Utils/Mailer");
 const update_client = async (req, res) => {
     const { full_name,
         birth_date,
+        birth_date_stamp,
         sexe,
         ville,
         adresse,
@@ -30,6 +31,7 @@ const update_client = async (req, res) => {
             `UPDATE client SET
             full_name = '${full_name}',
             birth_date = '${birth_date}',
+            birth_date_stamp = ${birth_date_stamp},
             sexe = '${sexe}',
             ville = ${ville},
             adresse = '${adresse}',

@@ -167,7 +167,7 @@ CREATE TABLE sql7607447.client (
     id INT NOT NULL AUTO_INCREMENT,
     full_name TEXT,
     birth_date DATETIME NOT NULL,
-    birth_date_stamp int,
+    birth_date_stamp BIGINT,
     sexe ENUM('M', 'F'),
     ville INT,
     adresse TEXT,

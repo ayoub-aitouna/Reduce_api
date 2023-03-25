@@ -1,9 +1,10 @@
-const { Mysql, SqlQuery, SqlSqlQuery } = require("../database/index.js");
+const { Mysql, SqlQuery, SqlSqlQuery, runSql } = require("../database/index.js");
 const { Encrypte, compare, cipher } = require("../Utils/Crypto");
 require("dotenv").config();
 const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
 const {getOTPForEmail } = require("../Utils/OTP.js");
+const { sendEmail } = require("../Utils/Mailer");
 
 //Update a Client
 const update_client = async (req, res) => {
@@ -398,6 +399,27 @@ const rating = async (req, res) => {
     });
 }
 
+
+const contact_us = async (req, res) => {
+
+    const { type, message } = req.body;
+    const { id } = req.user;
+    const query_res = await SqlQuery(`select * from client where id = ${id}`);
+    if (!query_res.success) throw new BadRequestError(`err :${query_res.data.err.sqlMessage}`);
+    if (query_res.data.rows.length === 0)
+        return query_res.sendStatus(404);
+    try {
+        await sendEmail({
+            subject: type,
+            to: query_res.data.rows[0].email,
+            text: message,
+        });
+    } catch (error) {
+        res.sendStatus(500);
+    }
+    res.sendStatus(200);
+}
+
 module.exports = {
     get_all_client,
     update_client,
@@ -409,5 +431,6 @@ module.exports = {
     scan_hoistroy,
     delete_history,
     rating,
-    reset_password
+    reset_password,
+    contact_us
 };

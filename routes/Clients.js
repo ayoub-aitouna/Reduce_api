@@ -11,7 +11,8 @@ const {
     scan_hoistroy,
     delete_history,
     rating,
-    reset_password
+    reset_password,
+    contact_us
 } = require("../controllers/Clients");
 
 router.put("/", update_client);
@@ -23,6 +24,7 @@ router.put("/setDeviceId", setDeviceId);
 router.put("/change_status", change_status);
 router.post("/scan", scan);
 router.post("/rating", rating);
+router.post("/contact_us", contact_us);
 router.delete("/delete_history", delete_history);
 router.put("/reset_password", reset_password);
 

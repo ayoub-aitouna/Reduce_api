@@ -3,30 +3,42 @@ const { Encrypte, compare, cipher } = require("../Utils/Crypto");
 require("dotenv").config();
 const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
-const {getOTPForEmail } = require("../Utils/OTP.js");
+const { getOTPForEmail } = require("../Utils/OTP.js");
 const { sendEmail } = require("../Utils/Mailer");
 
 //Update a Client
 const update_client = async (req, res) => {
-    const { full_name, birth_date, sexe, ville, adresse, profession,
-        tel, email, abonnement,
-        date_inscription, date_debut_abonnement,
-        date_fin_abonnement, admin } = req.body;
-
+    const { full_name,
+        birth_date,
+        sexe,
+        ville,
+        adresse,
+        profession,
+        tel,
+        email,
+        abonnement,
+        date_inscription,
+        date_debut_abonnement,
+        date_fin_abonnement,
+        admin } = req.body;
     let is_admin = admin === undefined ? true : false;
     const { id } = !is_admin ? req.user : req.body;
-    console.log(id);
     try {
-        // Validate required fields
-        if (!full_name || !email) {
+        if (!full_name || !email)
             return res.status(400).json({ msg: "Please provide all required fields" });
-        }
-        // Update client in database
         result = await SqlQuery(
-            `UPDATE client SET full_name = '${full_name}', birth_date = '${birth_date}',
-            sexe = '${sexe}', ville = ${ville}, adresse = '${adresse}', profession = '${profession}',
-            tel = '${tel}', abonnement = '${abonnement}',
-            date_inscription = '${date_inscription}', date_debut_abonnement = '${date_debut_abonnement}',
+            `UPDATE client SET
+            full_name = '${full_name}',
+            birth_date = '${birth_date}',
+            sexe = '${sexe}',
+            ville = ${ville},
+            adresse = '${adresse}',
+            profession = '${profession}',
+            tel = '${tel}',
+            abonnement = '${abonnement}',
+            date_inscription = '${date_inscription}',
+            email = '${email}',
+            date_debut_abonnement = '${date_debut_abonnement}',
             date_fin_abonnement = '${date_fin_abonnement}'
             WHERE id = ${id}`
         );
@@ -78,27 +90,27 @@ const change_password = async (req, res) => {
 }
 
 const reset_password = async (req, res) => {
-	const { email, key, _password } = req.body;
-	try {
+    const { email, key, _password } = req.body;
+    try {
         const value = getOTPForEmail(req, email);
         console.table([value, email]);
-		if (!(value != null && value != undefined && value == key))
-			return res.sendStatus(403);
+        if (!(value != null && value != undefined && value == key))
+            return res.sendStatus(403);
 
-		const update_client = SqlQuery(`update  client
+        const update_client = SqlQuery(`update  client
             set _password = '${await Encrypte(_password)}'
             where email = '${email}'`);
 
-		if (!update_client.success) {
-			console.log(update_client.data.err.sqlMessage);
-			return res.status(500).send({
-				err: update_client.data.err.sqlMessage,
-			});
-		}
-		res.status(200).send("ok!");
-	} catch (err) {
-		throw new BadRequestError(err);
-	}
+        if (!update_client.success) {
+            console.log(update_client.data.err.sqlMessage);
+            return res.status(500).send({
+                err: update_client.data.err.sqlMessage,
+            });
+        }
+        res.status(200).send("ok!");
+    } catch (err) {
+        throw new BadRequestError(err);
+    }
 };
 
 //get client by id
@@ -303,7 +315,7 @@ const scan = async (req, res) => {
 
 const scan_hoistroy = async (req, res) => {
     const { id } = req.user;
-    const {days} = req.query;
+    const { days } = req.query;
 
     const query_filter_date = days !== undefined ? `AND scan_hsitory.created_date >= DATE_SUB(CURDATE(), INTERVAL ${days} DAY)` : '';
     try {

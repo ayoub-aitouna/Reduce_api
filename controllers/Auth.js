@@ -106,11 +106,12 @@ const sub_partner_login = async (req, res) => {
 
 const sendVeriifyOtp = async (req, res) => {
 	const { email } = req.body;
-
 	let otp = getOTPForEmail(req, email);
 	if (otp == null || otp == undefined) {
 		otp = await generateKeyAndstoreOtp(email);
+		setOTPForEmail(req,email, otp);
 	}
+	console.table(['OTP', otp]);
 	try {
 		await sendEmail({
 			subject: `Le code de vérification`,
@@ -130,7 +131,7 @@ const sendVeriifyOtp = async (req, res) => {
 const Verify_email = async (req, res) => {
 	const { email, key } = req.body;
 	try {
-		const value = await client.get(email);
+		const value = getOTPForEmail(req, email);
 		res.send({ Verified: value != null && value != undefined && value == key });
 	} catch (err) {
 		throw new BadRequestError(err);
@@ -141,7 +142,7 @@ const reset_pass = async (req, res) => {
 	const { email, key, _password } = req.body;
 	console.log({ email, key, _password });
 	try {
-		const value = await client.get(email);
+		const value = getOTPForEmail(req, email);
 		if (!(value != null && value != undefined && value == key))
 			return res.sendStatus(403);
 

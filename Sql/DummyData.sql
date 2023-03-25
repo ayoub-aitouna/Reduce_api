@@ -45,10 +45,10 @@ from
     sql7607447._Admin;
 
 
-SELECT
-    *
-FROM
-    sql7607447.client
+    SELECT
+        *
+    FROM
+        sql7607447.partner
 
 WHERE
     statut == 'activer'

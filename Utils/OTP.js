@@ -14,6 +14,7 @@ async function generateKeyAndstoreOtp(Email) {
 
 // Function to set OTP for an email in the session
 function setOTPForEmail(req, email, otp) {
+  console.table(['saving otp', email, otp]);
   req.session[email] = otp;
 }
 

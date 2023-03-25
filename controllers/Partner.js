@@ -4,7 +4,6 @@ const { client } = require("../database/index.js");
 const { Encrypte, compare, cipher } = require("../Utils/Crypto");
 const { BadRequestError } = require("../errors/index.js");
 require("dotenv").config();
-const Log = require("../log");
 
 const partner_feilds = `partner.id,
 avatar_Url,
@@ -122,7 +121,7 @@ const change_password = async (req, res) => {
 	res.status(200).json({
 		message: 'partner password updated',
 		results: updateResult
-});
+	});
 };
 
 const get_recent_partners = (req, res) => {
@@ -133,6 +132,18 @@ const get_recent_partners = (req, res) => {
 		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError(partners.data.err.message);
+	console.log(partners.data.rows);
+	res.send(partners.data.rows);
+}
+
+const suggestions = (req, res) => {
+	const { ville, needle } = req.query;
+	const Query = `SELECT ${partner_feilds}
+    	from partner inner join villes on partner.ville = villes.id inner join entrprise_activities on partner.activity_entrprise = entrprise_activities.id
+		where ville = ${ville} AND  nome_entreprise LIKE '${needle}%'
+		ORDER BY created_date DESC LIMIT 5 `;
+	const partners = SqlQuery(Query);
+	if (!partners.success) throw new BadRequestError(partners.data.err.sqlMessage);
 	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
@@ -177,6 +188,13 @@ const history = async (req, res) => {
 }
 
 module.exports = {
-	get_parner_data, get_sub, change_password,
-	history, locate, get_partners, get_recomandation, get_recent_partners
+	get_parner_data,
+	get_sub,
+	change_password,
+	history,
+	locate,
+	get_partners,
+	get_recomandation,
+	get_recent_partners,
+	suggestions
 };

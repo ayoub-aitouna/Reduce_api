@@ -3,6 +3,7 @@ const { Encrypte, compare, cipher } = require("../Utils/Crypto");
 require("dotenv").config();
 const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
+const {getOTPForEmail } = require("../Utils/OTP.js");
 
 //Update a Client
 const update_client = async (req, res) => {
@@ -74,6 +75,30 @@ const change_password = async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 }
+
+const reset_password = async (req, res) => {
+	const { email, key, _password } = req.body;
+	try {
+        const value = getOTPForEmail(req, email);
+        console.table([value, email]);
+		if (!(value != null && value != undefined && value == key))
+			return res.sendStatus(403);
+
+		const update_client = SqlQuery(`update  client
+            set _password = '${await Encrypte(_password)}'
+            where email = '${email}'`);
+
+		if (!update_client.success) {
+			console.log(update_client.data.err.sqlMessage);
+			return res.status(500).send({
+				err: update_client.data.err.sqlMessage,
+			});
+		}
+		res.status(200).send("ok!");
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
+};
 
 //get client by id
 const get_client = async (req, res) => {
@@ -212,6 +237,7 @@ const get_mainpartner_id = (id) => {
             throw new BadRequestError(`no sub partner found`);
     });
 }
+
 function get_partner_info(id, is_main) {
     return new Promise(async (res, rej) => {
         const partner_feilds = `partner.id,
@@ -239,6 +265,7 @@ function get_partner_info(id, is_main) {
     });
 
 }
+
 const scan = async (req, res) => {
     const { id } = req.user;
     const { qr_code, product, scan_time } = req.body;
@@ -275,8 +302,11 @@ const scan = async (req, res) => {
 
 const scan_hoistroy = async (req, res) => {
     const { id } = req.user;
+    const {days} = req.query;
+
+    const query_filter_date = days !== undefined ? `AND scan_hsitory.created_date >= DATE_SUB(CURDATE(), INTERVAL ${days} DAY)` : '';
     try {
-        let rows = await SqlQuery(`SELECT * FROM scan_hsitory inner join partner on partner_id = partner.id WHERE client_id = ${id} AND statut = 'active'`);
+        let rows = await SqlQuery(`SELECT * FROM scan_hsitory inner join partner on partner_id = partner.id WHERE client_id = ${id} AND statut = 'active' ${query_filter_date}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows
         if (rows.length === 0)
@@ -379,4 +409,5 @@ module.exports = {
     scan_hoistroy,
     delete_history,
     rating,
+    reset_password
 };

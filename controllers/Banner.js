@@ -37,6 +37,7 @@ const save_logo_cover = async (req, res, next) => {
 	next();
 };
 
+
 const UpdateBanner = async (req, res) => {
 	const id = req.params.id;
 	const { Baniere_ordre, Offer, Adresse, Tel, statut } = JSON.parse(req.body.data);
@@ -72,6 +73,7 @@ const Banner = async (req, res) => {
 		});
 	res.status(200).json(banners.data.rows);
 };
+
 
 const Banners = async (req, res) => {
 	const id = req.params.id;

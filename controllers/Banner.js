@@ -21,8 +21,6 @@ const AddBanner = async (req, res) => {
 	});
 };
 
-
-
 const save_logo_cover = async (req, res, next) => {
 	const domain = req.headers.host;
 	const protocol = req.protocol;
@@ -38,8 +36,6 @@ const save_logo_cover = async (req, res, next) => {
 		req.cover = `${domainUrl}/imgs/${filenames[i]}`
 	next();
 };
-
-
 
 const UpdateBanner = async (req, res) => {
 	const id = req.params.id;
@@ -76,7 +72,6 @@ const Banner = async (req, res) => {
 		});
 	res.status(200).json(banners.data.rows);
 };
-
 
 const Banners = async (req, res) => {
 	const id = req.params.id;

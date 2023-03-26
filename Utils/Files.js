@@ -94,7 +94,6 @@ const UploadBuffer = async (Buffer) => {
         });
       });
     } catch (err) {
-      console.log(err);
 
       if (err.code == "LIMIT_FILE_SIZE") {
         rej({

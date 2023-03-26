@@ -5,15 +5,9 @@ const { BadRequestError } = require("../errors/index.js");
 require("dotenv").config();
 
 const AddBanner = async (req, res) => {
-
-	console.log("adding banner ");
-
 	const { Baniere_ordre, Logo, Couverture, Offer, Adresse, Tel, statut } = JSON.parse(req.body.data);
-
 	let cover = req.cover == undefined ? '' : req.cover;
-
 	let logo = req.logo == undefined ? '' : req.logo;
-	console.table([cover, logo]);
 	const added_Activity = SqlQuery(`INSERT INTO banners 
 	(Baniere_ordre, Logo, Couverture, Offer, Adresse, Tel, statut, created_date)
 	VALUES ('${Baniere_ordre}', '${logo}', '${cover}', '${Offer}', 
@@ -35,7 +29,6 @@ const save_logo_cover = async (req, res, next) => {
 	const domainUrl = protocol + '://' + domain;
 	const filenames = req.files.map(file => file.filename);
 	const { logo_selected, cover_selected } = JSON.parse(req.body.data);
-	console.table(["macros", logo_selected, cover_selected]);
 	let i = 0;
 	if (filenames.length === 0)
 		next();
@@ -51,7 +44,6 @@ const save_logo_cover = async (req, res, next) => {
 const UpdateBanner = async (req, res) => {
 	const id = req.params.id;
 	const { Baniere_ordre, Offer, Adresse, Tel, statut } = JSON.parse(req.body.data);
-	console.log({ Baniere_ordre, Offer, Adresse, Tel, statut });
 	const old_data = SqlQuery(`SELECT * FROM banners WHERE id = ${id}`);
 	if (!old_data.success)
 		throw new BadRequestError('old_data err ');
@@ -59,7 +51,6 @@ const UpdateBanner = async (req, res) => {
 		return res.status(404).send();
 	let cover = req.cover == undefined ? old_data.data.rows[0].Couverture : req.cover;
 	let logo = req.logo == undefined ? old_data.data.rows[0].Logo : req.logo;
-	console.table([cover, logo]);
 	const updated_querry = SqlQuery(`UPDATE banners SET
 		Baniere_ordre = '${Baniere_ordre}', Logo = '${logo}', Couverture = '${cover}',
 		Offer = '${Offer}', Adresse = '${Adresse}', Tel = '${Tel}', statut = '${statut}'
@@ -78,7 +69,6 @@ const UpdateBanner = async (req, res) => {
 const Banner = async (req, res) => {
 	const { type } = req.query;
 	let query_selection = type !== undefined && type == 1 ? ` WHERE statut = 'activer'` : type == 2 ? ` WHERE statut = 'Desactiver'` : '';
-	console.table([type, query_selection]);
 	const banners = SqlQuery(`SELECT * FROM banners ${query_selection} ORDER BY Baniere_ordre`);
 	if (!banners.success)
 		return res.status(500).json({

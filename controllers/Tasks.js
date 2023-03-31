@@ -67,7 +67,6 @@ const anounsments = async (req, res) => {
      `
   );
   if (!task_announcement.success) {
-    console.log(task_announcement.data.err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
@@ -111,7 +110,6 @@ const set_task_done = async (req, res) => {
                              CURDATE())`
   );
   if (!add_done.success) {
-    console.trace(add_done.data.err);
     return res.status(500).json({
       err: add_done.data.err,
     });
@@ -166,7 +164,6 @@ const add_done = async (req, res) => {
                              CURDATE())`
   );
   if (!add_done.success) {
-    console.trace(add_done.data.err);
     return res.status(500).json({
       err: add_done.data.err,
     });
@@ -199,8 +196,6 @@ const edite_done = async (req, res) => {
      where id = ${id}`
   );
   if (!add_done.success) {
-    console.trace(add_done.data.err);
-
     return res.status(500).json({
       err: add_done.data.err,
     });
@@ -234,7 +229,6 @@ const done = async (req, res) => {
        ORDER BY task_done.id DESC `
   );
   if (!done_tasks.success) {
-    console.trace(done_tasks.data.err);
     return res.status(500).json({
       err: done_tasks.data.err,
     });
@@ -257,7 +251,6 @@ const search = async (req, res) => {
        ORDER BY task_announcement.id DESC `
   );
   if (!task_announcement.success) {
-    console.log(task_announcement.data.err);
     return res.status(500).json({
       err: task_announcement.data.err,
     });
@@ -269,13 +262,11 @@ const search = async (req, res) => {
       where ${base_filter} ${filter} ORDER BY task_done.id DESC `
   );
   if (!done_tasks.success) {
-    console.log(done_tasks.data.err);
     return res.status(500).json({
       err: done_tasks.data.err,
     });
   }
   const result = task_announcement.data.rows.concat(done_tasks.data.rows);
-  console.trace(result);
   res.status(200).json(result);
 };
 

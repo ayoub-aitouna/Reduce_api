@@ -8,9 +8,8 @@ const EditActivity = async (req, res) => {
 
 	const _Activity = SqlQuery(`update entrprise_activities set activity_name = '${name}' where id = ${value}`);
 	if (!_Activity.success) {
-		console.log(`error in sql ${_Activity.data.err.sqlMessage}`);
 		return res.status(500).json({
-			err: _Activity.data.err,
+			err: _Activity.data.err.sqlMessage,
 		});
 	}
 	res.status(200).send({

@@ -76,7 +76,6 @@ const get_sub = async (req, res) => {
 
 const locate = async (req, res) => {
 	const { id } = req.user;
-	console.log({ id: id });
 	const { lat, long } = req.body;
 	const updateSql = `UPDATE partner SET lat = ${lat}, longitude = ${long} WHERE id = ${id}`;
 	const updateResult = SqlQuery(updateSql);
@@ -132,7 +131,6 @@ const get_recent_partners = (req, res) => {
 		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError(partners.data.err.message);
-	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
@@ -144,7 +142,6 @@ const suggestions = (req, res) => {
 		ORDER BY created_date DESC LIMIT 5 `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError(partners.data.err.sqlMessage);
-	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
@@ -156,7 +153,6 @@ const get_recomandation = (req, res) => {
 		ORDER BY created_date DESC LIMIT 25 `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError(`${partners.data.err.sqlMessage}`);
-	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 
@@ -169,7 +165,6 @@ const get_partners = (req, res) => {
     	ORDER BY id DESC `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError(`${partners.data.err.sqlMessage}`);
-	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 }
 

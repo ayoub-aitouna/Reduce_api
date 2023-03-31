@@ -84,7 +84,6 @@ const save_logo_cover = async (req, res, next) => {
 	const domainUrl = protocol + '://' + domain;
 	const filenames = req.files.map(file => file.filename);
 	const { logo_selected, cover_selected } = JSON.parse(req.body.data);
-	console.table(["macros", logo_selected, cover_selected]);
 	let i = 0;
 	if (filenames.length === 0)
 		next();
@@ -99,16 +98,10 @@ const save_logo_cover = async (req, res, next) => {
 const Response_partner_form = async (req, res) => {
 	const { partner_id, response } = JSON.parse(req.body.data);
 	const { id: admin_id } = req.user;
-
-	console.trace({ partner_id, response });
 	const partner = SqlQuery(`select * from partner where id = ${partner_id}`);
 	if (!partner.success) throw new BadRequestError(partner.data.err.sqlMessage);
-
 	const partner_data = partner.data.rows[0];
-
 	let url = req.url;
-	console.log(url);
-
 	const result = SqlQuery(`
 						update partner
 					set
@@ -174,7 +167,6 @@ const get_partners = (req, res) => {
 	   ORDER BY id DESC `;
 	const partners = SqlQuery(Query);
 	if (!partners.success) throw new BadRequestError("Some thing went Wrong");
-	console.log(partners.data.rows);
 	res.send(partners.data.rows);
 };
 
@@ -196,8 +188,6 @@ const update_partner = async (req, res) => {
 		offer,
 		note,
 	} = JSON.parse(req.body.data);
-
-	console.log("update");
 	try {
 		const old_data = SqlQuery(`select * from partner where id = ${id}`);
 
@@ -207,7 +197,6 @@ const update_partner = async (req, res) => {
 			return res.status(404).send();
 		let cover = req.cover == undefined ? old_data.data.rows[0].img_cover_Url : req.cover;
 		let logo = req.logo == undefined ? old_data.data.rows[0].avatar_Url : req.logo;
-		console.table([cover, logo]);
 		const submit = SqlQuery(`update partner set email = '${email}',
 	  nome_entreprise = 	'${nome_entreprise}',
 	  identificateur_entreprise = 	'${identificateur_entreprise}',
@@ -244,7 +233,6 @@ const update_partner = async (req, res) => {
 		const add_history_Qeury = `insert into modify_history(partner_id, admin_id,edited_column, created_date)
 							  values(${id}, ${admin_id},'${applied_modife}', NOW());`;
 		const add_history = SqlQuery(add_history_Qeury);
-		console.trace(add_history);
 		if (!add_history.success)
 			throw new BadRequestError(submit.data.err.sqlMessage);
 		return res.sendStatus(200);
@@ -315,7 +303,6 @@ const get_admins = (req, res) => {
 	// SQL_QUERY += Sql_Query_Filter != "" ? `where ${Sql_Query_Filter}` : "";
 	const admins = SqlQuery(SQL_QUERY);
 	if (!admins.success) throw new BadRequestError(admins.data.err.sqlMessage);
-	console.log(admins.data.rows);
 	res.status(200).send(admins.data.rows);
 };
 

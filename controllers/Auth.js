@@ -127,7 +127,6 @@ const sendVeriifyOtp = async (req, res) => {
 
 };
 
-
 const Verify_email = async (req, res) => {
 	const { email, key } = req.body;
 	try {
@@ -140,7 +139,6 @@ const Verify_email = async (req, res) => {
 
 const reset_pass = async (req, res) => {
 	const { email, key, _password } = req.body;
-	console.log({ email, key, _password });
 	try {
 		const value = getOTPForEmail(req, email);
 		if (!(value != null && value != undefined && value == key))
@@ -151,7 +149,6 @@ const reset_pass = async (req, res) => {
     where email = '${email}'`);
 
 		if (!update_admin.success) {
-			console.log(update_admin.data.err.sqlMessage);
 			return res.status(500).send({
 				err: update_admin.data.err.sqlMessage,
 			});
@@ -224,13 +221,8 @@ const partner_Submit_form = async (req, res) => {
 //admin
 const admin_login = async (req, res) => {
 	const { email, password } = req.body;
-	const admin = SqlQuery(
-		`select * from _Admin where email = '${email.toLowerCase()}'`
-	);
+	const admin = SqlQuery(`select * from _Admin where email = '${email.toLowerCase()}'`);
 	if (!admin.success) throw new BadRequestError(`err : ${admin.data.err.sqlMessage}`);
-	// 	const hashed_pass = await Encrypte(password)
-	// console.table([{ email, password, hashed_pass }]);
-
 	if (admin.data.rows == undefined || admin.data.rows.length == 0)
 		return res.status(404).send({ err: "email is not correct" });
 
@@ -277,17 +269,16 @@ const ResendOTP = async (req, res) => {
 const client_login = async (req, res) => {
 	const { email, password } = req.body;
 	let user = SqlQuery(`select * from client where email = '${email}'`);
-	console.table(user.data.rows);
 	if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
 	try {
-		if (
-			user.data.rows[0] == undefined ||
-			user.data.rows.length == 0 ||
-			!(await compare(password, user.data.rows[0]._password))
-		)
+		if (user.data.rows[0] == undefined || user.data.rows.length == 0)
 			return res.status(404).send({
 				msg: "user not found"
 			});
+		if(!(await compare(password, user.data.rows[0]._password)))
+		return res.status(404).send({
+			msg: "password is not correct !"
+		});
 		const accesToken = jwt.sign(
 			user.data.rows[0],
 			process.env.ACCESS_TOKEN_SECRET
@@ -313,21 +304,14 @@ const new_client = async (req, res) => {
 		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
 			birth_date_stamp, email, _password, abonnement, device_id, date_fin_abonnement }
 			= req.body;
-		console.log({
-			full_name, birth_date, sexe, ville, adresse, profession, tel,
-			birth_date_stamp, email, _password, abonnement, device_id, date_fin_abonnement
-		});
-		// Validate required fields
 		if (!full_name || !email || !_password)
 			return res.status(400).json({ msg: "Please provide all required fields" });
-		// Insert new client into database
 		const Query = `INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
 			birth_date_stamp, tel, email, _password, abonnement,${device_id != undefined ? '' : `device_id,`} statut, date_inscription, 
 		date_debut_abonnement, date_fin_abonnement, created_date) VALUES
 		('${full_name}', '${birth_date}', '${sexe}', '${ville}', '${adresse}', ${profession},
 		${birth_date_stamp != undefined ? birth_date_stamp : 0}, '${tel}', '${email}', '${await Encrypte(_password)}', '${abonnement}', ${device_id != undefined ? '' : `'${device_id}',`} 'Activé',
 		NOW(), NOW(), ${date_fin_abonnement != undefined ? `'${date_fin_abonnement}'` : 'NOW()'} , NOW())`;
-		console.log(Query);
 		const result = await SqlQuery(Query);
 		if (!result.success)
 			throw new BadRequestError(result.data.err

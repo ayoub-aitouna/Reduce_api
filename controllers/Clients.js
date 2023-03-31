@@ -86,7 +86,6 @@ const change_password = async (req, res) => {
                 .json({ err: `${result.data.err.sqlMessage}` });
         res.status(200).json({ msg: "Password updated" });
     } catch (err) {
-        console.error(err.message);
         res.status(500).json({ msg: "Server error" });
     }
 }
@@ -95,7 +94,6 @@ const reset_password = async (req, res) => {
     const { email, key, _password } = req.body;
     try {
         const value = getOTPForEmail(req, email);
-        console.table([value, email]);
         if (!(value != null && value != undefined && value == key))
             return res.sendStatus(403);
 
@@ -104,7 +102,6 @@ const reset_password = async (req, res) => {
             where email = '${email}'`);
 
         if (!update_client.success) {
-            console.log(update_client.data.err.sqlMessage);
             return res.status(500).send({
                 err: update_client.data.err.sqlMessage,
             });
@@ -275,7 +272,6 @@ function get_partner_info(id, is_main) {
         if (result.data.rows.length < 1)
             res({ name: '', img: '', activity: '' })
         let data = result.data.rows[0];
-        console.log(data);
         res({ name: data.nome_entreprise, img: data.avatar_Url, activity: data.activity_name })
     });
 
@@ -286,7 +282,6 @@ const scan = async (req, res) => {
     const { qr_code, product, scan_time } = req.body;
     // qr_obj : {id: "partner/sub_partner__id" , is_main : true/false};
     const qr_obj = JSON.parse(decipher(qr_code));
-    console.log(qr_obj);
     if (!('id' in qr_obj && 'is_main' in qr_obj))
         throw new BadRequestError(`QR Code not valide`);
     if (!(await checkSubsription(id)))

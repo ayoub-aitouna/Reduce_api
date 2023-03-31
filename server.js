@@ -1,15 +1,12 @@
 const express = require("express");
 const app = express();
-const Log = require("./log/index");
-const { client } = require("./database/index");
 const http = require("http");
-/** Create HTTP server. */
 const session = require('express-session');
 const server = http.createServer(app);
 const { Encrypte } = require("./Utils/Crypto");
 var cors = require("cors");
 var path = require("path");
-
+const PORT = process.env.PORT || 5000;
 require("express-async-errors");
 
 //  routers
@@ -24,6 +21,7 @@ const sub_partner = require("./routes/sub_partner");
 const Banner = require("./routes/Banners");
 const clients = require("./routes/Clients");
 const profession = require("./routes/profession");
+const State = require("./routes/State");
 
 // middleware
 const notFoundMiddleware = require("./middleware/not-found");
@@ -52,20 +50,17 @@ app.use("/api/v1/sub_parnter", authenticationMiddleware, sub_partner);
 app.use("/api/v1/Ville", Ville);
 app.use("/api/v1/profession", profession);
 app.use("/api/v1/Activities", Activities);
+app.use("/api/v1/State", State);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const PORT = process.env.PORT || 5000;
 
 const start = async () => {
   try {
-    server.listen(PORT, () => {
-      Log.info(`App Running on port => ${PORT}`);
-    });
+    server.listen(PORT, () => console.log(`App Running on port => ${PORT}`));
   } catch (error) {
-    Log.error(`App Stopped by an Error => ${error}`);
+    console.error(`App Stopped by an Error => ${error}`);
   }
 };
-
 start();

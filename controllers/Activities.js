@@ -82,7 +82,7 @@ const get_acviity_by_city = async (req, res) => {
 	const { cityId } = req.Query;
 
 	let activities = SqlQuery(`SELECT ea.activity_name
-		FROM sql7607447.entrprise_activities ea
+		FROM sql7610156.entrprise_activities ea
 		LEFT JOIN blocked_activities ba ON ea.id = ba.activity_id
 		WHERE ba.city_id IS NULL OR ba.city_id <> ${cityId};`
 	);

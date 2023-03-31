@@ -1,29 +1,25 @@
-create database sql7607447;
+create database sql7610156;
 
-use sql7607447;
+use sql7610156;
 
-drop table if EXISTS sql7607447.villes;
+drop table if EXISTS sql7610156.villes;
 
-create table sql7607447.villes(
+create table sql7610156.villes(
     id int NOT NULL AUTO_INCREMENT,
-    ville_name text,
+    ville_name varchar(30),
     created_date date NOT NULL,
     lat FLOAT(8, 5),
+    status BOOLEAN NOT NULL DEFAULT true,
     longitude FLOAT(8, 5),
     PRIMARY KEY (id)
 );
-
-ALTER TABLE
-    sql7607447.villes
-ADD
-    COLUMN status BOOLEAN NOT NULL DEFAULT true;
     
-ALTER TABLE sql7607447.villes ADD UNIQUE (ville_name)
+ALTER TABLE sql7610156.villes ADD UNIQUE (ville_name)
 
 
-drop table if EXISTS sql7607447.entrprise_activities;
+drop table if EXISTS sql7610156.entrprise_activities;
 
-create table sql7607447.entrprise_activities(
+create table sql7610156.entrprise_activities(
     id int NOT NULL AUTO_INCREMENT,
     activity_name text,
     icon text,
@@ -31,25 +27,20 @@ create table sql7607447.entrprise_activities(
     PRIMARY KEY (id)
 );
 
-ALTER TABLE
-    sql7607447.entrprise_activities
-ADD
-    COLUMN icon text;
+drop table if EXISTS sql7610156.blocked_activities;
 
-drop table if EXISTS sql7607447.blocked_activities;
-
-CREATE TABLE sql7607447.blocked_activities (
+CREATE TABLE sql7610156.blocked_activities (
     city_id INT NOT NULL,
     activity_id INT NOT NULL,
     PRIMARY KEY (city_id, activity_id),
-    FOREIGN KEY (city_id) REFERENCES sql7607447.villes(id),
-    FOREIGN KEY (activity_id) REFERENCES sql7607447.entrprise_activities(id)
+    FOREIGN KEY (city_id) REFERENCES sql7610156.villes(id),
+    FOREIGN KEY (activity_id) REFERENCES sql7610156.entrprise_activities(id)
 );
 
 
-drop table if EXISTS sql7607447.partner;
+drop table if EXISTS sql7610156.partner;
 
-CREATE TABLE sql7607447.partner(
+CREATE TABLE sql7610156.partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
     _password text,
@@ -73,13 +64,13 @@ CREATE TABLE sql7607447.partner(
     created_date DATETIME NOT NULL,
     _status ENUM ('Approved', 'Pending', 'Rejected'),
     PRIMARY KEY (id),
-    FOREIGN KEY(ville) REFERENCES sql7607447.villes(id),
-    FOREIGN KEY(activity_entrprise) REFERENCES sql7607447.entrprise_activities(id)
+    FOREIGN KEY(ville) REFERENCES sql7610156.villes(id),
+    FOREIGN KEY(activity_entrprise) REFERENCES sql7610156.entrprise_activities(id)
 );
 
-drop table if EXISTS sql7607447.sub_partner;
+drop table if EXISTS sql7610156.sub_partner;
 
-create table sql7607447.sub_partner(
+create table sql7610156.sub_partner(
     id int NOT NULL AUTO_INCREMENT,
     email text,
     _password text,
@@ -87,12 +78,12 @@ create table sql7607447.sub_partner(
     sub_partner_Name varchar(20) NOT NULL,
     _status ENUM ('Unlocked', 'Blocked'),
     PRIMARY KEY (id),
-    FOREIGN KEY(partner_id) REFERENCES sql7607447.partner(id)
+    FOREIGN KEY(partner_id) REFERENCES sql7610156.partner(id)
 );
 
-drop table if EXISTS sql7607447.task_announcement;
+drop table if EXISTS sql7610156.task_announcement;
 
-create table sql7607447.task_announcement(
+create table sql7610156.task_announcement(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
     partner_full_name text,
@@ -104,12 +95,12 @@ create table sql7607447.task_announcement(
     data_of_visite date NOT NULL,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(ville) REFERENCES sql7607447.villes(id)
+    FOREIGN KEY(ville) REFERENCES sql7610156.villes(id)
 );
 
-drop table if EXISTS sql7607447._Admin;
+drop table if EXISTS sql7610156._Admin;
 
-create table sql7607447._Admin(
+create table sql7610156._Admin(
     id int NOT NULL AUTO_INCREMENT,
     email text NOT NULL,
     ville int,
@@ -119,13 +110,13 @@ create table sql7607447._Admin(
     account_status ENUM('Banned', 'Active', 'Suspanded'),
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(ville) REFERENCES sql7607447.villes(id)
+    FOREIGN KEY(ville) REFERENCES sql7610156.villes(id)
 );
 
     
-drop table if EXISTS sql7607447.task_done;
+drop table if EXISTS sql7610156.task_done;
 
-create table sql7607447.task_done(
+create table sql7610156.task_done(
     id int NOT NULL AUTO_INCREMENT,
     partner_name text,
     partner_full_name text,
@@ -136,34 +127,34 @@ create table sql7607447.task_done(
     ville int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(manager_id) REFERENCES sql7607447._Admin(id),
-    FOREIGN KEY(ville) REFERENCES sql7607447.villes(id)
+    FOREIGN KEY(manager_id) REFERENCES sql7610156._Admin(id),
+    FOREIGN KEY(ville) REFERENCES sql7610156.villes(id)
 );
 
-drop table if EXISTS sql7607447.modify_history;
+drop table if EXISTS sql7610156.modify_history;
 
-create table sql7607447.modify_history(
+create table sql7610156.modify_history(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
     admin_id int,
     edited_column text,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(partner_id) REFERENCES sql7607447.partner(id),
-    FOREIGN KEY(admin_id) REFERENCES sql7607447._Admin(id)
+    FOREIGN KEY(partner_id) REFERENCES sql7610156.partner(id),
+    FOREIGN KEY(admin_id) REFERENCES sql7610156._Admin(id)
 );
 
-drop table if EXISTS sql7607447.profession;
+drop table if EXISTS sql7610156.profession;
 
-create table sql7607447.profession(
+create table sql7610156.profession(
     id int NOT NULL AUTO_INCREMENT,
     profession text,
     PRIMARY KEY (id)
 );
 
-drop table if EXISTS sql7607447.client;
+drop table if EXISTS sql7610156.client;
 
-CREATE TABLE sql7607447.client (
+CREATE TABLE sql7610156.client (
     id INT NOT NULL AUTO_INCREMENT,
     full_name TEXT,
     birth_date DATETIME NOT NULL,
@@ -189,13 +180,13 @@ CREATE TABLE sql7607447.client (
     date_fin_abonnement DATETIME NOT NULL,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (profession) REFERENCES sql7607447.profession(id),
-    FOREIGN KEY (ville) REFERENCES sql7607447.villes(id)
+    FOREIGN KEY (profession) REFERENCES sql7610156.profession(id),
+    FOREIGN KEY (ville) REFERENCES sql7610156.villes(id)
 );
 
-drop table if EXISTS sql7607447.scan_hsitory;
+drop table if EXISTS sql7610156.scan_hsitory;
 
-create table sql7607447.scan_hsitory(
+create table sql7610156.scan_hsitory(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
     sub_partner_id int,
@@ -205,24 +196,24 @@ create table sql7607447.scan_hsitory(
     scan_time BIGINT,
     created_date DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(partner_id) REFERENCES sql7607447.partner(id),
-    FOREIGN KEY(sub_partner_id) REFERENCES sql7607447.sub_partner(id),
-    FOREIGN KEY(client_id) REFERENCES sql7607447.client(id)
+    FOREIGN KEY(partner_id) REFERENCES sql7610156.partner(id),
+    FOREIGN KEY(sub_partner_id) REFERENCES sql7610156.sub_partner(id),
+    FOREIGN KEY(client_id) REFERENCES sql7610156.client(id)
 );
 
-create table sql7607447.Admins_partners(
+create table sql7610156.Admins_partners(
     id int NOT NULL AUTO_INCREMENT,
     admin_id int,
     partner_id int,
     created_date date NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(admin_id) REFERENCES sql7607447._Admin(id),
-    FOREIGN KEY(partner_id) REFERENCES sql7607447.partner(id)
+    FOREIGN KEY(admin_id) REFERENCES sql7610156._Admin(id),
+    FOREIGN KEY(partner_id) REFERENCES sql7610156.partner(id)
 );
 
-drop table if EXISTS sql7607447.banners;
+drop table if EXISTS sql7610156.banners;
 
-create table sql7607447.banners(
+create table sql7610156.banners(
     id int NOT NULL AUTO_INCREMENT,
     Baniere_ordre int,
     Logo text,
@@ -235,9 +226,9 @@ create table sql7607447.banners(
     PRIMARY KEY (id)
 );
 
-drop table if EXISTS sql7607447.ratings;
+drop table if EXISTS sql7610156.ratings;
 
-create table sql7607447.ratings(
+create table sql7610156.ratings(
     id int NOT NULL AUTO_INCREMENT,
     partner_id int,
     client_id int,
@@ -247,7 +238,7 @@ create table sql7607447.ratings(
     communicationRating int,
     recommendationRating int,
     PRIMARY KEY (id),
-    FOREIGN KEY(partner_id) REFERENCES sql7607447.partner(id),
-    FOREIGN KEY(client_id) REFERENCES sql7607447.client(id)
+    FOREIGN KEY(partner_id) REFERENCES sql7610156.partner(id),
+    FOREIGN KEY(client_id) REFERENCES sql7610156.client(id)
 );
 

@@ -3,10 +3,10 @@ const Log = require("../log");
 var syncSql = require("sync-sql");
 const { BadRequestError } = require("../errors");
 const connect = {
-  user: "sql7607447",
+  user: "sql7610156",
   host: "sql7.freesqldatabase.com",
-  password: "8JzUyA7tKx",
-  database: "sql7607447",
+  password: "cN6ajXFj1P",
+  database: "sql7610156",
   port: 3306,
   multipleStatements: true,
 };

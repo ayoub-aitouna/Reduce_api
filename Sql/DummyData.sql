@@ -1,4 +1,4 @@
-create table sql7610156.villes();
+use sql7610156;
 
 INSERT into
     sql7610156.villes(ville_name, created_date)
@@ -40,7 +40,7 @@ VALUES
 select
     *
 from
-    sql7610156._Admin;i
+    sql7610156._Admin;
 
 SELECT
     *

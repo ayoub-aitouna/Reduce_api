@@ -5,17 +5,17 @@ require("dotenv").config();
 
 const get_state = (req, res) => {
 	const client_state = SqlQuery(`
-	    SELECT 
-	    COUNT(*) AS total_clients, 
-	    SUM(CASE WHEN date_added >= DATEADD(day, -7, GETDATE()) THEN 1 ELSE 0 END) AS resent_clients
-	    FROM client;`
+		SELECT 
+		COUNT(*) AS total_clients, 
+		SUM(CASE WHEN created_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) THEN 1 ELSE 0 END) AS recent_clients
+		FROM client;`
 	);
 	if (!client_state.success)
 		throw new BadRequestError(client_state.data.err.sqlMessage);
 	const partner_state = SqlQuery(`
 		SELECT 
 		COUNT(*) AS total_partners, 
-		SUM(CASE WHEN date_added >= DATEADD(day, -7, GETDATE()) THEN 1 ELSE 0 END) AS resent_partners
+		SUM(CASE WHEN created_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) THEN 1 ELSE 0 END) AS resent_partners
 		FROM partner;`
 	);
 	if (!partner_state.success)

@@ -111,7 +111,6 @@ const sendVeriifyOtp = async (req, res) => {
 		otp = await generateKeyAndstoreOtp(email);
 		setOTPForEmail(req,email, otp);
 	}
-	console.table(['OTP', otp]);
 	try {
 		await sendEmail({
 			subject: `Le code de vérification`,
@@ -121,8 +120,8 @@ const sendVeriifyOtp = async (req, res) => {
 		});
 		res.sendStatus(200);
 	} catch (err) {
-		console.trace(err);
-		res.sendStatus(500);
+		err.host = process.env.MAILER_HOST,
+		res.status(500).json(err);
 	}
 
 };

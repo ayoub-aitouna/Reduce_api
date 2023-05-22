@@ -29,7 +29,7 @@ const get_all = (req, res) => {
 	if (!partner.success)
 		throw new BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
 	if (partner.data.rows.length == 0)
-		return res.status(200).send({ msg: `no account available` });
+		return res.status(404).send({ msg: `no account available` });
 	res.json(partner.data.rows);
 };
 
@@ -40,7 +40,7 @@ const admin_all_subs = (req, res) => {
 	if (!partner.success)
 		throw new BadRequestError(`couldn't retrive partners list ${partner.data.err.sqlMessage}`);
 	if (partner.data.rows.length == 0)
-		return res.status(200).send({ msg: `no account available` });
+		return res.status(404).send({ msg: `no account available` });
 	res.json(partner.data.rows);
 };
 

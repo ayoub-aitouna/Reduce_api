@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const { BadRequestError } = require("../errors/index.js");
 const { getOTPForEmail } = require("../Utils/OTP.js");
 const { sendEmail } = require("../Utils/Mailer");
+const { get_this_admin } = require("../Utils/Utils.js");
 
 //Update a Client
 const update_client = async (req, res) => {
@@ -128,8 +129,11 @@ const get_client = async (req, res) => {
     }
 }
 
-//get client by id
 const get_all_client = async (req, res) => {
+    const { id } = req.user;
+    const { _role, ville } = get_this_admin(id);
+	const Filter = _role != "Admin" ? `AND ville = ${ville}` : "";
+
     try {
         let rows = await SqlQuery(`SELECT
             client.id,
@@ -155,7 +159,7 @@ const get_all_client = async (req, res) => {
                 on profession.id = client.profession
             inner join villes
                 on villes.id = ville
-            WHERE statut != 'Archivé'`);
+            WHERE statut != 'Archivé' ${Filter}`);
         if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
         rows = rows.data.rows;
         res.status(200).json(rows);

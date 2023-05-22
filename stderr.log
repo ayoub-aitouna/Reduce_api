@@ -1,0 +1,978 @@
+Trace: Error: connect ETIMEDOUT 99.83.154.118:465
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1159:16) {
+  errno: -110,
+  code: 'ESOCKET',
+  syscall: 'connect',
+  address: '99.83.154.118',
+  port: 465,
+  command: 'CONN'
+}
+    at sendVeriifyOtp (/home/redughoi/api.reducte.tech/Reduce_api/controllers/Auth.js:124:11)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+Trace: Error: connect ETIMEDOUT 99.83.154.118:465
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1159:16) {
+  errno: -110,
+  code: 'ESOCKET',
+  syscall: 'connect',
+  address: '99.83.154.118',
+  port: 465,
+  command: 'CONN'
+}
+    at sendVeriifyOtp (/home/redughoi/api.reducte.tech/Reduce_api/controllers/Auth.js:124:11)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+Trace: Error: connect ETIMEDOUT 99.83.154.118:465
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1159:16) {
+  errno: -110,
+  code: 'ESOCKET',
+  syscall: 'connect',
+  address: '99.83.154.118',
+  port: 465,
+  command: 'CONN'
+}
+    at sendVeriifyOtp (/home/redughoi/api.reducte.tech/Reduce_api/controllers/Auth.js:124:11)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:154809) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:778405) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2276719) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3867815) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:988658) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:1304603) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:5:39)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:2425292) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:979898) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:12636) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:51527) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:362678) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:983779) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1504910) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2456264) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3085134) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:227309) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2457565) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3104150) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3121291) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3200088) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3296160) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2750830) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2147263) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2211233) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2246301) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2262886) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2273612) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2273612) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2273612) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:2273612) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:2273612) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2273612) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
+(node:2315773) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2315773) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2315773) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:2315773) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:2315773) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2315773) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
+(node:2315773) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2315773) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 3)
+(node:2315773) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2315773) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 4)
+(node:2315773) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2315773) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 5)
+(node:2315773) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2315773) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 6)
+(node:2336455) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2336455) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2336455) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:2336455) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:2336455) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:2336455) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
+(node:894249) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1193308) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1308301) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1308301) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1308301) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1308301) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1315093) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1315093) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1315093) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1315093) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1318880) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1318880) UnhandledPromiseRejectionWarning: TypeError: res.send is not a function
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:270:13
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1318880) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1318880) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1326386) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1326386) UnhandledPromiseRejectionWarning: TypeError: res.send is not a function
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:270:13
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1326386) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1326386) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1331191) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1331191) UnhandledPromiseRejectionWarning: TypeError: res.send is not a function
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:270:13
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1331191) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1331191) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1332614) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1332614) UnhandledPromiseRejectionWarning: TypeError: res.send is not a function
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:270:13
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1332614) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1332614) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1334218) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1334218) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1334218) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1334218) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1335650) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1335650) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1335650) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1335650) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1335650) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+(node:1335650) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
+(node:1337944) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1337944) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1337944) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1337944) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1372735) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1450161) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1464271) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1464271) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1464271) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1464271) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1508910) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1508910) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1508910) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1508910) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1540875) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1540875) UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'nome_entreprise' of undefined
+    at /home/redughoi/api.reducte.tech/Reduce_api/controllers/Clients.js:275:26
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:1540875) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:1540875) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:1667583) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1686771) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1920989) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1936692) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:474763) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:1539781) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:1644835) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:565758) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:1118208) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:618380) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:3536619) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1243559) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1960344) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3742064) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:910510) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:933103) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:998961) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2259003) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:3154918) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3481076) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:4063499) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:4134996) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:127418) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:142561) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:5:39)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:200839) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:340484) UnhandledPromiseRejectionWarning: Error: err :Duplicate entry '3-1' for key 'PRIMARY'
+    at runSql (/home/redughoi/api.reducte.tech/Reduce_api/database/mysql-connection.js:34:27)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:340484) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 1)
+(node:340484) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:340484) UnhandledPromiseRejectionWarning: Error: err :Duplicate entry '3-1' for key 'PRIMARY'
+    at runSql (/home/redughoi/api.reducte.tech/Reduce_api/database/mysql-connection.js:34:27)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:340484) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 2)
+(node:340484) UnhandledPromiseRejectionWarning: Error: err :Duplicate entry '3-1' for key 'PRIMARY'
+    at runSql (/home/redughoi/api.reducte.tech/Reduce_api/database/mysql-connection.js:34:27)
+    at processTicksAndRejections (internal/process/task_queues.js:95:5)
+(node:340484) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). To terminate the node process on unhandled promise rejection, use the CLI flag `--unhandled-rejections=strict` (see https://nodejs.org/api/cli.html#cli_unhandled_rejections_mode). (rejection id: 3)
+(node:369314) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1736528) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:1900515) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:2183676) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2678433) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2702555) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2723080) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2739411) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2870484) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2933022) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2951204) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:2966781) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/controllers/Activities.js:34
+	let icon = 	let logo = req.logo == undefined ? '' : req.logo;
+	           	    ^^^^
+
+SyntaxError: Unexpected identifier
+    at wrapSafe (internal/modules/cjs/loader.js:1001:16)
+    at Module._compile (internal/modules/cjs/loader.js:1049:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:3:107)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_log, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_logo, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_logo, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_logo, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_logo, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_logo, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20
+router.post("/Add", upload_images.array('images', 2), save_logo, AddActivity);
+                    ^
+
+ReferenceError: upload_images is not defined
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/routes/Activities.js:20:21)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+    at Module.load (internal/modules/cjs/loader.js:950:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:790:12)
+    at Module.require (internal/modules/cjs/loader.js:974:19)
+    at require (internal/modules/cjs/helpers.js:101:18)
+    at Object.<anonymous> (/home/redughoi/api.reducte.tech/Reduce_api/server.js:18:20)
+    at Module._compile (internal/modules/cjs/loader.js:1085:14)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1114:10)
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+    at new NodeError (internal/errors.js:322:7)
+    at ServerResponse.setHeader (_http_outgoing.js:561:11)
+    at ServerResponse.header (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:794:10)
+    at ServerResponse.send (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:174:12)
+    at ServerResponse.json (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/response.js:278:15)
+    at errorHandlerMiddleware (/home/redughoi/api.reducte.tech/Reduce_api/middleware/error-handler.js:9:6)
+    at newFn (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express-async-errors/index.js:16:20)
+    at Layer.handle_error (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/layer.js:71:5)
+    at trim_prefix (/home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:326:13)
+    at /home/redughoi/api.reducte.tech/Reduce_api/node_modules/express/lib/router/index.js:286:9
+(node:3384503) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3436982) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3482016) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3552464) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3588432) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3640647) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3736874) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:3848471) [DEP0106] DeprecationWarning: crypto.createDecipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:489394) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:628538) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:660485) [DEP0106] DeprecationWarning: crypto.createCipher is deprecated.
+(Use `node --trace-deprecation ...` to show where the warning was created)

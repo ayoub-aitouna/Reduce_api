@@ -3,6 +3,20 @@ const jwt = require("jsonwebtoken");
 const { BadRequestError } = require("../errors/index.js");
 require("dotenv").config();
 
+
+const save_logo = async (req, res, next) => {
+	const domain = req.headers.host;
+	const protocol = req.protocol;
+	const domainUrl = protocol + '://' + domain;
+	const filenames = req.files.map(file => file.filename);
+	if (filenames.length === 0)
+		next();
+	req.logo = `${domainUrl}/imgs/${filenames[0]}`
+	next();
+};
+
+
+
 const EditActivity = async (req, res) => {
 	const { name, value } = req.body;
 
@@ -17,8 +31,8 @@ const EditActivity = async (req, res) => {
 	});
 };
 const AddActivity = async (req, res) => {
-	const { Activity, icon } = req.body;
-
+	const { Activity } = JSON.parse(req.body.data);
+	let icon = req.logo == undefined ? '' : req.logo;
 	const added_Activity = SqlQuery(`insert into entrprise_activities(
 	activity_name,
 	icon,
@@ -96,5 +110,6 @@ module.exports = {
 	get_cities,
 	get_acviity_by_city,
 	toggle_city,
-	EditActivity
+	EditActivity,
+	save_logo
 };

@@ -110,8 +110,8 @@ const sendVeriifyOtp = async (req, res) => {
 	if (otp == null || otp == undefined) {
 		otp = await generateKeyAndstoreOtp(email);
 		setOTPForEmail(req,email, otp);
+	
 	}
-	console.table(['OTP', otp]);
 	try {
 		await sendEmail({
 			subject: `Le code de vérification`,
@@ -119,19 +119,18 @@ const sendVeriifyOtp = async (req, res) => {
 			text: ``,
 			html: OTP_EMAIL(otp),
 		});
-		res.sendStatus(200);
+	//	res.sendStatus(200);
+			res.send({"stored_key": otp , "email" : email , "stored_version": getOTPForEmail(req, email)});
 	} catch (err) {
-		console.trace(err);
-		res.sendStatus(500);
+		res.status(500).json(err);
 	}
-
 };
 
 const Verify_email = async (req, res) => {
 	const { email, key } = req.body;
 	try {
 		const value = getOTPForEmail(req, email);
-		res.send({ Verified: value != null && value != undefined && value == key });
+		res.send({ Verified: value !== null && value !== undefined && value === key  , key : key, refKey : value === null? "(null)" : value, email : email});
 	} catch (err) {
 		throw new BadRequestError(err);
 	}
@@ -270,6 +269,7 @@ const client_login = async (req, res) => {
 	const { email, password } = req.body;
 	let user = SqlQuery(`select * from client where email = '${email}'`);
 	if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
+
 	try {
 		if (user.data.rows[0] == undefined || user.data.rows.length == 0)
 			return res.status(404).send({
@@ -306,6 +306,12 @@ const new_client = async (req, res) => {
 			= req.body;
 		if (!full_name || !email || !_password)
 			return res.status(400).json({ msg: "Please provide all required fields" });
+			
+        let user = SqlQuery(`select * from client where email = '${email}'`);
+	    if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
+	    if (user.data.rows[0] != undefined && user.data.rows.length != 0)
+		   	return res.status(403).send({ msg: "account with same email already exists" });
+
 		const Query = `INSERT INTO client (full_name, birth_date, sexe, ville, adresse, profession,
 			birth_date_stamp, tel, email, _password, abonnement,${device_id != undefined ? '' : `device_id,`} statut, date_inscription, 
 		date_debut_abonnement, date_fin_abonnement, created_date) VALUES

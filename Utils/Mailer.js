@@ -37,17 +37,16 @@ const SendMail_to_partner = async ({ subject, to, text }, PartnerData) => {
 
 const sendEmail = async ({ subject, to, text, html }) => {
 	var transporter = nodemailer.createTransport({
-		host: "merybtk.xyz",
+		host: process.env.MAILER_HOST,
 		port: 465,
 		secure: true, // true for 465, false for other ports
 		auth: {
-			user: "reduct@merybtk.xyz",
-			pass: "Workhard93@",
+			user: process.env.MAILER_USER,
+			pass: process.env.MAILER_PASS,
 		},
 	});
-
 	var mailOptions = {
-		from: "reduct@merybtk.xyz",
+		from: process.env.MAILER_USER,
 		to: to,
 		subject: subject,
 		text: text,

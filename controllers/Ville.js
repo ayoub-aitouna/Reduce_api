@@ -4,6 +4,10 @@ require("dotenv").config();
 
 const AddVille = async (req, res) => {
   const { name, longitude, lat } = req.body;
+  if(name == undefined || name == null)
+    return res.status(500).send({
+            msg: `Please Provide a valide city name`
+          });
   const added_ville = SqlQuery(`insert into villes(
     ville_name,
     created_date,
@@ -28,7 +32,7 @@ const AddVille = async (req, res) => {
 };
 
 const Villes = async (req, res) => {
-  const villes = SqlQuery(`select * from villes`);
+  const villes = SqlQuery(`select * from villes where status = 1 AND ville_name != "undefined"`);
   if (!villes.success)
     return res.status(500).json({
       err: villes.data.err,
@@ -36,10 +40,17 @@ const Villes = async (req, res) => {
   res.status(200).json(villes.data.rows);
 };
 
+const All_Villes = async (req, res) => {
+  const villes = SqlQuery(`select * from villes where ville_name != "undefined"`);
+  if (!villes.success)
+    return res.status(500).json({
+      err: villes.data.err,
+    });
+  res.status(200).json(villes.data.rows);
+};
 
 const change_status = async (req, res) => {
   const { status, id } = req.body;
-  console.log({ status, id });
   const villes = SqlQuery(`update villes set status = '${status ? 1 : 0}' where villes.id = ${id}`);
   if (!villes.success)
     return res.status(500).json({
@@ -51,6 +62,7 @@ const change_status = async (req, res) => {
 
 module.exports = {
   AddVille,
+  All_Villes,
   Villes,
   change_status
 };

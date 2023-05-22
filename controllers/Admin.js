@@ -67,21 +67,18 @@ const remove_admin = (req, res) => {
 	});
 };
 
-
-
 const save_C_pdf = async (req, res, next) => {
 	const domain = req.headers.host;
 	const protocol = req.protocol;
-	const domainUrl = protocol + '://' + domain;
+	const domainUrl = "https" + '://' + domain;
 	req.url = `${domainUrl}/partners_contact_pdfs/${req.file.filename}`
 	next();
 };
 
-
 const save_logo_cover = async (req, res, next) => {
 	const domain = req.headers.host;
 	const protocol = req.protocol;
-	const domainUrl = protocol + '://' + domain;
+	const domainUrl = "https" + '://' + domain;
 	const filenames = req.files.map(file => file.filename);
 	const { logo_selected, cover_selected } = JSON.parse(req.body.data);
 	let i = 0;
@@ -93,7 +90,6 @@ const save_logo_cover = async (req, res, next) => {
 		req.cover = `${domainUrl}/imgs/${filenames[i]}`
 	next();
 };
-
 
 const Response_partner_form = async (req, res) => {
 	const { partner_id, response } = JSON.parse(req.body.data);

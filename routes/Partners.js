@@ -8,7 +8,8 @@ const { get_parner_data,
     get_partners,
     get_recomandation,
     get_recent_partners,
-    suggestions } = require("../controllers/Partner");
+    suggestions,
+    Admin_get_history } = require("../controllers/Partner");
 
 router.get("/", get_partners);
 router.get("/recent_partners", get_recent_partners);
@@ -18,5 +19,6 @@ router.get("/history", history);
 router.post("/change_pass", change_password);
 router.put("/locate", locate);
 router.get("/suggestions", suggestions);
+router.get("/Admin_get_history/:id", Admin_get_history);
 
 module.exports = router;

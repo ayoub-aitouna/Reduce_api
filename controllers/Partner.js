@@ -6,7 +6,8 @@ const { BadRequestError } = require("../errors/index.js");
 require("dotenv").config();
 
 const partner_feilds = `partner.id,
-avatar_Url,
+    avatar_Url,
+    img_cover_Url as cover,
 	email,
 	nome_entreprise,
 	identificateur_entreprise,
@@ -171,7 +172,19 @@ const get_partners = (req, res) => {
 const history = async (req, res) => {
 	const { id } = req.user;
 	try {
-		let rows = await SqlQuery(`SELECT * FROM scan_hsitory WHERE partner_id = ${id}`);
+		let rows = await SqlQuery(`SELECT
+		        scan_hsitory.partner_id,
+		        scan_hsitory.sub_partner_id,
+		        scan_hsitory.client_id,
+		        scan_hsitory.statut,
+		        scan_hsitory.product,
+		        scan_hsitory.scan_time,
+		        scan_hsitory.created_date,
+		        client.full_name as client_name
+		        FROM scan_hsitory
+		        INNER JOIN client
+		            on scan_hsitory.client_id = client.id
+	    	    WHERE scan_hsitory.partner_id = ${id}`);
 		if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
 		rows = rows.data.rows
 		if (rows.length === 0)
@@ -182,6 +195,34 @@ const history = async (req, res) => {
 	}
 }
 
+
+const Admin_get_history = async (req, res) => {
+	const id = req.params.id;
+	try {
+		let rows = await SqlQuery(`SELECT
+		        scan_hsitory.partner_id,
+		        scan_hsitory.sub_partner_id,
+		        scan_hsitory.client_id,
+		        scan_hsitory.statut,
+		        scan_hsitory.product,
+		        scan_hsitory.scan_time,
+		        scan_hsitory.created_date,
+		        client.full_name as client_name
+		        FROM scan_hsitory
+		        INNER JOIN client
+		            on scan_hsitory.client_id = client.id
+	    	    WHERE scan_hsitory.partner_id = ${id}`);
+		if (!rows.success) throw new BadRequestError(`${rows.data.err.sqlMessage}`);
+		rows = rows.data.rows
+		if (rows.length === 0)
+			return res.status(404).json({ msg: "no partner history" });
+		res.status(200).json(rows);
+	} catch (err) {
+		res.status(500).json({ err: err });
+	}
+}
+
+
 module.exports = {
 	get_parner_data,
 	get_sub,
@@ -191,5 +232,6 @@ module.exports = {
 	get_partners,
 	get_recomandation,
 	get_recent_partners,
-	suggestions
+	suggestions,
+	Admin_get_history
 };

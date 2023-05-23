@@ -183,6 +183,11 @@ CREATE TABLE client (
     FOREIGN KEY (profession) REFERENCES profession(id),
     FOREIGN KEY (ville) REFERENCES villes(id)
 );
+ALTER TABLE client
+ALTER COLUMN birth_date SET DEFAULT NOW(),
+ALTER COLUMN date_debut_abonnement SET DEFAULT NOW(),
+ALTER COLUMN date_fin_abonnement SET DEFAULT NOW(),
+ALTER COLUMN date_inscription SET DEFAULT NOW();
 
 drop table if EXISTS scan_hsitory;
 

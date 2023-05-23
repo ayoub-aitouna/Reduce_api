@@ -267,7 +267,7 @@ const ResendOTP = async (req, res) => {
 };
 
 const client_login = async (req, res) => {
-	const { email, password, device_id : client_device } = req.body;
+	const { email, password, device_id: client_device } = req.body;
 	let user = SqlQuery(`select * from client where email = '${email}'`);
 	if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
 
@@ -315,6 +315,9 @@ const new_client = async (req, res) => {
 		const { full_name, birth_date, sexe, ville, adresse, profession, tel,
 			birth_date_stamp, email, _password, abonnement, device_id, date_fin_abonnement }
 			= req.body;
+		const allowedAbonnementValues = ['Abonne', 'Telecharger', 'Gratuit', 'Routier', 'investisseur'];
+		if (!allowedAbonnementValues.includes(abonnement))
+			abonnement = "Telecharger";
 		if (!full_name || !email || !_password)
 			return res.status(400).json({ msg: "Please provide all required fields" });
 

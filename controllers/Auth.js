@@ -13,21 +13,21 @@ const { OTP_EMAIL } = require("../Utils/Templates");
 	* @description check_if_partner_has_submited_form
 	*/
 
-	const does_partner_form_exits = async (req, res, next) => {
-		const { email } = req.body;
-		if (!email) {
-			throw new BadRequestError("Please provide email");
-		}
-		let user = SqlQuery(`select * from partner where email = '${email}'`);
-		if (!user.success) throw new BadRequestError("server error");
-		try {
-			if (user.data.rows[0] != undefined && user.data.rows.length != 0)
-				return res.status(403).send({ msg: "account with same email already exists" });
-			next();
-		} catch (err) {
-			throw new BadRequestError(err);
-		}
-	};
+const does_partner_form_exits = async (req, res, next) => {
+	const { email } = req.body;
+	if (!email) {
+		throw new BadRequestError("Please provide email");
+	}
+	let user = SqlQuery(`select * from partner where email = '${email}'`);
+	if (!user.success) throw new BadRequestError("server error");
+	try {
+		if (user.data.rows[0] != undefined && user.data.rows.length != 0)
+			return res.status(403).send({ msg: "account with same email already exists" });
+		next();
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
+};
 
 const partner_login = async (req, res, next) => {
 	const { email, password } = req.body;
@@ -110,7 +110,7 @@ const sendVeriifyOtp = async (req, res) => {
 	let otp = getOTPForEmail(req, email);
 	if (otp == null || otp == undefined) {
 		otp = await generateKeyAndstoreOtp(email);
-		setOTPForEmail(req,email, otp);
+		setOTPForEmail(req, email, otp);
 
 	}
 	try {
@@ -121,7 +121,7 @@ const sendVeriifyOtp = async (req, res) => {
 			html: OTP_EMAIL(otp),
 		});
 		//	res.sendStatus(200);
-		res.send({"stored_key": otp , "email" : email , "stored_version": getOTPForEmail(req, email)});
+		res.send({ "stored_key": otp, "email": email, "stored_version": getOTPForEmail(req, email) });
 	} catch (err) {
 		res.status(500).json(err);
 	}
@@ -131,7 +131,7 @@ const Verify_email = async (req, res) => {
 	const { email, key } = req.body;
 	try {
 		const value = getOTPForEmail(req, email);
-		res.send({ Verified: value !== null && value !== undefined && value === key  , key : key, refKey : value === null? "(null)" : value, email : email});
+		res.send({ Verified: value !== null && value !== undefined && value === key, key: key, refKey: value === null ? "(null)" : value, email: email });
 	} catch (err) {
 		throw new BadRequestError(err);
 	}
@@ -267,7 +267,7 @@ const ResendOTP = async (req, res) => {
 };
 
 const client_login = async (req, res) => {
-	const { email, password , device_id as client_device} = req.body;
+	const { email, password, device_id : client_device } = req.body;
 	let user = SqlQuery(`select * from client where email = '${email}'`);
 	if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
 
@@ -276,20 +276,19 @@ const client_login = async (req, res) => {
 			return res.status(404).send({
 				msg: "user not found"
 			});
-		if(!(await compare(password, user.data.rows[0]._password)))
+		if (!(await compare(password, user.data.rows[0]._password)))
 			return res.status(404).send({
 				msg: "password is not correct !"
 			});
 		let device_id = user.rows[0].device_id;
-		if(device_id != undefined && device_id != null && device_id != client_device)
+		if (device_id != undefined && device_id != null && device_id != client_device)
 			return res.status(403).send({
 				msg: "can't connect with this device please contact support"
 			});
-		else if(device_id == null || device_id == undefined)
-		{
+		else if (device_id == null || device_id == undefined) {
 			//set new device id;
 			let update = SqlQuery(`update client set device_id = '${client_device}' where id = ${user.rows[0].id}`);
-			if(!user.success) throw new BadRequestError(user.data.err.sqlMessage);
+			if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
 		}
 		const accesToken = jwt.sign(
 			user.data.rows[0],

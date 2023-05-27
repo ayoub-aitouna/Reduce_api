@@ -68,9 +68,9 @@ const get_sub = async (req, res) => {
 		return res.status(404).json({ message: 'sub_partner not found' });
 	const sub_partner_data = result.data.rows[0];
 	try {
-		partnerData.qr_code = cipher(JSON.stringify({ id: sub_partner_data.id, is_main: false }));
+		sub_partner_data.qr_code = cipher(JSON.stringify({ id: sub_partner_data.id, is_main: false }));
 	} catch (err) {
-		throw BadRequestError(`error generating qr code key for partner ${id}`);
+		throw new BadRequestError(`error generating qr code key for partner ${id} : err : ${err} `);
 	}
 	res.json(sub_partner_data);
 };

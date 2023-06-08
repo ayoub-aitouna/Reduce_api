@@ -354,6 +354,20 @@ const update_admin = async (req, res) => {
 	});
 };
 
+function isDatePassed(dateString) {
+	// Convert the dateString to a Date object
+	const date = new Date(dateString);
+
+	// Get the current date
+	const currentDate = new Date();
+
+	// Compare the given date with the current date
+	if (date < currentDate) {
+		return true; // The date has passed
+	} else {
+		return false; // The date is in the future or it is the current date
+	}
+}
 
 const update_client_info = async (req, res) => {
 	const { id, full_name, birth_date, sexe, ville, adresse, profession,
@@ -365,6 +379,7 @@ const update_client_info = async (req, res) => {
 		if (!full_name || !email) {
 			return res.status(400).json({ msg: "Please provide all required fields" });
 		}
+		abonnement = isDatePassed() ? "Telecharger" : abonnement;
 		// Update client in database
 		result = await SqlQuery(
 			`UPDATE client SET full_name = '${full_name}', birth_date = '${birth_date}',

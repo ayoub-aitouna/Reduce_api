@@ -11,7 +11,8 @@ const {
   update_admin,
   save_C_pdf,
   update_client_info,
-  save_logo_cover
+  save_logo_cover,
+  New_partner
 } = require("../controllers/Admin.js");
 
 const multer = require("multer");
@@ -46,6 +47,7 @@ router.post("/Remove_admin", remove_admin);
 router.get("/", get_admins);
 router.get("/get_partners", get_partners);
 router.post("/update_partner", upload_images.array('images', 2), save_logo_cover, update_partner);
+router.post("/new_partner", upload_images.array('images', 2), save_logo_cover, New_partner);
 router.post("/Response_partner_form", upload.single('file'), save_C_pdf, Response_partner_form);
 router.get("/get_modify_history", get_modify_history);
 router.post("/update_admin", update_admin);

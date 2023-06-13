@@ -166,6 +166,9 @@ const get_partners = (req, res) => {
 	res.send(partners.data.rows);
 };
 
+
+
+
 const update_partner = async (req, res) => {
 	const { id: admin_id } = req.user;
 	const {
@@ -231,6 +234,66 @@ const update_partner = async (req, res) => {
 		const add_history = SqlQuery(add_history_Qeury);
 		if (!add_history.success)
 			throw new BadRequestError(submit.data.err.sqlMessage);
+		return res.sendStatus(200);
+	} catch (err) {
+		throw new BadRequestError(err);
+	}
+};
+
+const New_partner = async (req, res) => {
+	const { id: admin_id } = req.user;
+	const {
+		email,
+		nome_entreprise,
+		identificateur_entreprise,
+		representant_entreprise,
+		role_dans_entriprise,
+		numero_telephone,
+		numero_telephone_fix,
+		ville,
+		adrress,
+		_status: partner_status,
+		activity_entrprise,
+		offer,
+		note,
+	} = JSON.parse(req.body.data);
+	try {
+		let cover = req.cover == undefined ? "" : req.cover;
+		let logo = req.logo == undefined ? "" : req.logo;
+		const submit = SqlQuery(`
+		insert into partner (
+			email,
+			nome_entreprise,
+			identificateur_entreprise,
+			representant_entreprise,
+			role_dans_entriprise,
+			numero_telephone,
+			numero_telephone_fix,
+			ville,
+			activity_entrprise,
+			_status,
+			note,
+			offer,
+			avatar_Url,
+			img_cover_Url,
+			adrress)
+		values('${email}',
+	   		'${nome_entreprise}',
+	   		'${identificateur_entreprise}',
+	   		'${representant_entreprise}',
+	   		'${role_dans_entriprise}',
+	   		'${numero_telephone}',
+	   		'${numero_telephone_fix}',
+	   		'${ville}',
+	   		'${activity_entrprise}',
+	   		'${partner_status}',
+	   		'${note}',
+	   		'${offer}',
+			'${logo}', 
+			'${cover}',
+	    	'${adrress}')
+		`);
+		if (!submit.success) throw new BadRequestError(submit.data.err.sqlMessage);
 		return res.sendStatus(200);
 	} catch (err) {
 		throw new BadRequestError(err);
@@ -411,5 +474,6 @@ module.exports = {
 	update_admin,
 	save_C_pdf,
 	update_client_info,
-	save_logo_cover
+	save_logo_cover,
+	New_partner
 };

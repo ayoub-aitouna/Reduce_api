@@ -281,14 +281,15 @@ const client_login = async (req, res) => {
 				msg: "password is not correct !"
 			});
 		let device_id = user.data.rows[0].device_id;
-		if (device_id != undefined && device_id != null && device_id != client_device)
+		if (device_id == null || device_id == undefined || device_id === '') {
+			//set new device id;
+			let update = SqlQuery(`update client set device_id = '${client_device}' where id = ${user.data.rows[0].id}`);
+			if (!update.success) throw new BadRequestError(update.data.err.sqlMessage);
+		}
+		else if (device_id != undefined && device_id != null && device_id != client_device) {
 			return res.status(403).send({
 				msg: "can't connect with this device please contact support"
 			});
-		else if (device_id == null || device_id == undefined) {
-			//set new device id;
-			let update = SqlQuery(`update client set device_id = '${client_device}' where id = ${user.data.rows[0].id}`);
-			if (!user.success) throw new BadRequestError(user.data.err.sqlMessage);
 		}
 		const accesToken = jwt.sign(
 			user.data.rows[0],
